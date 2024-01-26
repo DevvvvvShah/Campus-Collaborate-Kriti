@@ -33,4 +33,4 @@ User.sync().then(() => {
     console.error('Unable to sync model: ', err);
 });
 
-export default User;
+export default courses;
