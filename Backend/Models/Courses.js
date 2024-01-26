@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import { User } from './User.js';
+import { Skills } from './Skills.js';
+import { Comments } from './Comments.js';
 
 const courseSchema = new mongoose.Schema({
     title: {

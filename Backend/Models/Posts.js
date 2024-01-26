@@ -1,25 +1,29 @@
 
 import mongoose from 'mongoose';
+import { User } from './User.js';
+import { Skills } from './Skills.js';
+import { Comments } from './Comments.js';
+
 
 const postSchema = new mongoose.Schema({
     creator: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
     timeOfCreation: {
         type: Date,
         default: Date.now,
     },
-    likes: {
-        type: Number,
-        default: 0,
-    },
-    dislikes: {
-        type: Number,
-        default: 0,
-    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    dislikes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     comments: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Comments',
     }],
     caption:{
