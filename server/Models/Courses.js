@@ -1,7 +1,4 @@
-import mongoose from 'mongoose';
-import { User } from './User.js';
-import { Skills } from './Skills.js';
-import { Comments } from './Comments.js';
+const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
     title: {
@@ -36,4 +33,4 @@ const courseSchema = new mongoose.Schema({
 
 const Course = mongoose.model('Course', courseSchema);
 
-export default Course;
+module.exports = Course;

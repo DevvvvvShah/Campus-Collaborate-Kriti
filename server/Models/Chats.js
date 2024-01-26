@@ -1,6 +1,4 @@
-import mongoose from 'mongoose';
-import { User } from './User.js';
-
+const mongoose = require('mongoose');
 
 const chatSchema = new mongoose.Schema({
     messageId: {
@@ -31,4 +29,4 @@ const chatSchema = new mongoose.Schema({
 
 const Chats = mongoose.model('Chats', chatSchema);
 
-export default Chats;
+module.exports = Chats;
