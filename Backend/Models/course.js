@@ -7,6 +7,7 @@ const courses = sq.define('courses', {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        // hello
     },
     title: {
         type: DataTypes.STRING,
