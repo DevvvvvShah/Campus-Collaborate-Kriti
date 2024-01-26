@@ -1,4 +1,5 @@
-const graph = require('../graph');
+const { json } = require('express');
+const graph = require('./graph');
 const router = require('express-promise-router')();
 
 /* GET auth callback. */
@@ -8,7 +9,7 @@ router.get('/signin',
       scopes: process.env.OAUTH_SCOPES.split(','),
       redirectUri: process.env.OAUTH_REDIRECT_URI
     };
-
+    console.log(urlParameters);
     try {
       const authUrl = await req.app.locals
         .msalClient.getAuthCodeUrl(urlParameters);
@@ -36,15 +37,19 @@ router.get('/callback',
     try {
       const response = await req.app.locals
         .msalClient.acquireTokenByCode(tokenRequest);
-
+      console.log("The access token: ",response);
+      const idtoken = response.idToken.split('.');
+      console.log("The id token: ",idtoken);
       // Save the user's homeAccountId in their session
       req.session.userId = response.account.homeAccountId;
+
 
       const user = await graph.getUserDetails(
         req.app.locals.msalClient,
         req.session.userId
       );
-
+      user.idToken = idtoken;
+      console.log(user);
       // Add the user to user storage
       req.app.locals.users[req.session.userId] = {
         displayName: user.displayName,
@@ -53,6 +58,7 @@ router.get('/callback',
         program: user.jobTitle,
         rollNo: user.surname
       };
+    res.send(JSON.stringify(user));
     } catch(error) {
       req.flash('error_msg', {
         message: 'Error completing authentication',
