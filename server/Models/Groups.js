@@ -1,33 +1,21 @@
-import { sq } from '../config/db';
-import { DataTypes } from 'sequelize';
-const User = require('./User');
+import mongoose from 'mongoose';
+import { User } from './User.js';
 
-const Groups = sq.define('groups', {
-    groupId: {
-        type: DataTypes.NUMBER,
-        allowNull:false,
-        autoIncrement: true,
-    },
-    members: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false,
-        //TODO: Check if each element exists in post table    
-    },
-    admins: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false,
-        //TODO: Check if each element exists in post table 
-    },
+const groupSchema = new mongoose.Schema({
+    members: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    admins: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     thumbnail: {
-        type: DataTypes.BLOB(10 * 1024 * 1024),
-        allowNull: false,
-    },    
-})
-
-Groups.sync().then(() => {
-    console.log('Groups model synced');
-}). catch(err => {
-    console.error('Unable to sync model Groups: ', err);
+        type: String,
+        required: true
+    }
 });
+
+const Groups = mongoose.model('Groups', groupSchema);
 
 export default Groups;

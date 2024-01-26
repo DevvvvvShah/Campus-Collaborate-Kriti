@@ -1,38 +1,32 @@
-import { sq } from '../config/db';
-import { DataTypes } from 'sequelize';
+import mongoose from 'mongoose';
 
-const User = sq.define('user', {
+const userSchema = new mongoose.Schema({
     name: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true,
     },
     email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        primaryKey: true,
+        type: String,
+        required: true,
     },
     rollNo: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true,
     },
     program: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: String,
+        required: true,
     },
     year: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true,
     },
     branch: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: String,
+        required: true,
     }
-})
-
-User.sync().then(() => {
-    console.log('User model synced');
-}). catch(err => {
-    console.error('Unable to sync model: ', err);
 });
+
+const User = mongoose.model('User', userSchema);
 
 export default User;
