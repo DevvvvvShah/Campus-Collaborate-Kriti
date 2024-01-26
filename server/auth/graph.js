@@ -10,6 +10,7 @@ module.exports = {
       .select('displayName,mail,mailboxSettings,userPrincipalName,surname,jobTitle')
       .get();
     console.log('\n');
+    console.log('Printing user info:')
     console.log(user);
     return user;
   },
