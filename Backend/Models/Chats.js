@@ -1,49 +1,34 @@
-import { sq } from '../config/db';
-import { DataTypes } from 'sequelize';
-const User = require('./User');
+import mongoose from 'mongoose';
+import { User } from './User.js';
 
-const Chats = sq.define('chats',{
+
+const chatSchema = new mongoose.Schema({
     messageId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,        
+        type: Number,
+        required: true,
+        unique: true,
     },
     from: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {                       // Foreign Key constraint
-            model: User,
-            key: 'email',
-        }
-    }, 
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    },
     to: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {                       //Should be a key in User table email key 
-                                            //    (or) 
-                                            //in Group Table in group id
-                                            //Implementing both conditions is difficult might have to change the structure accordingly
-                                            //For now only the email constraint is there
-            model: User,
-            key: 'email',
-        }        
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
     },
     timeOfMessage: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-        allowNull: false,
+        type: Date,
+        default: Date.now,
+        required: true,
     },
     messageContent: {
-        type: DataTypes.DATE,
-        allowNull: false,
+        type: String,
+        required: true,
     },
 });
 
-Chats.sync().then(() => {
-    console.log('Chats model synced');
-}). catch(err => {
-    console.error('Unable to sync model Chats: ', err);
-});
+const Chats = mongoose.model('Chats', chatSchema);
 
 export default Chats;

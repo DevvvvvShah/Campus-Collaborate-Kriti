@@ -1,44 +1,46 @@
-import { now } from 'sequelize/types/utils';
-import { sq } from '../config/db';
-import { DataTypes } from 'sequelize';
+import mongoose from 'mongoose';
+import { Comments } from './Comments.js';
+import { User } from './User.js';
 
-const Discussion = sq.define('discussion', {
-    discussionId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-    },
+const discussionSchema = new mongoose.Schema({
     title: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true,
+    },
+    poster : {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
     },
     content: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: String,
+        required: true,
     },
-    commentsId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false
-    },
-    upvotes: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    downvotes: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comments',
+        }
+    ],
+    upvotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    downvotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
     postingTime: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        default: now
-    }
-})
-
-User.sync().then(() => {
-    console.log('User model synced');
-}). catch(err => {
-    console.error('Unable to sync model: ', err);
+        type: Date,
+        required: true,
+        default: Date.now,
+    },
+    views: {
+        type: Number,
+        default: 0,
+    },
 });
+
+const Discussion = mongoose.model('Discussion', discussionSchema);
 
 export default Discussion;

@@ -1,43 +1,50 @@
-import { sq } from '../config/db';
-import { DataTypes } from 'sequelize';
-import User from './User.js';
+import mongoose from 'mongoose';
+import { User } from './User.js';
+import { Skills } from './Skills.js';
+import { Course } from './Course.js';
+import { Project } from './Project.js';
+import { Post } from './Post.js';
 
-const Profile = sq.define('profile', {
-    emailId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        primaryKey: true,
+
+const profileSchema = new mongoose.Schema({
+    userID: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     },
     description: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true
     },
     profilePic: {
-        type: DataTypes.BLOB(10*1024*1024),
-        allowNull: true
+        type: String,
     },
-    courses: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false
-    },
-    techStacks: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false
-    },
+    courses: [{
+        type:  mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    }],
+    techStacks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Skills'
+    }],
     rating: {
-        type: DataTypes.FLOAT,
-        allowNull: false
+        type: Number,
+        required: true
     },
-    projects: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false
-    }
-})
-
-User.sync().then(() => {
-    console.log('User model synced');
-}). catch(err => {
-    console.error('Unable to sync model: ', err);
+    projects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project'
+    }],
+    connections: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    favPosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
 });
+
+const Profile = mongoose.model('Profile', profileSchema);
 
 export default Profile;

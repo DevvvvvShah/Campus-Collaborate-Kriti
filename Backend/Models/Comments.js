@@ -1,42 +1,31 @@
-import { sq } from '../config/db';
-import { DataTypes } from 'sequelize';
-const User = require('./User');
+import mongoose from 'mongoose';
+import { User } from './User.js';
 
-const Comments = sq.define('comments', {
-    commentId: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
+const CommentsSchema = new mongoose.Schema({
+    content: {
+        type: String,
+        required: true,
     },
-    commentText: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    likes: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
-        defaultValue: 0,
-    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    dislikes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
     timeOfPost: {
-        type:DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-        allowNull: false,
+        type: Date,
+        default: Date.now,
+        required: true,
     },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {                       // Foreign Key constraint
-            model: User,
-            key: 'email',
-        }
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     },
 });
 
-Comments.sync().then(() => {
-    console.log('Comments model synced');
-}). catch(err => {
-    console.error('Unable to sync model Comments: ', err);
-});
+const Comments = mongoose.model('Comments', CommentsSchema);
 
 export default Comments;

@@ -1,58 +1,53 @@
-import { sq } from '../config/db';
-import { DataTypes } from 'sequelize';
+import mongoose from 'mongoose';
+import { User } from './User.js';
+import { Skills } from './Skills.js';
+import { Comments } from './Comments.js';
 
-const Project = sq.define('project', {
-    projectId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-    },
+
+const projectSchema = new mongoose.Schema({
     title: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true,
     },
-    creatorsEmail: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false
-    },
+    creatorId: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+    }],
     rating: {
-        type: DataTypes.FLOAT,
-        allowNull: false
+        type: Number,
+        required: true,
     },
     likes: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: Number,
+        required: true,
     },
     dislikes: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: Number,
+        required: true,
     },
     description: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true,
     },
-    commentsId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false
-    },
-    tags: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false
-    },
+    commentsId: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comments',
+    
+    }],
+    techStacks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Skills'
+    }],
     githubLink: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true,
     },
     thumbnail: {
-        type: DataTypes.BLOB(10*1024*1024),
-        allowNull: false,
+        type: String,
+        required: true,
     }
-})
-
-User.sync().then(() => {
-    console.log('User model synced');
-}). catch(err => {
-    console.error('Unable to sync model: ', err);
 });
+
+const Project = mongoose.model('Project', projectSchema);
 
 export default Project;
