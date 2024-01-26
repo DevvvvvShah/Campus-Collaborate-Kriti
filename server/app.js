@@ -1,19 +1,18 @@
 require('dotenv').config();
-import session from 'express-session';
-import flash from 'connect-flash';
-import { LogLevel, ConfidentialClientApplication } from '@azure/msal-node';
+const session = require('express-session');
+const flash = require('connect-flash');
+const msal = require('@azure/msal-node');
+const { connectDB } = require('./connectdb.js');
 
-import createError from 'http-errors';
-import express, { json, urlencoded} from 'express';
-import { join } from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-import indexRouter from './auth/routes/index';
-import usersRouter from './auth/routes/users';
-import authRouter from './auth/routes/auth';
+var indexRouter = require('./auth/routes/index');
+var usersRouter = require('./auth/routes/users');
+const authRouter = require('./auth/routes/auth');
 
 var app = express();
 
@@ -35,13 +34,13 @@ const msalConfig = {
         console.log(message);
       },
       piiLoggingEnabled: false,
-      logLevel: LogLevel.Verbose,
+      logLevel: msal.LogLevel.Verbose,
     }
   }
 };
 
 // Create msal application object
-app.locals.msalClient = new ConfidentialClientApplication(msalConfig);
+app.locals.msalClient = new msal.ConfidentialClientApplication(msalConfig);
 
 // Session middleware
 // NOTE: Uses default in-memory session store, which is not
@@ -79,25 +78,14 @@ app.use(function(req, res, next) {
 });
 
 // view engine setup
-app.set('views', join(__dirname, 'auth/views'));
+app.set('views', path.join(__dirname, 'auth/views'));
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
-app.use(json());
-app.use(urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-// If using ES6 modules
-
-import express from 'express';
-
-// Use import.meta.url to get the current file's URL
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = join(__filename, '..');
-
-app.use(express.static(join(__dirname, 'auth/public')));
-
-// app.use(express.static(join(__dirname, 'auth/public')));
+app.use(express.static(path.join(__dirname, 'auth/public')));
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
@@ -119,4 +107,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-export default app;
+connectDB();
+
+app.listen(process.env.PORT || 8080, () => {
+  console.log(`Listening on port ${process.env.PORT || 8080}`);
+});
+
+module.exports = app;
