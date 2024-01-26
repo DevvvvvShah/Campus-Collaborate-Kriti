@@ -1,4 +1,4 @@
-const graph = require('../../graph');
+const graph = require('../graph');
 const router = require('express-promise-router')();
 
 /* GET auth callback. */
