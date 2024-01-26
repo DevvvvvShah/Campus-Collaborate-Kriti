@@ -1,6 +1,7 @@
 const { json } = require('express');
 const graph = require('./graph');
 const router = require('express-promise-router')();
+const jwt = require('jsonwebtoken');
 
 /* GET auth callback. */
 router.get('/signin',
@@ -48,7 +49,7 @@ router.get('/callback',
         req.app.locals.msalClient,
         req.session.userId
       );
-      user.idToken = idtoken;
+      // user.idToken = idtoken;
       console.log(user);
       // Add the user to user storage
       req.app.locals.users[req.session.userId] = {
@@ -58,7 +59,18 @@ router.get('/callback',
         program: user.jobTitle,
         rollNo: user.surname
       };
-    res.send(JSON.stringify(user));
+      console.log("aaaaaa");
+      jwt.sign(
+      {isowner: true, id: user.mail || user.userPrincipalName},
+      process.env.JWT_SEC,
+      (err, token) => {
+        console.log("The token: ",token);
+        // res.header('token', `${token}`);
+        user.token = token;
+        console.log(user);
+        res.send(JSON.stringify(user));
+      }
+    );
     } catch(error) {
       req.flash('error_msg', {
         message: 'Error completing authentication',
@@ -66,7 +78,7 @@ router.get('/callback',
       });
     }
 
-    res.redirect('/');
+    // res.redirect('/');
   }
 );
 
