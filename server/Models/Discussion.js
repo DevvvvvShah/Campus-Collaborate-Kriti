@@ -1,6 +1,4 @@
-import mongoose from 'mongoose';
-import { Comments } from './Comments.js';
-import { User } from './User.js';
+const mongoose = require('mongoose');
 
 const discussionSchema = new mongoose.Schema({
     title: {
@@ -43,4 +41,4 @@ const discussionSchema = new mongoose.Schema({
 
 const Discussion = mongoose.model('Discussion', discussionSchema);
 
-export default Discussion;
+module.exports = Discussion;

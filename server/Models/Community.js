@@ -1,7 +1,5 @@
-import mongoose from "mongoose";
-import { User } from "./User.js";
-import { Chats } from "./Chats.js";
-import { Post } from "./Posts.js";
+const mongoose = require('mongoose');
+
 
 const communitySchema = mongoose.Schema({
   title: {
@@ -30,4 +28,6 @@ const communitySchema = mongoose.Schema({
   }],
 });
 
-export const community = mongoose.model("community", communitySchema);
+const community = mongoose.model("community", communitySchema);
+
+module.exports = community;

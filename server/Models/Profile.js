@@ -1,10 +1,4 @@
-import mongoose from 'mongoose';
-import { User } from './User.js';
-import { Skills } from './Skills.js';
-import { Course } from './Course.js';
-import { Project } from './Project.js';
-import { Post } from './Posts.js';
-
+const mongoose = require('mongoose');
 
 const profileSchema = new mongoose.Schema({
     userID: {
@@ -57,4 +51,4 @@ const profileSchema = new mongoose.Schema({
 
 const Profile = mongoose.model('Profile', profileSchema);
 
-export default Profile;
+module.exports = Profile;

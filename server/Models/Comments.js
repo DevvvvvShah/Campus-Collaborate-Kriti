@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-import { User } from './User.js';
+const mongoose = require('mongoose');
 
 const CommentsSchema = new mongoose.Schema({
     content: {
@@ -28,4 +27,4 @@ const CommentsSchema = new mongoose.Schema({
 
 const Comments = mongoose.model('Comments', CommentsSchema);
 
-export default Comments;
+module.exports = Comments;

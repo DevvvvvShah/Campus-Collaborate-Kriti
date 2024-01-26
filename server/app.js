@@ -2,6 +2,7 @@ require('dotenv').config();
 const session = require('express-session');
 const flash = require('connect-flash');
 const msal = require('@azure/msal-node');
+const { connectDB } = require('./connectdb.js');
 
 var createError = require('http-errors');
 var express = require('express');
@@ -104,6 +105,12 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+connectDB();
+
+app.listen(process.env.PORT || 8080, () => {
+  console.log(`Listening on port ${process.env.PORT || 8080}`);
 });
 
 module.exports = app;

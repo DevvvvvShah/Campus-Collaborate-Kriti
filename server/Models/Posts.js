@@ -1,8 +1,5 @@
 
-import mongoose from 'mongoose';
-import { User } from './User.js';
-import { Skills } from './Skills.js';
-import { Comments } from './Comments.js';
+const mongoose = require('mongoose');
 
 
 const postSchema = new mongoose.Schema({
@@ -41,4 +38,4 @@ const postSchema = new mongoose.Schema({
 
 const Post = mongoose.model('Post', postSchema);
 
-export default Post;
+module.exports = Post;
