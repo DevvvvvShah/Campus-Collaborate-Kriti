@@ -2,7 +2,7 @@ import { sq } from '../config/db';
 import { DataTypes } from 'sequelize';
 
 
-const courses = sq.define('courses', {
+const Course = sq.define('course', {
     courseId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -33,4 +33,4 @@ User.sync().then(() => {
     console.error('Unable to sync model: ', err);
 });
 
-export default courses;
+export default Course;
