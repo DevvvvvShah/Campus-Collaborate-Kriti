@@ -14,17 +14,18 @@ const FavPosts = sq.define('favPosts',{
         },        
     },
     postsId: {
-        type: DataTypes.ARRAY(DataTypes.NUMBER),
-        allowNull: false,
-        validate: {
-            notNull: {                                                      //Not null for elements inside the array
-                args: true,
-                msg: 'Each element in the posts array must not be null.',
-            },
+        type: DataTypes.NUMBER,
+        allowNull: false,    
+        refernces: {                                                        //Foreign Key
+            model: Posts,
+            key: 'postsId',
         },
         //TODO: Check if each element exists in post table
     },
 });
+
+User.belongsToMany(Posts, {through: FavPosts});
+Posts.belongsToMany(User, {through: FavPosts});
 
 FavPosts.sync().then(() => {
     console.log('FavPosts model synced');
