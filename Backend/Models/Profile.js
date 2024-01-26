@@ -3,7 +3,7 @@ import { User } from './User.js';
 import { Skills } from './Skills.js';
 import { Course } from './Course.js';
 import { Project } from './Project.js';
-import { Post } from './Post.js';
+import { Post } from './Posts.js';
 
 
 const profileSchema = new mongoose.Schema({
