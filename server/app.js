@@ -11,6 +11,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const authRouter = require('./auth/auth.js');
+const ProfileRoutes = require('./Routes/ProfileRoutes.js');
 
 var app = express();
 
@@ -83,6 +84,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'auth/public')));
 
+app.use('/', ProfileRoutes);
 app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler

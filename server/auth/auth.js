@@ -38,7 +38,7 @@ router.get('/callback',
       const response = await req.app.locals
         .msalClient.acquireTokenByCode(tokenRequest);
       console.log("The access token: ",response);
-      const idtoken = response.idToken.split('.');
+      const idtoken = response.idToken;
       console.log("The id token: ",idtoken);
       // Save the user's homeAccountId in their session
       req.session.userId = response.account.homeAccountId;
