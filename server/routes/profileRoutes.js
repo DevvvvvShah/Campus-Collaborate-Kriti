@@ -5,6 +5,6 @@ const { getProfile, getUserProfile, updateUserProfile } = require('../controller
 
 router.get('/', verifyToken, authenticateUser, getProfile);
 router.get('/:userid', verifyToken, authenticateUser, authorizeUser, getUserProfile);
-router.put('/', verifyToken, authenticateUser,authorizeUser, updateUserProfile);
+router.put('/', verifyToken, authenticateUser, updateUserProfile);
 
 module.exports = router;
