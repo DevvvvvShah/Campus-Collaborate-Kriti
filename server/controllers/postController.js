@@ -49,6 +49,28 @@ const getMyPosts = async (req, res) => {
     }
 }
 
+const getMyConnectionPosts = async (req, res) => {
+    try {
+        const user = await User.findById(req.user);
+        const connections = user.connections;
+        const posts = await Post.find({ user: { $in: connections } });
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+const getMyFavPosts = async (req, res) => {
+    try{
+        const user = await User.findById(req.user);
+        const favPosts = user.favPosts;
+        const posts = await Post.find({_id: {$in: favPosts}});
+        res.status(200).json(posts); 
+    } catch(error){
+        res.status(404).json({message: error.message});
+    }    
+}
+
 const deletePost = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -115,4 +137,4 @@ const addComment = async (req, res) => {
 }
 
 
-module.exports = { addComment, newPost, getAllPost, getPost, getMyPosts, deletePost, likePost, dislikePost};
+module.exports = { addComment, newPost, getAllPost, getPost, getMyPosts, deletePost, likePost, dislikePost,getMyConnectionPosts,getMyFavPosts};
