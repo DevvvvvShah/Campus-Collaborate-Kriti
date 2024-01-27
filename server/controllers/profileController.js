@@ -1,9 +1,8 @@
 const express = require('express');
-const { authenticateUser, verifyToken } = require('../middlewares/verifyToken');
 const router = express.Router();
 const User = require('../models/User');
 
-
+// get profile of user
 const getUserProfile = async (req,res) => {
     await User.findById(req.params.userid)
     .then((user) => {
@@ -13,6 +12,7 @@ const getUserProfile = async (req,res) => {
     });
 }
 
+// get profile of logged in user
 const getProfile = async (req,res) => {
     await User.findById(req.user)
     .then((user) => {
@@ -23,6 +23,7 @@ const getProfile = async (req,res) => {
     
 }
 
+// update profile of logged in user
 const updateUserProfile = async (req,res) => {
     await User.findByIdAndUpdate(req.user,req.body)
     .then((user) => {
