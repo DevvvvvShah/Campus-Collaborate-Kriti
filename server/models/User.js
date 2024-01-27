@@ -73,6 +73,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    discussions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Discussion'
+    }],
     courses: [{
         course:{
             type:  mongoose.Schema.Types.ObjectId,

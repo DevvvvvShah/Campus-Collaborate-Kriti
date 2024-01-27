@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Comment = require('../models/Comments');
 const Discussion = require('../models/Discussion')
 
 // get profile of user
@@ -8,6 +9,10 @@ const newDiscussion = async (req,res) => {
     const discussion = req.body;
     try{
         const newDiscussion = await new Discussion(discussion).save();
+        const user = await User.findById(req.user);
+        console.log("user, ",user);
+        user.discussions.push(newDiscussion._id);
+        await user.save();
         res.status(201).json(newDiscussion);
     }
     catch(error){
@@ -26,7 +31,7 @@ const getAllDiscussion = async (req,res) => {
 }
 
 const getDiscussion = async (req,res) => {
-    const { discussionId } = req.body;
+    const { discussionId } = req.params;
     try{
         const discussion = await Discussion.findById(discussionId).populate('comments');
         res.status(200).json(discussion);
@@ -51,7 +56,18 @@ const upvoteDiscussion = async (req,res) => {
     const { discussionId } = req.body;
     try{
         const discussion = await Discussion.findById(discussionId);
-        discussion.upvotes.push(req.userId);
+        await User.findById(req.user).then(user =>{
+            if(discussion.upvotes.includes(user._id)){
+                discussion.upvotes.pull(user._id);
+            }
+            else if(discussion.downvotes.includes(user._id)){
+                discussion.downvotes.pull(user._id);
+                discussion.upvotes.push(user._id);
+            }
+            else{
+                discussion.upvotes.push(user._id);
+            }
+        })
         await discussion.save();
         res.status(200).json(discussion);
     }
@@ -64,8 +80,18 @@ const downvoteDiscussion = async (req,res) => {
     const { discussionId } = req.body;
     try{
         const discussion = await Discussion.findById(discussionId);
-        discussion.downvotes.push(req.userId);
-        await discussion.save();
+        await User.findById(req.user).then(user =>{
+            if(discussion.downvotes.includes(user._id)){
+                discussion.downvotes.pull(user._id);
+            }
+            else if(discussion.upvotes.includes(user._id)){
+                discussion.upvotes.pull(user._id);
+                discussion.downvotes.push(user._id);
+            }
+            else{
+                discussion.downvotes.push(user._id);
+            }
+        })
         res.status(200).json(discussion);
     }
     catch(error){
@@ -75,8 +101,8 @@ const downvoteDiscussion = async (req,res) => {
 
 const getMyDiscussions = async (req,res) => {
     try{
-        const discussions = await Discussion.find({poster: req.userId});
-        res.status(200).json(discussions);
+        const discussions = await User.findOne({_id: req.user}).populate('discussions').select({discussions: 1, _id: 0});
+        res.status(200).json(discussions['discussions']);
     }
     catch(error){
         res.status(404).json({message: error.message});
@@ -86,7 +112,7 @@ const getMyDiscussions = async (req,res) => {
 const addComment = async (req,res) => {
     const { discussionId, content } = req.body;
     try{
-        const newComment = await new Comment({content, userId: req.userId}).save();
+        const newComment = await new Comment({content, userId: req.user}).save();
         const commentId = newComment._id;
         const discussion = await Discussion.findById(discussionId);
         discussion.comments.push(commentId);
