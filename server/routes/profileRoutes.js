@@ -1,9 +1,8 @@
 const express = require('express');
-const { authenticateUser, verifyToken } = require('../middlewares/verifyToken');
+const { authenticateUser, verifyToken,authorizeUser } = require('../middlewares/verifyToken');
 const router = express.Router();
 
-router.get('/', verifyToken, authenticateUser, (req, res) => {
-    console.log('data is sent');
-})
+router.get('/', verifyToken, authenticateUser,authorizeUser, getProfile);
+router.get('/:userid', verifyToken, authenticateUser, getUserProfile);
 
 module.exports = router;

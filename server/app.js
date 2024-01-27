@@ -84,7 +84,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'auth/public')));
 
-app.use('/', ProfileRoutes);
+app.use('/profile', ProfileRoutes);
 app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
