@@ -11,7 +11,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const authRouter = require('./auth/auth.js');
-const ProfileRoutes = require('./Routes/ProfileRoutes.js');
+const ProfileRoutes = require('./routes/profileRoutes.js');
 
 var app = express();
 
