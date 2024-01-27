@@ -30,6 +30,9 @@ const postCourseReview = async (req, res) => {
     const review = req.body;
     try{
         const newReview = await new Course(review).save();
+        const user = await User.findById(req.user);
+        user.courses.push(newReview._id);
+        await user.save();
         res.status(201).json(newReview);
     } catch(err){
         res.status(409).json({message: err.message});
@@ -50,8 +53,8 @@ const deleteCourseReview = async (req, res) => {
 //get my course reviews
 const getMyReviews = async (req, res) => {
     try{
-        const reviews = await User.findOne({_id: req.user}).populate('reviews').select({reviews: 1, _id: 0});
-        res.status(200).json(reviews['reviews']);
+        const courses = await User.findOne({_id: req.user}).populate('courses').select({courses: 1, _id: 0});
+        res.status(200).json(courses['courses']);
     } catch(err) {
         res.status(404).json({message: err.message});
     }

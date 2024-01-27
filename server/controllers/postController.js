@@ -9,6 +9,7 @@ const newPost = async (req, res) => {
     const post = req.body;
     try {
         const newPost = await new Post(post).save();
+        console.log("userid: ",req.user);
         const user = await User.findById(req.user);
         console.log("user: ", user);
         user.posts.push(newPost._id);

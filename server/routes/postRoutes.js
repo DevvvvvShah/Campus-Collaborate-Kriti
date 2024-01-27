@@ -3,7 +3,7 @@ const { authenticateUser, verifyToken } = require('../middlewares/verifyToken');
 const router = express.Router();
 const { newPost, getAllPost, getPost, deletePost, likePost, dislikePost, getMyPosts, addComment } = require('../controllers/postController');
 
-router.post('/',verifyToken,newPost);
+router.post('/',verifyToken,authenticateUser,newPost);
 router.get('/', getAllPost);
 router.get('/:postId', getPost);
 router.get('/my',verifyToken, authenticateUser, getMyPosts);
