@@ -12,6 +12,8 @@ var logger = require('morgan');
 
 const authRouter = require('./auth/auth.js');
 const ProfileRoutes = require('./routes/profileRoutes.js');
+const discussionRoutes = require('./routes/discussionRoutes.js')
+
 
 var app = express();
 
@@ -86,6 +88,7 @@ app.use(express.static(path.join(__dirname, 'auth/public')));
 
 app.use('/profile', ProfileRoutes);
 app.use('/auth', authRouter);
+app.use('/discussion', discussionRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
