@@ -51,6 +51,7 @@ const deleteCourseReview = async (req, res) => {
 }
 
 //get my course reviews
+//TODO populate courses
 const getMyReviews = async (req, res) => {
     try{
         const courses = await User.findOne({_id: req.user}).populate('courses').select({courses: 1, _id: 0});
