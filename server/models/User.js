@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        default: " "
     },
     profilePic: {
         type: String,
@@ -71,7 +71,6 @@ const userSchema = new mongoose.Schema({
     }],
     rating: {
         type: Number,
-        required: true,
         default: 0
     },
     courses: [{
@@ -102,6 +101,6 @@ const userSchema = new mongoose.Schema({
     }],
 });
 
-const User = mongoose.model('User', profileSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

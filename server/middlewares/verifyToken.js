@@ -16,25 +16,28 @@ const verifyToken = (req, res, next) => {
 }
 
 const authenticateUser = async (req, res, next) => {
-    jwt.verify(req.token, process.env.JWT_SEC, async (err, authData) => {
-        console.log(authData);
-        if(err){
-            console.log("err:", err);
-            res.status(403).json('Authentication failed!');
-        } else{
-            if(!authData.isowner){
-                res.status(403).json('Not admin!');
-            } else{
-                const user = await User.findById(authData.id);
-                if(!user){
-                    res.status(403).json('No such user exists!');
-                } else{
-                    req.user = authData.id;
-                    next();
-                }
-            }
+    try {
+        console.log(req.token);
+        const decoded = jwt.verify(req.token, process.env.JWT_SEC);
+        console.log(decoded);
+        req.user = decoded.id;
+        if (!decoded.id) {
+            res.status(403).json('No user provided!');
         }
-    })
+        else{
+            const user = await User.findOne({email : decoded.id});
+            if(user === null){
+                res.status(403).json('No such user exists!');
+            }
+            console.log(user);
+            req.user = user._id;
+            next();
+        }
+
+    } catch (error) {
+        console.log("err:", error);
+        res.status(403).json('Authentication failed!');
+    }
 }
 
 const authorizeUser = (req, res, next) => {
