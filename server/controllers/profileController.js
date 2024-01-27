@@ -25,8 +25,10 @@ const getProfile = async (req,res) => {
 
 // update profile of logged in user
 const updateUserProfile = async (req,res) => {
+    console.log(req.body);
     await User.findByIdAndUpdate(req.user,req.body)
     .then((user) => {
+        console.log(user);
         res.status(200).json(user);
     }).catch((err) => {
         res.status(400).json(err);
