@@ -42,9 +42,18 @@ const getDiscussion = async (req,res) => {
 }
 
 const deleteDiscussion = async (req,res) => {
-    const { discussionId } = req.body;
+    const { discussionId } = req.params;
     try{
-        const discussion = await Discussion.findByIdAndDelete(discussionId);
+        const discussion = await Discussion.findById(discussionId);
+        await User.findById(req.user).then(user =>{
+            console.log(user._id, discussion.poster);
+            console.log(user._id.toHexString() === discussion.poster.toHexString());
+            if (user._id.toHexString() !== discussion.poster.toHexString()){
+                res.status(401).json({message: "Unauthorized"});
+            }
+            user.discussions.pull(discussionId);
+        })
+        await Discussion.findByIdAndDelete(discussionId);
         res.status(200).json(discussion);
     }
     catch(error){
