@@ -4,7 +4,7 @@ const User = require('../models/User');
 const Comment = require('../models/Comments');
 const Discussion = require('../models/Discussion')
 
-// get profile of user
+// create new discussion : POST
 const newDiscussion = async (req,res) => {
     const discussion = req.body;
     try{
@@ -20,6 +20,7 @@ const newDiscussion = async (req,res) => {
     }
 }
 
+// get all discussions : GET
 const getAllDiscussion = async (req,res) => {
     try{
         const discussions = await Discussion.find();
@@ -30,6 +31,7 @@ const getAllDiscussion = async (req,res) => {
     }
 }
 
+// get a discussion by id : GET
 const getDiscussion = async (req,res) => {
     const { discussionId } = req.params;
     try{
@@ -41,6 +43,7 @@ const getDiscussion = async (req,res) => {
     }
 }
 
+// delete a discussion by id, requires auth : DELETE
 const deleteDiscussion = async (req,res) => {
     const { discussionId } = req.params;
     try{
@@ -61,6 +64,7 @@ const deleteDiscussion = async (req,res) => {
     }
 }
 
+// upvote a discussion : PUT
 const upvoteDiscussion = async (req,res) => {
     const { discussionId } = req.body;
     try{
@@ -85,6 +89,7 @@ const upvoteDiscussion = async (req,res) => {
     }
 }
 
+// downvote a discussion : PUT
 const downvoteDiscussion = async (req,res) => {
     const { discussionId } = req.body;
     try{
@@ -108,6 +113,7 @@ const downvoteDiscussion = async (req,res) => {
     }
 }
 
+// get all discussions posted by user : GET
 const getMyDiscussions = async (req,res) => {
     try{
         const discussions = await User.findOne({_id: req.user}).populate('discussions').select({discussions: 1, _id: 0});
@@ -118,6 +124,7 @@ const getMyDiscussions = async (req,res) => {
     }
 }
 
+// add a comment to a discussion : POST
 const addComment = async (req,res) => {
     const { discussionId, content } = req.body;
     try{

@@ -7,7 +7,7 @@ router.post('/',verifyToken, authenticateUser, newDiscussion);
 router.get('/', getAllDiscussion);
 router.get('/my',verifyToken, authenticateUser, getMyDiscussions);
 router.get('/:discussionId', getDiscussion);
-router.delete('/:discussionId',verifyToken, authenticateUser, deleteDiscussion); // TODO authorize middleware
+router.delete('/:discussionId',verifyToken, authenticateUser, deleteDiscussion); // authorization done in controllers
 router.put('/upvote',verifyToken, authenticateUser, upvoteDiscussion);
 router.put('/downvote',verifyToken, authenticateUser, downvoteDiscussion);
 router.post('/comment',verifyToken, authenticateUser, addComment);
