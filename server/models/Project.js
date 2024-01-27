@@ -42,6 +42,11 @@ const projectSchema = new mongoose.Schema({
     thumbnail: {
         type: String,
         required: true,
+    },
+    timeOfPost: {
+        type: Date,
+        default: Date.now,
+        required: true,
     }
 });
 
