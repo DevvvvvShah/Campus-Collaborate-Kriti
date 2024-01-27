@@ -2,6 +2,8 @@ const { json } = require('express');
 const graph = require('./graph');
 const router = require('express-promise-router')();
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const { default: mongoose } = require('mongoose');
 
 /* GET auth callback. */
 router.get('/signin',
@@ -49,25 +51,66 @@ router.get('/callback',
         req.app.locals.msalClient,
         req.session.userId
       );
+
+      // Create user if not exists
       console.log(user);
-      // Add the user to user storage
-      req.app.locals.users[req.session.userId] = {
-        displayName: user.displayName,
-        email: user.mail || user.userPrincipalName,
-        timeZone: user.mailboxSettings.timeZone,
-        program: user.jobTitle,
-        rollNo: user.surname
-      };
-      jwt.sign(
-      {isowner: true, id: user.mail || user.userPrincipalName},
-      process.env.JWT_SEC,
-      (err, token) => {
-        console.log("The token: ",token);
-        user.token = token;
-        console.log(user);
-        res.send(JSON.stringify(user));
+      const userExists = await User.exists({ email: user.mail || user.userPrincipalName });
+      roll = user.surname;
+      year = roll.slice(0,2);
+      year = 24-year;
+      roll = user.surname;
+      branch = roll.slice(4,6);
+      console.log(branch);
+      map = {
+        "06":"Biosciences and Bioengineering",
+        "07":"Chemical Engineering",
+        "22":"Chemical Science and Technology",
+        "04":"Civil Engineering",
+        "01":"Computer Science and Engineering",
+        "50":"Data Science and Artificial Intelligence",
+        "02":"Electronics and Communication Engineering",
+        "08":"Electronics and Electrical Engineering",
+        "51":"Energy Engineering",
+        "21":"Engineering Physics",
+        "23":"Mathematics and Computing",
+        "03":"Mechanical Engineering",
+        "05":"Design"
       }
-    );
+      branch = map[branch];
+      console.log(branch);
+      console.log(year);
+      if (!userExists) {
+        console.log("User does not exist");
+        const newUser = new User({
+          name: user.displayName,
+          email: user.mail || user.userPrincipalName,
+          rollNo: user.surname,
+          program: user.jobTitle,
+          year,
+          branch
+        });
+        try {
+          console.log("Saving user");
+          await newUser.save();
+          console.log("User saved");
+          jwt.sign(
+          {isowner: true, id: user.mail || user.userPrincipalName},
+          process.env.JWT_SEC,
+          (err, token) => {
+            console.log("The token: ",token);
+            user.token = token;
+            console.log(user);
+            res.send(JSON.stringify(user));
+          }
+          );
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
+      else{
+        console.log("User already exists");
+      }
     } catch(error) {
       req.flash('error_msg', {
         message: 'Error completing authentication',

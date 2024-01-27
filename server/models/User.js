@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        default: " "
     },
     profilePic: {
         type: String,
@@ -71,8 +71,12 @@ const userSchema = new mongoose.Schema({
     }],
     rating: {
         type: Number,
-        required: true
+        default: 0
     },
+    discussions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Discussion'
+    }],
     courses: [{
         course:{
             type:  mongoose.Schema.Types.ObjectId,
@@ -90,7 +94,11 @@ const userSchema = new mongoose.Schema({
         isSelected: {
             type: Boolean,
             default: false
-    },}],
+    }}],
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
     connections: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -101,6 +109,6 @@ const userSchema = new mongoose.Schema({
     }],
 });
 
-const User = mongoose.model('User', profileSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

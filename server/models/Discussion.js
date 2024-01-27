@@ -37,6 +37,9 @@ const discussionSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    doubtpic: {
+        type: String,
+    },
 });
 
 const Discussion = mongoose.model('Discussion', discussionSchema);
