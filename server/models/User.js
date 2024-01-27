@@ -94,7 +94,11 @@ const userSchema = new mongoose.Schema({
         isSelected: {
             type: Boolean,
             default: false
-    },}],
+    }}],
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
     connections: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
