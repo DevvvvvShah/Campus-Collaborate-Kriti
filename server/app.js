@@ -15,6 +15,7 @@ const ProfileRoutes = require('./routes/profileRoutes.js');
 const discussionRoutes = require('./routes/discussionRoutes.js')
 const courseReviewRoutes = require('./routes/courseReviewRoute.js');
 const commentRoutes = require('./routes/commentRoutes.js');
+const postRoutes = require('./routes/postRoutes.js');
 
 var app = express();
 
@@ -92,6 +93,7 @@ app.use('/auth', authRouter);
 app.use('/discussion', discussionRoutes);
 app.use('/coursereview', courseReviewRoutes);
 app.use('/comment', commentRoutes)
+app.use('/posts', postRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
