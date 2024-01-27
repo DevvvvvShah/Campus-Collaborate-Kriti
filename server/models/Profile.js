@@ -1,10 +1,29 @@
 const mongoose = require('mongoose');
 
 const profileSchema = new mongoose.Schema({
-    userID: {
-        type: mongoose.Schema.Types.ObjectId,
+    name: {
+        type: String,
         required: true,
-        ref: 'User'
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    rollNo: {
+        type: String,
+        required: true,
+    },
+    program: {
+        type: String,
+        required: true,
+    },
+    year: {
+        type: String,
+        required: true,
+    },
+    branch: {
+        type: String,
+        required: true,
     },
     description: {
         type: String,
