@@ -40,16 +40,8 @@ const authenticateUser = async (req, res, next) => {
     }
 }
 
-const authorizeUser = (req, res, next) => {
-    if(req.user === req.params.userid){
-        next();
-    } else{
-        res.sendStatus(400);
-    }
-}
 
 module.exports = {
     verifyToken,
     authenticateUser,
-    authorizeUser,
 }

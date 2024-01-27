@@ -24,8 +24,10 @@ const getProfile = async (req,res) => {
 }
 
 const updateUserProfile = async (req,res) => {
+    console.log(req.body);
     await User.findByIdAndUpdate(req.user,req.body)
-    then((user) => {
+    .then((user) => {
+        console.log(user);
         res.status(200).json(user);
     }).catch((err) => {
         res.status(400).json(err);
