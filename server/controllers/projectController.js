@@ -39,9 +39,8 @@ const getProject = async (req, res) => {
 }
 
 const deleteProject = async (req, res) => {
-    const { projectId } = req.body;
     try {
-        const project = await Project.findByIdAndDelete(projectId);
+        const project = await Project.findByIdAndDelete(req.params.projectId);
         res.status(200).json(project);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -122,7 +121,7 @@ const getMyConnectionProjects = async (req, res) => {
         const user = await User.findById(req.user);
         const connections = user.connections;
         console.log(connections);
-        const projects = await Project.find({ creatorId:{$elemMatch: { $in: connections }} });
+        const projects = await Project.find({ creatorId:{ $in: connections } });
         console.log(projects);
         res.status(200).json(projects);
     } catch (error) {
