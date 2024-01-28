@@ -53,7 +53,9 @@ const getMyConnectionPosts = async (req, res) => {
     try {
         const user = await User.findById(req.user);
         const connections = user.connections;
-        const posts = await Post.find({ poster: { $in: connections } });
+        console.log(connections);
+        const posts = await Post.find({ creator: { $in: connections } });
+        console.log(posts);
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({ message: error.message });
