@@ -37,7 +37,6 @@ const projectSchema = new mongoose.Schema({
     }],
     githubLink: {
         type: String,
-        required: true,
     },
     thumbnail: {
         type: String,
