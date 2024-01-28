@@ -15,16 +15,14 @@ const projectSchema = new mongoose.Schema({
         required: true,
         default : 0,
     },
-    likes: {
-        type: Number,
-        default:0,
-        required: true,
-    },
-    dislikes: {
-        type: Number,
-        default:0,
-        required: true,
-    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    dislikes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     description: {
         type: String,
         required: true,

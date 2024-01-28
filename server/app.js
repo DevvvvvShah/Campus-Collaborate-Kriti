@@ -11,12 +11,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const authRouter = require('./auth/auth.js');
-const ProfileRoutes = require('./routes/profileRoutes.js');
-const discussionRoutes = require('./routes/discussionRoutes.js')
-const courseReviewRoutes = require('./routes/courseReviewRoute.js');
-const commentRoutes = require('./routes/commentRoutes.js');
-const postRoutes = require('./routes/postRoutes.js');
-const projectRoutes = require('./routes/projectRoutes.js');
+const ProfileRoutes = require('./Routes/profileRoutes.js');
+const discussionRoutes = require('./Routes/discussionRoutes.js')
+const courseReviewRoutes = require('./Routes/courseReviewRoute.js');
+const commentRoutes = require('./Routes/commentRoutes.js');
+const postRoutes = require('./Routes/postRoutes.js');
+const projectRoutes = require('./Routes/projectRoutes.js');
 
 var app = express();
 
