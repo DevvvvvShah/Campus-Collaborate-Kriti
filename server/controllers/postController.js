@@ -60,6 +60,29 @@ const getMyConnectionPosts = async (req, res) => {
     }
 }
 
+const addMyFavPosts = async (req, res) => {
+    const { postId } = req.body;
+    try {
+        const post = await Post.findById(postId);
+        const user = await User.findById(req.user);
+
+        if(!user){
+            return res.status(404).json({message: "User not found"});
+        }
+
+        if(user.favPosts.includes(postId)){
+            user.favPosts.pull(postId);
+        }
+        else{
+            user.favPosts.push(postId);
+        }
+        await user.save();
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 const getMyFavPosts = async (req, res) => {
     try{
         console.log(req.user);
@@ -140,4 +163,4 @@ const addComment = async (req, res) => {
 }
 
 
-module.exports = { addComment, newPost, getAllPost, getPost, getMyPosts, deletePost, likePost, dislikePost,getMyConnectionPosts,getMyFavPosts};
+module.exports = { addComment, newPost, getAllPost, getPost, getMyPosts, deletePost, likePost, dislikePost,getMyConnectionPosts,getMyFavPosts,addMyFavPosts};
