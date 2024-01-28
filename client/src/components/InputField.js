@@ -44,7 +44,7 @@ const InputField = (props) => {
     }
 
     return (
-        <div className='py-2 relative mr-[20px] ml-[10px]'>
+        <div className='py-2 relative mr-2 sm:mr-[20px] ml-2 sm:ml-[10px]'>
             <label className="bg-white bg-opacity-100 text-[10px] font-bold mb-2 absolute top-[0.5px] left-[15px] px-1" htmlFor="inputField">
                 {label}
             </label>
@@ -82,7 +82,7 @@ const TextField = (props) => {
     }    
 
     return (
-        <div className='py-2 relative mr-[20px] ml-[10px]'>
+        <div className='py-2 relative mr-2 sm:mr-[20px] ml-2 sm:ml-[10px]'>
             <label className="bg-white bg-opacity-100 text-[10px] font-bold mb-2 absolute top-[0.5px] left-[15px] px-1" htmlFor="inputField">
                 {label}
             </label>   
@@ -142,7 +142,7 @@ const MultiCreate = (props) => {
     };
   
     return (
-        <div className='py-2 relative mr-[20px] ml-[10px]'>
+        <div className='py-2 relative mr-2 sm:mr-[20px] ml-2 sm:ml-[10px]'>
             <label className="z-10 bg-white bg-opacity-100 text-[10px] font-bold mb-2 absolute top-[0.5px] left-[15px] px-1" htmlFor="inputField">
                 {label}
             </label>   
@@ -167,7 +167,7 @@ const MultiSelect = (props) => {
     const {label,value,setValue} = props;   
     
     return(
-        <div className='py-2 relative mr-[20px] ml-[10px]'>
+        <div className='py-2 relative mr-2 sm:mr-[20px] ml-2 sm:ml-[10px]'>
             <label className="z-[1] bg-white bg-opacity-100 text-[10px] font-bold mb-2 absolute top-[0.5px] left-[15px] px-1" htmlFor="inputField">
                 {label}
             </label>   
