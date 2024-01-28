@@ -39,8 +39,12 @@ const updateUserProfile = async (req,res) => {
 const addtoConnection = async (req, res) => {
     const { userid } = req.params;
     try {
+        const user2 = await User.findById(userid);
         const user = await User.findById(req.user);
 
+        if (!user2) {
+            return res.status(404).json({ message: "User not found" });
+        }
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
