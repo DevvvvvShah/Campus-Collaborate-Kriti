@@ -122,7 +122,7 @@ const getMyConnectionProjects = async (req, res) => {
         const user = await User.findById(req.user);
         const connections = user.connections;
         console.log(connections);
-        const projects = await Project.find({ creator: { $in: connections } });
+        const projects = await Project.find({ creatorId:{$elemMatch: { $in: connections }} });
         console.log(projects);
         res.status(200).json(projects);
     } catch (error) {
