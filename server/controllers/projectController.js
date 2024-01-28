@@ -51,6 +51,7 @@ const likeProject = async (req, res) => {
     const { projectId } = req.body;
     try {
         const project = await Project.findById(projectId);
+        console.log(project);
         await User.findById(req.user).then(user => {
             if (project.likes.includes(user._id)) {
                 project.likes.pull(user._id);
