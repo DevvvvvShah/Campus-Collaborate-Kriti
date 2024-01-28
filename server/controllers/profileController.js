@@ -35,4 +35,27 @@ const updateUserProfile = async (req,res) => {
     });
 }
 
-module.exports = { getProfile, getUserProfile, updateUserProfile };
+// add profile of a user to connections of logged in user
+const addtoConnection = async (req, res) => {
+    const { userid } = req.params;
+    try {
+        const user = await User.findById(req.user);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.connections.includes(userid)) {
+            user.connections.pull(userid);
+        }
+        else{
+            user.connections.push(userid);
+        }
+        await user.save();
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { getProfile, getUserProfile, updateUserProfile,addtoConnection };
