@@ -53,14 +53,16 @@ const deleteCourseReview = async (req, res) => {
 //get my course reviews
 //TODO populate courses
 const getMyReviews = async (req, res) => {
-    try{
-        const courses = await User.findOne({_id: req.user}).populate('courses').select({courses: 1, _id: 0});
-        res.status(200).json(courses['courses']);
-    } catch(err) {
-        res.status(404).json({message: err.message});
+    try {
+        const user = await User.findById(req.user);
+        const courses = user.courses;
+        console.log(courses);
+        const coursearray = await Course.find({ _id: { $in: user.courses } });
+        res.status(200).json({ coursearray, courses });
+    } catch (err) {
+        res.status(404).json({ message: err.message });
     }
 }
-
 //comment
 const addComment = async (req, res) => {
     const { courseId, content } = req.body;
