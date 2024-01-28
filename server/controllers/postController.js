@@ -53,7 +53,7 @@ const getMyConnectionPosts = async (req, res) => {
     try {
         const user = await User.findById(req.user);
         const connections = user.connections;
-        const posts = await Post.find({ user: { $in: connections } });
+        const posts = await Post.find({ poster: { $in: connections } });
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -62,8 +62,11 @@ const getMyConnectionPosts = async (req, res) => {
 
 const getMyFavPosts = async (req, res) => {
     try{
+        console.log(req.user);
         const user = await User.findById(req.user);
+        console.log(user);
         const favPosts = user.favPosts;
+        console.log(favPosts);
         const posts = await Post.find({_id: {$in: favPosts}});
         res.status(200).json(posts); 
     } catch(error){
