@@ -108,7 +108,8 @@ const addComment = async (req, res) => {
         const newComment = await new Comment({ content, userId: req.user }).save();
         const commentId = newComment._id;
         const project = await Project.findById(projectId);
-        project.comments.push(commentId);
+        console.log(project);
+        project.commentsId.push(commentId);
         await project.save();
         res.status(200).json(project);
     } catch (error) {
