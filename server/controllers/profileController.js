@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const cloudinary = require("cloudinary");
 const User = require('../models/User');
+
+cloudinary.config({ 
+    cloud_name: 'dpobpe2ga', 
+    api_key: '528297887196318', 
+    api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
+  });
 
 // get profile of user
 const getUserProfile = async (req,res) => {
@@ -28,7 +35,12 @@ const updateUserProfile = async (req,res) => {
     console.log(req.body);
     await User.findByIdAndUpdate(req.user,req.body)
     .then((user) => {
-        console.log(user);
+        if(req.file){
+            cloudinary.uploader.upload(req.file.path, async (result) => {
+                user.profilePic = result.secure_url;
+                await user.save();
+            });
+        }
         res.status(200).json(user);
     }).catch((err) => {
         res.status(400).json(err);
