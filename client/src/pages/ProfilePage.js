@@ -1,14 +1,21 @@
 import React from "react";
-import ProfileHeaderImg from "../components/profileComponents/ProfileHeaderImg";
-import ProfileCard from "../components/profileComponents/ProfileCard";
-import ProfileProjectsSection from "../components/profileComponents/ProfileProjectsSection";
+// import ProfileHeaderImg from "../components/profileComponents/ProfileHeaderImg";
+// import ProfileCard from "../components/profileComponents/ProfileCard";
+// import ProfileProjectsSection from "../components/profileComponents/ProfileProjectsSection";
+// import Navbar from "../components/Navbar/Navbar";
 
 function ProfilePage() {
   return (
-    <div className="h-[100vh] bg-[#132D46]">
+    <div className="h-[100vh] classes">
+      {/* <Navbar />
       <ProfileHeaderImg />
-      <ProfileCard />
-      <ProfileProjectsSection />
+      <div className="flex justify-around">
+        <ProfileCard />
+        <ProfileProjectsSection />
+      </div> */}
+      {/* <LandingPageComp /> */}
+
+      <span>ProfilePage</span>
     </div>
   );
 }
