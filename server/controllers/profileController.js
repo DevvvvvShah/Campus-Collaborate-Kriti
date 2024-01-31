@@ -32,11 +32,11 @@ const getProfile = async (req,res) => {
 
 // update profile of logged in user
 const updateUserProfile = async (req,res) => {
-    console.log(req.body);
+    console.log("body: ",req.file);
     await User.findByIdAndUpdate(req.user,req.body)
     .then((user) => {
         if(req.file){
-            cloudinary.uploader.upload(req.file.path, async (result) => {
+            cloudinary.uploader.upload(req.file, async (result) => {
                 user.profilePic = result.secure_url;
                 await user.save();
             });
