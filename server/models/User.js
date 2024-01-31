@@ -64,6 +64,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePic: {
         type: String,
+        default : ""
     },
     techStacks: [{
         type: mongoose.Schema.Types.ObjectId,

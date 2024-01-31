@@ -30,6 +30,9 @@ const postCourseReview = async (req, res) => {
     const review = req.body;
     try{
         const newReview = await new Course(review).save();
+        const user = await User.findById(req.user);
+        user.courses.push(newReview._id);
+        await user.save();
         res.status(201).json(newReview);
     } catch(err){
         res.status(409).json({message: err.message});
@@ -48,15 +51,18 @@ const deleteCourseReview = async (req, res) => {
 }
 
 //get my course reviews
+//TODO populate courses
 const getMyReviews = async (req, res) => {
-    try{
-        const reviews = await User.findOne({_id: req.user}).populate('reviews').select({reviews: 1, _id: 0});
-        res.status(200).json(reviews['reviews']);
-    } catch(err) {
-        res.status(404).json({message: err.message});
+    try {
+        const user = await User.findById(req.user);
+        const courses = user.courses;
+        console.log(courses);
+        const coursearray = await Course.find({ _id: { $in: user.courses } });
+        res.status(200).json({ coursearray, courses });
+    } catch (err) {
+        res.status(404).json({ message: err.message });
     }
 }
-
 //comment
 const addComment = async (req, res) => {
     const { courseId, content } = req.body;

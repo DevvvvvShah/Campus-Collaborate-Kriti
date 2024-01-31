@@ -11,10 +11,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const authRouter = require('./auth/auth.js');
-const ProfileRoutes = require('./routes/profileRoutes.js');
-const discussionRoutes = require('./routes/discussionRoutes.js')
-const courseReviewRoutes = require('./routes/courseReviewRoute.js');
-const postRoutes = require('./routes/postRoutes.js');
+const ProfileRoutes = require('./Routes/profileRoutes.js');
+const discussionRoutes = require('./Routes/discussionRoutes.js')
+const courseReviewRoutes = require('./Routes/courseReviewRoute.js');
+const commentRoutes = require('./Routes/commentRoutes.js');
+const postRoutes = require('./Routes/postRoutes.js');
+const projectRoutes = require('./Routes/projectRoutes.js');
 
 var app = express();
 
@@ -91,7 +93,9 @@ app.use('/profile', ProfileRoutes);
 app.use('/auth', authRouter);
 app.use('/discussion', discussionRoutes);
 app.use('/coursereview', courseReviewRoutes);
+app.use('/comment', commentRoutes)
 app.use('/posts', postRoutes);
+app.use('/projects',projectRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -13,15 +13,16 @@ const projectSchema = new mongoose.Schema({
     rating: {
         type: Number,
         required: true,
+        default : 0,
     },
-    likes: {
-        type: Number,
-        required: true,
-    },
-    dislikes: {
-        type: Number,
-        required: true,
-    },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    dislikes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     description: {
         type: String,
         required: true,
@@ -37,10 +38,14 @@ const projectSchema = new mongoose.Schema({
     }],
     githubLink: {
         type: String,
-        required: true,
     },
     thumbnail: {
         type: String,
+        required: true,
+    },
+    timeOfPost: {
+        type: Date,
+        default: Date.now,
         required: true,
     }
 });
