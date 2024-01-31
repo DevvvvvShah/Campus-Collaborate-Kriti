@@ -1,12 +1,10 @@
 import React from 'react'
-import { DiscussionHeader } from './DiscussionHeader'
 import { DiscussionSection } from './DiscussionSection'
 
-const MainDiscussion = () => {
+const MainDiscussion = (props) => {
     return (
-        <div className='w-full md:w-3/4 md:min-w-[60vh] min-w-[90vh] pt-20'>
-            <DiscussionHeader />
-            <DiscussionSection />
+        <div className='md:ml-[27vw] pl-[10%] pr-[10%] pt-16 md:pl-[3%] md:pr-[10%]'>
+            <DiscussionSection discussions={props.discussions}/>
         </div>
     );
 };
