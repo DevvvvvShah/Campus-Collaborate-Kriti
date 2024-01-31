@@ -1,12 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MainDiscussion } from '../components/DiscussionForum/MainDiscussion'
-import { SideBar } from '../components/SideBar/SideBar'
+import getDiscussions from '../fetch/discussions' 
+import Navbar from '../components/Navbar/navbar';
+import Topbar from '../components/Navbar/topbar';
 
-const DiscussionForum = () => {
+const DiscussionForum = (props) => {
+    const [isExpanded, setIsExpanded] = React.useState(true);
+    const [discussions, setDiscussions] = React.useState([]);
+
+    useEffect(() => {
+        getDiscussions().then((res) => {
+            setDiscussions(res.data);
+            console.log(res.data);
+        }).catch(error => {
+            console.error(error);
+        });
+    }, []);
+
     return (
-        <div className='flex flex-col md:flex-row px-[2%] bg-[#132D46] min-w-fit min-h-[100vh] gap-5 sm:flex-row'>
-            <MainDiscussion />
-            <SideBar title="FAQs"/>
+        <div>
+            <div className='flex flex-col md:flex-row bg-[#F8F8F8] w-screen min-h-[100vh]'>
+                <Navbar isExpanded = {isExpanded} setIsExpanded= {setIsExpanded}/>          
+                <div className='w-full'>
+                    <Topbar/>    
+                    <MainDiscussion discussions={discussions}/>
+                </div>
+            </div>
         </div>
     );
 };

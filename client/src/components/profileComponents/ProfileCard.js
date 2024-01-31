@@ -1,10 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import SkillsTiles from "./SkillsTiles";
 import ViewsLikes from "./ViewsLikes";
 
 function ProfileCard() {
   return (
-    <div className="flex flex-col items-center py-[1rem] w-[20rem] absolute bg-[#fff] top-[3rem] left-[5rem] rounded-xl">
+    <div className="flex flex-col items-center absolute py-[1rem] w-[20rem] bg-[#fff] top-[5rem] left-[5rem] rounded-xl">
+      <div className="w-[100%] flex justify-end -ml-[2.5rem]">
+        <Link to="/editProfile">
+          <div className="h-[1.2rem] w-[1.2rem]">
+            <img src="/Vector 373.jpg" alt="pen" />
+          </div>
+        </Link>
+      </div>
       <div className="bg-[#46D97E] w-[120px] h-[120px] rounded-full"></div>
       <div className="flex flex-col items-center py-[1rem]">
         <span className="text-2xl text-[#46D97E] font-bold">MS Dhoni</span>
