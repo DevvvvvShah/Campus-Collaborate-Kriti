@@ -1,9 +1,11 @@
 const express = require('express');
 const { authenticateUser, verifyToken } = require('../middlewares/verifyToken');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 const router = express.Router();
 const { newPost, getAllPost, getPost, deletePost, likePost, dislikePost, getMyPosts, addComment, getMyConnectionPosts ,getMyFavPosts,addMyFavPosts } = require('../controllers/postController');
 
-router.post('/',verifyToken,authenticateUser,newPost);
+router.post('/',verifyToken,authenticateUser,upload.array('media',10),newPost);
 router.get('/', getAllPost);
 router.get('/my',verifyToken, authenticateUser, getMyPosts);
 router.get('/myconnectionposts',verifyToken, authenticateUser, getMyConnectionPosts);

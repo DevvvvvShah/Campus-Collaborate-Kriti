@@ -27,12 +27,13 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    thumbnail: [{
-        type: String,
-    }],
     techStacks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Skills'
+    }],
+    mediaArray: [{
+        type: String,
+        default: [],
     }],
 });
 
