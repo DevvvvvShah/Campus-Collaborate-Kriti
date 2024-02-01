@@ -1,10 +1,12 @@
 const express = require('express');
 const { verifyToken, authenticateUser } = require('../middlewares/verifyToken');
 const router = express.Router();
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 const { newProject, getAllProjects, getProject, deleteProject, likeProject, dislikeProject, getMyProjects, addComment,getMyConnectionProjects } = require('../controllers/projectController');
 
 
-router.post('/', verifyToken, authenticateUser, newProject);
+router.post('/', verifyToken, authenticateUser,upload.array('media',10), newProject);
 router.get('/', getAllProjects);
 router.get('/my', verifyToken, authenticateUser, getMyProjects);
 router.get('/myconnectionprojects', verifyToken, authenticateUser, getMyConnectionProjects);

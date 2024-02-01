@@ -29,6 +29,11 @@ const courseSchema = new mongoose.Schema({
             ref: 'User',
         }
     ],
+    coursePic: {
+        type: String,
+        required: true,
+        default:""
+    },
 });
 
 const Course = mongoose.model('Course', courseSchema);

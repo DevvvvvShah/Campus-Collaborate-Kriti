@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { DiscussionUnit } from './DiscussionUnit';
 
-const DiscussionSection = () => {
+const DiscussionSection = (props) => {
+    const [units,setUnits] = React.useState([]);
+    
+    useEffect(() => {
+        props.discussions.map((discussion) => {
+            setUnits((units) => [...units, <DiscussionUnit discussion={discussion}/>]);
+        });
+    }, [props.discussions]);
+
     return (
-        <div className='rounded-lg bg-[#1A1E29] min-h-[60vh] sm:h-fit sm:pb-[1rem] mb-[2rem] flex flex-col'>
-            <DiscussionUnit />
-            <hr className='mt-[0.5rem] border-white' /> 
-            <DiscussionUnit />
-            <hr className='mt-[0.5rem] border-white' /> 
-            <DiscussionUnit />        
+        <div className='min-h-[60vh] sm:h-fit sm:pb-[1rem] mb-[2rem] flex flex-col gap-2'>
+            {units}      
         </div>
     );
 };

@@ -1,23 +1,37 @@
 const express = require('express');
 const router = express.Router();
+const cloudinary = require('cloudinary').v2;
 const User = require('../models/User');
 const Comment = require('../models/Comments');
 const Post = require('../models/Posts');
 
+cloudinary.config({ 
+    cloud_name: 'dpobpe2ga', 
+    api_key: '528297887196318', 
+    api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
+  });
+
 
 const newPost = async (req, res) => {
-    const post = req.body;
-    try {
-        const newPost = await new Post(post).save();
-        console.log("userid: ",req.user);
-        const user = await User.findById(req.user);
-        console.log("user: ", user);
-        user.posts.push(newPost._id);
-        await user.save();
-        res.status(201).json(newPost);
-    } catch (error) {
-        res.status(409).json({ message: error.message });
-    }
+        const post = req.body;
+        try {
+            const newPost = await new Post(post).save();
+            if (req.files) {
+                const uploadPromises = req.files.map(file => {
+                    return cloudinary.uploader.upload(file.path, {
+                        resource_type: 'auto' // Automatically detect the resource type (image or video)
+                    });
+                });
+                const results = await Promise.all(uploadPromises);
+                newPost.mediaArray = results.map(result => result.secure_url); // Add secure URLs to newPost.media array
+            }
+            const user = await User.findById(req.user);
+            user.posts.push(newPost._id);
+            await user.save();
+            res.status(201).json(newPost);
+        } catch (error) {
+                res.status(409).json({ message: error.message });
+        }
 }
 
 const getAllPost = async (req, res) => {

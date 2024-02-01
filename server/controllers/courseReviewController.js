@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const cloudinary = require('cloudinary').v2;
 const Course = require('../models/Courses');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
+
+cloudinary.config({ 
+    cloud_name: 'dpobpe2ga', 
+    api_key: '528297887196318', 
+    api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
+  });
 
 //get all course reviews
 const getCourseReviews = async (req, res) => {
@@ -30,6 +37,12 @@ const postCourseReview = async (req, res) => {
     const review = req.body;
     try{
         const newReview = await new Course(review).save();
+        if(req.file){
+            cloudinary.uploader.upload(req.file.path, async (result) => {
+                newReview.coursePic = result.secure_url;
+                await newReview.save();
+            });
+        }
         const user = await User.findById(req.user);
         user.courses.push(newReview._id);
         await user.save();

@@ -1,16 +1,30 @@
 const express = require('express');
 const router = express.Router();
+const cloudinary = require('cloudinary').v2;
 const Project = require('../models/Project');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
+
+cloudinary.config({ 
+    cloud_name: 'dpobpe2ga', 
+    api_key: '528297887196318', 
+    api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
+  });
 
 const newProject = async (req, res) => {
     const project = req.body;
     try {
         const newProject = await new Project(project).save();
-        console.log("userid: ",req.user);
+        if (req.files) {
+            const uploadPromises = req.files.map(file => {
+                return cloudinary.uploader.upload(file.path, {
+                    resource_type: 'auto' // Automatically detect the resource type (image or video)
+                });
+            });
+            const results = await Promise.all(uploadPromises);
+            newProject.mediaArray = results.map(result => result.secure_url); // Add secure URLs to newProject.mediaArray
+        }
         const user = await User.findById(req.user);
-        console.log("user: ", user);
         user.projects.push(newProject._id);
         await user.save();
         res.status(201).json(newProject);
