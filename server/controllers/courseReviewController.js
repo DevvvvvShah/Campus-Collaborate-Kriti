@@ -1,10 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const cloudinary = require('cloudinary').v2;
 const Course = require('../models/Courses');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
 
-//get all course reviews
+cloudinary.config({ 
+    cloud_name: 'dpobpe2ga', 
+    api_key: '528297887196318', 
+    api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
+  });
+
+//get all course reviews: GET
 const getCourseReviews = async (req, res) => {
     try{
         const courseReviews = await Course.find();
@@ -14,7 +21,7 @@ const getCourseReviews = async (req, res) => {
     }
 }
 
-//get a course review
+//get a course review: GET
 const getCourseReview = async (req, res) => {
     const { courseReviewId } = req.body;
     try{
@@ -25,11 +32,17 @@ const getCourseReview = async (req, res) => {
     }
 }
 
-//add course review
+//add a course review:  POST
 const postCourseReview = async (req, res) => {
     const review = req.body;
     try{
         const newReview = await new Course(review).save();
+        if(req.file){
+            cloudinary.uploader.upload(req.file.path, async (result) => {
+                newReview.coursePic = result.secure_url;
+                await newReview.save();
+            });
+        }
         const user = await User.findById(req.user);
         user.courses.push(newReview._id);
         await user.save();
@@ -39,7 +52,7 @@ const postCourseReview = async (req, res) => {
     }
 }
 
-//delete course review
+//delete course review: DELETE
 const deleteCourseReview = async (req, res) => {
     const {courseId} = req.body;
     try{
@@ -50,7 +63,7 @@ const deleteCourseReview = async (req, res) => {
     }
 }
 
-//get my course reviews
+//get my course reviews:GET
 //TODO populate courses
 const getMyReviews = async (req, res) => {
     try {
@@ -63,7 +76,8 @@ const getMyReviews = async (req, res) => {
         res.status(404).json({ message: err.message });
     }
 }
-//comment
+
+//comment:PUT
 const addComment = async (req, res) => {
     const { courseId, content } = req.body;
     try{

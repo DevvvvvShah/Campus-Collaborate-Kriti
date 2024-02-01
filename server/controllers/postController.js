@@ -1,25 +1,39 @@
 const express = require('express');
 const router = express.Router();
+const cloudinary = require('cloudinary').v2;
 const User = require('../models/User');
 const Comment = require('../models/Comments');
 const Post = require('../models/Posts');
 
+cloudinary.config({ 
+    cloud_name: 'dpobpe2ga', 
+    api_key: '528297887196318', 
+    api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
+  });
 
+// add a new Post : POST
 const newPost = async (req, res) => {
-    const post = req.body;
-    try {
-        const newPost = await new Post(post).save();
-        console.log("userid: ",req.user);
-        const user = await User.findById(req.user);
-        console.log("user: ", user);
-        user.posts.push(newPost._id);
-        await user.save();
-        res.status(201).json(newPost);
-    } catch (error) {
-        res.status(409).json({ message: error.message });
-    }
+        const post = req.body;
+        try {
+            const newPost = await new Post(post).save();
+            if (req.files) {
+                const uploadPromises = req.files.map(file => {
+                    return cloudinary.uploader.upload(file.path, {
+                        resource_type: 'auto' // Automatically detect the resource type (image or video)
+                    });
+                });
+                const results = await Promise.all(uploadPromises);
+                newPost.mediaArray = results.map(result => result.secure_url); // Add secure URLs to newPost.media array
+            }
+            const user = await User.findById(req.user);
+            user.posts.push(newPost._id);
+            await user.save();
+            res.status(201).json(newPost);
+        } catch (error) {
+                res.status(409).json({ message: error.message });
+        }
 }
-
+// get All Post: GET
 const getAllPost = async (req, res) => {
     try {
         const posts = await Post.find();
@@ -28,7 +42,7 @@ const getAllPost = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// get post using id: GET
 const getPost = async (req, res) => {
     const { postId } = req.params;
     try {
@@ -39,7 +53,7 @@ const getPost = async (req, res) => {
     }
 }
 
-
+// get my posts: GET
 const getMyPosts = async (req, res) => {
     try {
         const posts = await User.findOne({ _id: req.user }).populate('posts').select({ posts: 1, _id: 0 });
@@ -49,6 +63,7 @@ const getMyPosts = async (req, res) => {
     }
 }
 
+// get My connections post: GET
 const getMyConnectionPosts = async (req, res) => {
     try {
         const user = await User.findById(req.user);
@@ -62,6 +77,7 @@ const getMyConnectionPosts = async (req, res) => {
     }
 }
 
+// add to my fav post : POST
 const addMyFavPosts = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -84,7 +100,7 @@ const addMyFavPosts = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// Get my fav posts: GET
 const getMyFavPosts = async (req, res) => {
     try{
         console.log(req.user);
@@ -99,6 +115,7 @@ const getMyFavPosts = async (req, res) => {
     }    
 }
 
+// delete post using id: DELETE
 const deletePost = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -108,7 +125,7 @@ const deletePost = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// like a post : PUT
 const likePost = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -129,7 +146,7 @@ const likePost = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// dislike a post : PUT
 const dislikePost = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -150,7 +167,7 @@ const dislikePost = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// add comment:  POST 
 const addComment = async (req, res) => {
     const { postId, comment } = req.body;
     try {

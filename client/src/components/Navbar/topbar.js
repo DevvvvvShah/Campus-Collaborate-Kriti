@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import React from 'react';
 
 const Topbar = () => {
+=======
+import { prodDependencies } from 'mathjs';
+import React from 'react';
+
+const Topbar = (props) => {
+>>>>>>> e6a212492ce49a40957f9a66f30d71178442f5c0
     const handleSearch = () => {
         if(window.innerWidth < 768){
             const search = document.querySelector('input');
@@ -27,7 +34,11 @@ const Topbar = () => {
         <div className="w-full bg-white drop-shadow-md">
             <div className='md:ml-[25vw] ml-[5vw] flex items-center py-[1.5vh] align-center justify-between'>
                 <div className='topic md:text-xl md:text-lg h-fit pl-[2vw]'>
+<<<<<<< HEAD
                     Discussion Forum
+=======
+                    {props.title}
+>>>>>>> e6a212492ce49a40957f9a66f30d71178442f5c0
                 </div>
                 <div className='flex items-center'>
                     <div className='relative min-w-[2rem] md:max-w-[20rem]'>

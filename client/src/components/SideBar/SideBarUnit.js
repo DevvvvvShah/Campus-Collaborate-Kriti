@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TrendingProfile = () => {
+const SideBarProfile = () => {
     return(
         <div className='grid grid-cols-1 md:grid-cols-12 gap-1'>
             <div className='md:col-span-2 ml-[-0.5rem]'>
@@ -44,7 +44,7 @@ const ImgUnit = (props) => {
 function SkillsTiles(prop) {
     return (
       <div className="flex justify-center items-center mr-[0.3rem] bg-[#46D97E] rounded-xl">
-        <span className="px-[0.2rem] text-xs">{prop.value}</span>
+        <span className="px-[0.3rem] text-xs font-semibold">{prop.value}</span>
       </div>
     );
   }
@@ -53,7 +53,7 @@ const SideBarUnit = (props) => {
     const img = props.img;
     return(
         <div className='p-4'>
-            <TrendingProfile />
+            <SideBarProfile />
             <div className={img ? 
             'p-2 rounded-sm border border-[#1D90FF] mt-4':
             'py-2'}>

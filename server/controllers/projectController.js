@@ -1,16 +1,31 @@
 const express = require('express');
 const router = express.Router();
+const cloudinary = require('cloudinary').v2;
 const Project = require('../models/Project');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
 
+cloudinary.config({ 
+    cloud_name: 'dpobpe2ga', 
+    api_key: '528297887196318', 
+    api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
+  });
+
+//   add a new project
 const newProject = async (req, res) => {
     const project = req.body;
     try {
         const newProject = await new Project(project).save();
-        console.log("userid: ",req.user);
+        if (req.files) {
+            const uploadPromises = req.files.map(file => {
+                return cloudinary.uploader.upload(file.path, {
+                    resource_type: 'auto' // Automatically detect the resource type (image or video)
+                });
+            });
+            const results = await Promise.all(uploadPromises);
+            newProject.mediaArray = results.map(result => result.secure_url); // Add secure URLs to newProject.mediaArray
+        }
         const user = await User.findById(req.user);
-        console.log("user: ", user);
         user.projects.push(newProject._id);
         await user.save();
         res.status(201).json(newProject);
@@ -18,7 +33,7 @@ const newProject = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 }
-
+// get all projects
 const getAllProjects = async (req, res) => {
     try {
         const projects = await Project.find();
@@ -27,7 +42,7 @@ const getAllProjects = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// get project uisng project id
 const getProject = async (req, res) => {
     const { projectId } = req.params;
     try {
@@ -37,7 +52,7 @@ const getProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// delete  a project using its ID
 const deleteProject = async (req, res) => {
     try {
         const project = await Project.findByIdAndDelete(req.params.projectId);
@@ -46,7 +61,7 @@ const deleteProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// like a project: PUT
 const likeProject = async (req, res) => {
     const { projectId } = req.body;
     try {
@@ -68,7 +83,7 @@ const likeProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+//  dislike a project: DELETE
 const dislikeProject = async (req, res) => {
     const { projectId } = req.body;
     try {
@@ -89,7 +104,7 @@ const dislikeProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// get my projects list
 const getMyProjects = async (req, res) => {
     try {
         const user = await User.findById(req.user);
@@ -102,7 +117,7 @@ const getMyProjects = async (req, res) => {
     }
 }
 
-
+// add comment  to project : POST
 const addComment = async (req, res) => {
     const { projectId, content } = req.body;
     try {
@@ -117,7 +132,7 @@ const addComment = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// get my connections projects
 const getMyConnectionProjects = async (req, res) => {
     try {
         const user = await User.findById(req.user);
