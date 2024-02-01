@@ -11,6 +11,7 @@ cloudinary.config({
     api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
   });
 
+//   add a new project
 const newProject = async (req, res) => {
     const project = req.body;
     try {
@@ -32,7 +33,7 @@ const newProject = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 }
-
+// get all projects
 const getAllProjects = async (req, res) => {
     try {
         const projects = await Project.find();
@@ -41,7 +42,7 @@ const getAllProjects = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// get project uisng project id
 const getProject = async (req, res) => {
     const { projectId } = req.params;
     try {
@@ -51,7 +52,7 @@ const getProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// delete  a project using its ID
 const deleteProject = async (req, res) => {
     try {
         const project = await Project.findByIdAndDelete(req.params.projectId);
@@ -60,7 +61,7 @@ const deleteProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// like a project: PUT
 const likeProject = async (req, res) => {
     const { projectId } = req.body;
     try {
@@ -82,7 +83,7 @@ const likeProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+//  dislike a project: DELETE
 const dislikeProject = async (req, res) => {
     const { projectId } = req.body;
     try {
@@ -103,7 +104,7 @@ const dislikeProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// get my projects list
 const getMyProjects = async (req, res) => {
     try {
         const user = await User.findById(req.user);
@@ -116,7 +117,7 @@ const getMyProjects = async (req, res) => {
     }
 }
 
-
+// add comment  to project : POST
 const addComment = async (req, res) => {
     const { projectId, content } = req.body;
     try {
@@ -131,7 +132,7 @@ const addComment = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// get my connections projects
 const getMyConnectionProjects = async (req, res) => {
     try {
         const user = await User.findById(req.user);

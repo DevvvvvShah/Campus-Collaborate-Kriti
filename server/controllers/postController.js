@@ -11,7 +11,7 @@ cloudinary.config({
     api_secret: 'jcpYq5B7_OEhB5nFK2gvgQmmqn8' 
   });
 
-
+// add a new Post : POST
 const newPost = async (req, res) => {
         const post = req.body;
         try {
@@ -33,7 +33,7 @@ const newPost = async (req, res) => {
                 res.status(409).json({ message: error.message });
         }
 }
-
+// get All Post: GET
 const getAllPost = async (req, res) => {
     try {
         const posts = await Post.find();
@@ -42,7 +42,7 @@ const getAllPost = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// get post using id: GET
 const getPost = async (req, res) => {
     const { postId } = req.params;
     try {
@@ -53,7 +53,7 @@ const getPost = async (req, res) => {
     }
 }
 
-
+// get my posts: GET
 const getMyPosts = async (req, res) => {
     try {
         const posts = await User.findOne({ _id: req.user }).populate('posts').select({ posts: 1, _id: 0 });
@@ -63,6 +63,7 @@ const getMyPosts = async (req, res) => {
     }
 }
 
+// get My connections post: GET
 const getMyConnectionPosts = async (req, res) => {
     try {
         const user = await User.findById(req.user);
@@ -76,6 +77,7 @@ const getMyConnectionPosts = async (req, res) => {
     }
 }
 
+// add to my fav post : POST
 const addMyFavPosts = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -98,7 +100,7 @@ const addMyFavPosts = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// Get my fav posts: GET
 const getMyFavPosts = async (req, res) => {
     try{
         console.log(req.user);
@@ -113,6 +115,7 @@ const getMyFavPosts = async (req, res) => {
     }    
 }
 
+// delete post using id: DELETE
 const deletePost = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -122,7 +125,7 @@ const deletePost = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// like a post : PUT
 const likePost = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -143,7 +146,7 @@ const likePost = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// dislike a post : PUT
 const dislikePost = async (req, res) => {
     const { postId } = req.body;
     try {
@@ -164,7 +167,7 @@ const dislikePost = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
-
+// add comment:  POST 
 const addComment = async (req, res) => {
     const { postId, comment } = req.body;
     try {
