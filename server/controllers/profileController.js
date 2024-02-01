@@ -1,12 +1,7 @@
 const express = require("express");
 const router = express.Router();
-<<<<<<< HEAD
-// const cloudinary = require("cloudinary");
-const User = require("../models/User");
-=======
 const cloudinary = require('cloudinary').v2;
 const User = require('../models/User');
->>>>>>> e6a212492ce49a40957f9a66f30d71178442f5c0
 
 // cloudinary.config({
 //   cloud_name: "dpobpe2ga",
@@ -37,22 +32,6 @@ const getProfile = async (req, res) => {
 };
 
 // update profile of logged in user
-<<<<<<< HEAD
-const updateUserProfile = async (req, res) => {
-  console.log(req.body);
-  await User.findByIdAndUpdate(req.user, req.body)
-    .then((user) => {
-      //   if (req.file) {
-      //     cloudinary.uploader.upload(req.file.path, async (result) => {
-      //       user.profilePic = result.secure_url;
-      //       await user.save();
-      //     });
-      //   }
-      res.status(200).json(user);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-=======
 const updateUserProfile = async (req,res) => {
     console.log("body: ",req.file);
     await User.findByIdAndUpdate(req.user,req.body)
@@ -66,7 +45,6 @@ const updateUserProfile = async (req,res) => {
         res.status(200).json(user);
     }).catch((err) => {
         res.status(400).json(err);
->>>>>>> e6a212492ce49a40957f9a66f30d71178442f5c0
     });
 };
 

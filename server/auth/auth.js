@@ -99,16 +99,12 @@ router.get("/callback", async function (req, res) {
             console.log("The token: ", token);
             user.token = token;
             console.log(user);
-<<<<<<< HEAD
 
             // Assuming you have the token in a variable named 'token'
             res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
 
             res.redirect("http://localhost:3000/profile");
             res.send(JSON.stringify(user));
-=======
-            res.redirect("http://localhost:3001/discussions");
->>>>>>> e6a212492ce49a40957f9a66f30d71178442f5c0
           }
         );
       } catch (error) {

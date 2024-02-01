@@ -1,10 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Feed = () => {
   return (
     <div>
       <div>Feed</div>
-      <div>Profile</div>
+      <Link to="/profile">
+        <div>Profile</div>
+      </Link>
     </div>
   );
 };

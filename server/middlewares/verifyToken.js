@@ -5,7 +5,7 @@ const USER = require("../auth/auth");
 const getToken = (req, res, next) => {
   // Assuming you have the cookie-parser middleware installed
   const token = req.cookies.token;
-
+  console.log('token is : ', token);
   // Include the token in the request headers
   req.headers.authorization = `Bearer ${token}`; // Prepend 'Bearer ' to the token
   console.log(req.headers.authorization);
@@ -13,7 +13,6 @@ const getToken = (req, res, next) => {
 };
 
 const verifyToken = (req, res, next) => {
-<<<<<<< HEAD
   const bearerHeader = req.headers["authorization"];
   console.log(bearerHeader);
   if (typeof bearerHeader !== "undefined") {
@@ -25,20 +24,6 @@ const verifyToken = (req, res, next) => {
     res.status(403).json("Invalid token!");
   }
 };
-=======
-    console.log('Cookie: ',req.cookies);
-    const bearerHeader = req.headers['authorization'];
-    console.log(bearerHeader);
-    if(typeof bearerHeader !== 'undefined'){
-        const bearerToken = bearerHeader.split(' ')[1];
-        req.token = bearerToken;
-        console.log(bearerToken);
-        next();
-    } else{
-        res.status(403).json('Invalid token!');
-    }
-}
->>>>>>> e6a212492ce49a40957f9a66f30d71178442f5c0
 
 const authenticateUser = async (req, res, next) => {
   try {
