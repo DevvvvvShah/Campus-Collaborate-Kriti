@@ -100,6 +100,11 @@ router.get("/callback", async function (req, res) {
             console.log("The token: ", token);
             user.token = token;
             console.log(user);
+
+            // Assuming you have the token in a variable named 'token'
+            res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
+
+            res.redirect("http://localhost:3000/profile");
             res.send(JSON.stringify(user));
           }
         );
@@ -115,6 +120,8 @@ router.get("/callback", async function (req, res) {
       debug: JSON.stringify(error, Object.getOwnPropertyNames(error)),
     });
   }
+
+  // res.redirect("http://localhost:3000");
 });
 
 router.get("/signout", async function (req, res) {

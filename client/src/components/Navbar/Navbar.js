@@ -1,85 +1,90 @@
 import React, { useState } from "react";
-import useMediaQuery from "../../hooks/useMediaQuery";
-// import Bars3Icon from "heroicons/react";
 
-function Navbar() {
-  const isAboveMediumScreens = useMediaQuery("(min-width: 600px)");
-  const [isMenuToggled, setIsMenuToggled] = useState(false);
+function Tab(props) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleLeave = () => {
+    setIsHovered(false);
+  };
+
+  let tabStyle;
+  props.select
+    ? (tabStyle = { boxShadow: "0px 7px 20px rgba(0, 0, 0, 0.2)" })
+    : (tabStyle = {});
 
   return (
-    <nav>
-      <div className="w-full h-[3rem] bg-gradient-to-r from-emerald-500 to-emerald-700 flex items-center">
-        <div className="h-[100%] flex justify-start items-center w-[25%] px-[5rem]">
-          <div className="h-[100%]">
-            <img
-              className="mix-blend-color-burn h-[100%]"
-              src="/magic-star.jpg"
-              alt="appLogo"
-            />
-          </div>
-          <div className="ml-[0.5rem]">XYZ</div>
-        </div>
-        {isAboveMediumScreens ? (
-          <div className=" flex justify-end mr-[5rem] h-[3rem] w-[100%]">
-            {/* <div className=" flex justify-around items-center w-[35%]">
-              <input
-                placeholder="Search"
-                type="text"
-                className="w-[80%] rounded-xl border-2 border-grey px-[1rem]"
-              />
-            </div> */}
-            <div className="flex justify-around items-center w-[35%]">
-              <div className="h-[100%] flex items-center">
-                <img
-                  className="mix-blend-color-burn h-[55%] hover:cursor-pointer"
-                  src="/profile-2user.jpg"
-                  alt="logo"
-                />
-              </div>
-              <div className="h-[100%]  flex items-center">
-                <img
-                  className="mix-blend-color-burn h-[55%]"
-                  src="/book.jpg"
-                  alt="logo"
-                />
-              </div>
-              <div className="h-[100%]  flex items-center">
-                <img
-                  className="mix-blend-color-burn h-[55%]"
-                  src="/note.jpg"
-                  alt="logo"
-                />
-              </div>
-              <div className="h-[100%]  flex items-center">
-                <img
-                  className="mix-blend-color-burn h-[55%]"
-                  src="/Subtract.jpg"
-                  alt="logo"
-                />
-              </div>
-              <div className="h-[100%]  flex items-center">
-                <img
-                  className="mix-blend-color-burn h-[55%]"
-                  src="/profile-2user.jpg"
-                  alt="logo"
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <button
-            className="rounded-full bg-secondary-500 p-2"
-            onClick={() => setIsMenuToggled(!isMenuToggled)}
-          >
-            <img
-              src="/Subtract.jpg"
-              alt="logo"
-              className="h-6 w-6 text-white"
-            />
-          </button>
-        )}
+    <div
+      className={`grid grid-cols-12 md:w-full py-2 px-2 md:px-0 md:py-2 md:mb-2 rounded-full md:${
+        tabStyle.boxShadow ? " border-b-2 border-[#0016DA]" : ""
+      }
+        md:rounded-none ${isHovered ? "drop-shadow-lg" : ""}`}
+      style={tabStyle}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleLeave}
+    >
+      <div className="col-span-12 md:col-span-5 flex items-center">
+        <img
+          src={"images/" + props.img + ".png"}
+          alt="Description"
+          className="mx-auto ml-auto mr-[10%] object-cover object-center w-[1.25rem] h-[1.25rem]"
+        />
       </div>
-    </nav>
+      <div className="md:col-span-7 hidden md:block">{props.name}</div>
+    </div>
+  );
+}
+
+function Navbar(props) {
+  const { isExpanded, setIsExpanded } = props;
+  const [isTop, setIsTop] = useState(true);
+
+  const handleHover = () => {
+    setIsExpanded(true);
+  };
+
+  const handleLeave = () => {
+    setIsExpanded(false);
+  };
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      setIsTop(scrollTop === 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <div
+      className={`md:h-screen md:max-w-[25rem] z-10 fixed min-w-[12.5rem] transition-all duration-700 md:top-0 md:left-0 bottom-0 left-0
+            transform bg-white border-r-[1px] drop-shadow-lg w-full ${
+              isExpanded || isTop ? "md:w-[25vw]" : "md:w-[20vw]"
+            }`}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleLeave}
+    >
+      <div className="pt-[2vh] text-center hidden md:block text-2xl font-bold">
+        PeerPulse
+      </div>
+      <div className="w-full">
+        <div className="md:pt-[10vh] px-10 md:px-0 py-[2vh] items-center align-center text-xl text-[#424242] flex md:justify-normal justify-between md:flex-col">
+          <Tab name="Home" img="home" />
+          <Tab name="Courses" img="courses" />
+          <Tab name="Projects" img="projects" />
+          <Tab name="Questions" img="questions" select={true} />
+          <Tab name="Something" img="something" />
+        </div>
+      </div>
+    </div>
   );
 }
 

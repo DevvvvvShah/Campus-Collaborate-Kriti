@@ -1,26 +1,31 @@
-require('dotenv').config();
-const session = require('express-session');
-const flash = require('connect-flash');
-const msal = require('@azure/msal-node');
-const connectDB  = require('./connectdb.js');
-const cors = require('cors');
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+require("dotenv").config();
+const session = require("express-session");
+const flash = require("connect-flash");
+const msal = require("@azure/msal-node");
+const connectDB = require("./connectdb.js");
+var cors = require("cors");
+var createError = require("http-errors");
+var express = require("express");
+var path = require("path");
+var cookieParser = require("cookie-parser");
+var logger = require("morgan");
 
-const authRouter = require('./auth/auth.js');
-const ProfileRoutes = require('./Routes/profileRoutes.js');
-const discussionRoutes = require('./Routes/discussionRoutes.js')
-const courseReviewRoutes = require('./Routes/courseReviewRoute.js');
-const commentRoutes = require('./Routes/commentRoutes.js');
-const postRoutes = require('./Routes/postRoutes.js');
-const projectRoutes = require('./Routes/projectRoutes.js');
+const authRouter = require("./auth/auth.js");
+const ProfileRoutes = require("./Routes/profileRoutes.js");
+const discussionRoutes = require("./Routes/discussionRoutes.js");
+const courseReviewRoutes = require("./Routes/courseReviewRoute.js");
+const commentRoutes = require("./Routes/commentRoutes.js");
+const postRoutes = require("./Routes/postRoutes.js");
+const projectRoutes = require("./Routes/projectRoutes.js");
 
 var app = express();
 
-app.use(cors());
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 // In-memory storage of logged-in users
 // For demo purposes only, production apps should store
@@ -32,7 +37,7 @@ const msalConfig = {
   auth: {
     clientId: process.env.OAUTH_CLIENT_ID,
     authority: process.env.OAUTH_AUTHORITY,
-    clientSecret: process.env.OAUTH_CLIENT_SECRET
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
   },
   system: {
     loggerOptions: {
@@ -41,8 +46,8 @@ const msalConfig = {
       },
       piiLoggingEnabled: false,
       logLevel: msal.LogLevel.Verbose,
-    }
-  }
+    },
+  },
 };
 
 // Create msal application object
@@ -51,27 +56,29 @@ app.locals.msalClient = new msal.ConfidentialClientApplication(msalConfig);
 // Session middleware
 // NOTE: Uses default in-memory session store, which is not
 // suitable for production
-app.use(session({
-  secret: 'your_secret_value_here',
-  resave: false,
-  saveUninitialized: false,
-  unset: 'destroy'
-}));
+app.use(
+  session({
+    secret: "your_secret_value_here",
+    resave: false,
+    saveUninitialized: false,
+    unset: "destroy",
+  })
+);
 
 // Flash middleware
 app.use(flash());
 
 // Set up local vars for template layout
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // Read any flashed errors and save
   // in the response locals
-  res.locals.error = req.flash('error_msg');
+  res.locals.error = req.flash("error_msg");
 
   // Check for simple error string and
   // convert to layout's expected format
-  var errs = req.flash('error');
-  for (var i in errs){
-    res.locals.error.push({message: 'An error occurred', debug: errs[i]});
+  var errs = req.flash("error");
+  for (var i in errs) {
+    res.locals.error.push({ message: "An error occurred", debug: errs[i] });
   }
 
   // Check for an authenticated user and load
@@ -83,25 +90,24 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'auth/public')));
+app.use(express.static(path.join(__dirname, "auth/public")));
 
-app.use('/profile', ProfileRoutes);
-app.use('/auth', authRouter);
-app.use('/discussion', discussionRoutes);
-app.use('/coursereview', courseReviewRoutes);
-app.use('/comment', commentRoutes)
-app.use('/posts', postRoutes);
-app.use('/projects',projectRoutes);
+app.use("/profile", ProfileRoutes);
+app.use("/auth", authRouter);
+app.use("/discussion", discussionRoutes);
+app.use("/coursereview", courseReviewRoutes);
+app.use("/comment", commentRoutes);
+app.use("/posts", postRoutes);
+app.use("/projects", projectRoutes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
-
 
 connectDB();
 
