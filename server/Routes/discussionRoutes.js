@@ -1,16 +1,16 @@
 const express = require('express');
-const { authenticateUser, verifyToken } = require('../middlewares/verifyToken');
+const { getToken, authenticateUser, verifyToken } = require('../middlewares/verifyToken');
 const router = express.Router();
 const { newDiscussion, getAllDiscussion, getDiscussion, deleteDiscussion, upvoteDiscussion, downvoteDiscussion, getMyDiscussions, addComment } = require('../controllers/discussionController');
 
-router.post('/',verifyToken, authenticateUser, newDiscussion);
+router.post('/',getToken, verifyToken, authenticateUser, newDiscussion);
 router.get('/', getAllDiscussion);
-router.get('/my',verifyToken, authenticateUser, getMyDiscussions);
+router.get('/my',getToken, verifyToken, authenticateUser, getMyDiscussions);
 router.get('/:discussionId', getDiscussion);
-router.delete('/:discussionId',verifyToken, authenticateUser, deleteDiscussion); // authorization done in controllers
-router.put('/upvote',verifyToken, authenticateUser, upvoteDiscussion);
-router.put('/downvote',verifyToken, authenticateUser, downvoteDiscussion);
-router.post('/comment',verifyToken, authenticateUser, addComment);
+router.delete('/:discussionId',getToken, verifyToken, authenticateUser, deleteDiscussion); // authorization done in controllers
+router.put('/upvote',getToken, verifyToken, authenticateUser, upvoteDiscussion);
+router.put('/downvote',getToken, verifyToken, authenticateUser, downvoteDiscussion);
+router.post('/comment',getToken, verifyToken, authenticateUser, addComment);
 
 
 

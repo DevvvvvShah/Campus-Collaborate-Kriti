@@ -25,9 +25,10 @@ router.get(
   upload.single("profilePic"),
   getProfile
 );
-router.get("/:userid", verifyToken, authenticateUser, getUserProfile);
+router.get("/:userid",getToken, verifyToken, authenticateUser, getUserProfile);
 router.put(
   "/",
+  getToken,
   verifyToken,
   authenticateUser,
   upload.single("avatar"),
@@ -35,6 +36,7 @@ router.put(
 );
 router.put(
   "/:userid/addConnection",
+  getToken,
   verifyToken,
   authenticateUser,
   addtoConnection
