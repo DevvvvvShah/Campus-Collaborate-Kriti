@@ -3,6 +3,7 @@ const User = require('../models/User');
 const USER = require('../auth/auth');
 
 const verifyToken = (req, res, next) => {
+    console.log('Cookie: ',req.cookies);
     const bearerHeader = req.headers['authorization'];
     console.log(bearerHeader);
     if(typeof bearerHeader !== 'undefined'){

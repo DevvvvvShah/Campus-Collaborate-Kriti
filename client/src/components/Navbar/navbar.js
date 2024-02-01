@@ -63,11 +63,11 @@ function Navbar(props) {
             <div className="pt-[2vh] text-center hidden md:block text-2xl font-bold">PeerPulse</div>
             <div className="w-full">
                 <div className="md:pt-[10vh] px-10 md:px-0 py-[2vh] items-center align-center text-xl text-[#424242] flex md:justify-normal justify-between md:flex-col">
-                    <Tab name="Home" img="home" />
-                    <Tab name="Courses" img="courses" />
-                    <Tab name="Projects" img="projects" />                
-                    <Tab name="Questions" img="questions" select={true} />
-                    <Tab name="Something" img="something" />
+                    <Tab name="Home" img="home" select={props.select.home}/>
+                    <Tab name="Courses" img="courses" select={props.select.courses}/>
+                    <Tab name="Projects" img="projects" select={props.select.projects}/>                
+                    <Tab name="Questions" img="questions" select={props.select.questions} />
+                    <Tab name="Something" img="something" select={props.select.something}/>
                 </div>
             </div>
         </div>

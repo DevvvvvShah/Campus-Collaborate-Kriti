@@ -11,7 +11,6 @@ router.get("/signin", async function (req, res) {
     scopes: process.env.OAUTH_SCOPES.split(","),
     redirectUri: process.env.OAUTH_REDIRECT_URI,
   };
-  console.log(urlParameters);
   try {
     const authUrl = await req.app.locals.msalClient.getAuthCodeUrl(
       urlParameters
@@ -35,7 +34,7 @@ router.get("/callback", async function (req, res) {
   };
 
   try {
-    console.log("here");
+    console.log(tokenRequest.code);
     const response = await req.app.locals.msalClient.acquireTokenByCode(
       tokenRequest
     );
@@ -100,7 +99,7 @@ router.get("/callback", async function (req, res) {
             console.log("The token: ", token);
             user.token = token;
             console.log(user);
-            res.send(JSON.stringify(user));
+            res.redirect("http://localhost:3001/discussions");
           }
         );
       } catch (error) {

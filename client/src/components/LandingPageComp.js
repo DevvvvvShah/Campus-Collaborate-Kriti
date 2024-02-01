@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function LandingPageComp() {
+
+  const handleSignIn = async () => {
+    console.log("clicked")
+    window.location.href = "http://localhost:3000/auth/signin";
+  }
   return (
     <div className="h-[100vh] flex- flex-col items-center justify-between">
       <div className="h-[100%] w-[1200px] flex justify-between m-auto">
@@ -15,7 +21,7 @@ function LandingPageComp() {
             ducimus.
           </p>
           <div className="button flex items-center justify-center gap-3 bg-[#4942E4] text-[white] font-medium w-[120px] p-[10px] border-none rounded-lg cursor-pointer">
-            <Link to="http://localhost:3001/auth/signin">
+            <Link onClick={handleSignIn}>
               <span>Sign In</span>
             </Link>
           </div>
