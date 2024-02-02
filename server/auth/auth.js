@@ -63,15 +63,15 @@ router.get("/callback", async function (req, res) {
     map = {
       "06": "Biosciences and Bioengineering",
       "07": "Chemical Engineering",
-      22: "Chemical Science and Technology",
+      "22": "Chemical Science and Technology",
       "04": "Civil Engineering",
       "01": "Computer Science and Engineering",
-      50: "Data Science and Artificial Intelligence",
+      "50": "Data Science and Artificial Intelligence",
       "02": "Electronics and Communication Engineering",
       "08": "Electronics and Electrical Engineering",
-      51: "Energy Engineering",
-      21: "Engineering Physics",
-      23: "Mathematics and Computing",
+      "51": "Energy Engineering",
+      "21": "Engineering Physics",
+      "23": "Mathematics and Computing",
       "03": "Mechanical Engineering",
       "05": "Design",
     };
@@ -82,7 +82,6 @@ router.get("/callback", async function (req, res) {
       console.log("User does not exist");
       const newUser = new User({
         name: user.displayName,
-        username: user.displayName.split(" ")[0],
         email: user.mail || user.userPrincipalName,
         rollNo: user.surname,
         program: user.jobTitle,

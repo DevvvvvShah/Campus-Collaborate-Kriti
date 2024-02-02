@@ -11,7 +11,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
         (async () => {
           if (currentUser) {
             setCurrentUserImage(userSmall);
-            setCurrentUserName(currentUser.username);
+            setCurrentUserName(currentUser.name);
           }
         })();
       }, [currentUser]);
@@ -32,13 +32,14 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                         <div className="contacts">
                             {
                                 contacts.map((contact, index) => {
-                                    return (
+                                    if (contact === null) return null;
+                                    return ( 
                                         <div className={`contact ${index === currentSelected ? 'selected' : ''}`} key={index} onClick={() => changeCurrentChat(index, contact)}>
                                             <div className="avatar">
                                                 <img src={userSmall} alt="" />
                                             </div>
                                             <div className="username">
-                                                <h3>{contact.username}</h3>
+                                                <h3>{contact.name}</h3>
                                             </div>
                                         </div>
                                     );

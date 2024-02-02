@@ -7,7 +7,7 @@ const ProfileName = (prop) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchProfileFromServer("65ba8f7ec307a807f2b06c42")
+    fetchProfileFromServer(localStorage.getItem("user"))
       .then((response) => setData(response))
       .catch((error) => setError(error))
       .finally(() => setLoading(false));

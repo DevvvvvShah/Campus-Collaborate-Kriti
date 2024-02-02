@@ -7,6 +7,7 @@ import Contacts from '../components/Contacts';
 import Welcome from '../components/Welcome';
 import ChatContainer from '../components/ChatContainer';
 import {io} from 'socket.io-client'
+import fetchProfileFromServer from '../fetch/profile';
 
 function Chat() {
   const socket = useRef();
@@ -15,21 +16,15 @@ function Chat() {
   const [currentChat, setCurrentChat] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [users, setUsers] = useState([]);
-  localStorage.clear();
   useEffect(() => {
     (async () => {  
+      localStorage.removeItem('chat-app-user');
       if (!localStorage.getItem('chat-app-user')) {
         try{
-        await axios.get(allUsersRoute,
-          {
-            withCredentials: true,
-          })
+       await fetchProfileFromServer(localStorage.getItem('user'))
         .then((res) => {
-          setUsers(res.data);
-          const randomUser = res.data[Math.floor(Math.random() * res.data.length)];
-          localStorage.setItem('chat-app-user', JSON.stringify(randomUser));
-          setCurrentUser(randomUser);
-          console.log(randomUser);
+          setCurrentUser(res);
+          localStorage.setItem('chat-app-user', JSON.stringify(res));
           setIsLoaded(true);
         });}catch(err){
           console.log(err);
@@ -45,28 +40,16 @@ function Chat() {
     if(currentUser){
       socket.current = io(host);
       socket.current.emit('add-user', currentUser._id);
-      console.log(currentUser._id);
     }
   })
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (currentUser) {
-  //       if (currentUser.isAvatarImageSet) {
-  //         try {
-  //           const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
-  //           setContacts(data.data);
-  //           console.log(data.data);
-  //         } catch (error) {
-  //           console.log('here')
-  //           console.error('Error fetching user data:', error);
-  //         }
-  //       } else {
-  //         // navigate('/setAvatar');
-  //       }
-  //     }
-  //   })();
-  // });
+  useEffect(() => {
+    (async () => {
+      if(currentUser){
+        setUsers(currentUser.connections)
+      }
+    })();
+  }, [currentUser]);
   
   const handleChatChange = (chat) => {
     setCurrentChat(chat); 

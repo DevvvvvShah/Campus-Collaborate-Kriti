@@ -11,7 +11,7 @@ const User = require('../models/User');
 
 // get profile of user
 const getUserProfile = async (req, res) => {
-  await User.findById(req.params.userid)
+  await User.findById(req.params.userid).populate("connections")
     .then((user) => {
       res.status(200).json(user);
     })
@@ -52,7 +52,7 @@ const getAllUserChats = async (req, res) => {
   try {
     const users = await User.find({}).select([
       "email",
-      "username",
+      "name",
       "avatarImage",
       "connections",
     ]);

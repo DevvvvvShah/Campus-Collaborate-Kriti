@@ -36,7 +36,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
           setMessages(response.data);
         }
       })();
-    }, 15000);
+    }, 1500);
 
     return () => clearInterval(interval);
   }, [currentChat, currentUser._id]);
@@ -84,7 +84,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
                         <img src={userSmall} alt=''/>
                     </div>
                     <div className="username">
-                        <h3>{currentChat.username}</h3>
+                        <h3>{currentChat.name}</h3>
                     </div>
                 </div>
             </div>
