@@ -8,7 +8,7 @@ function ProfilePageComp() {
   return (
     <div>
       <HeaderImg />
-      <ProfileName />
+      <ProfileName/>
       <ProfileHeroSection />
     </div>
 

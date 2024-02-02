@@ -51,7 +51,7 @@ router.get("/callback", async function (req, res) {
 
     // Create user if not exists
     console.log(user);
-    const userExists = await User.exists({
+    const userExists = await User.findOne({
       email: user.mail || user.userPrincipalName,
     });
     roll = user.surname;
@@ -82,6 +82,7 @@ router.get("/callback", async function (req, res) {
       console.log("User does not exist");
       const newUser = new User({
         name: user.displayName,
+        username: user.displayName.split(" ")[0],
         email: user.mail || user.userPrincipalName,
         rollNo: user.surname,
         program: user.jobTitle,
@@ -103,7 +104,7 @@ router.get("/callback", async function (req, res) {
             // Assuming you have the token in a variable named 'token'
             res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
 
-            res.redirect("http://localhost:3000/profile");
+            res.redirect("http://localhost:3000/profile"+ "?user=" + newUser._id);
             res.send(JSON.stringify(user));
           }
         );
@@ -112,6 +113,19 @@ router.get("/callback", async function (req, res) {
       }
     } else {
       console.log("User already exists");
+      jwt.sign(
+        { isowner: true, id: user.mail || user.userPrincipalName },
+        process.env.JWT_SEC,
+        (err, token) => {
+          user.token = token;
+
+          // Assuming you have the token in a variable named 'token'
+          res.cookie("token", token, { httpOnly: true});
+
+          res.redirect("http://localhost:3000/profile" + "?user=" + userExists._id);
+          res.send(JSON.stringify(user));
+        }
+      );
     }
   } catch (error) {
     req.flash("error_msg", {

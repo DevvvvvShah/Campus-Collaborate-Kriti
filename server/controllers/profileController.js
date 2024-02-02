@@ -48,6 +48,21 @@ const updateUserProfile = async (req,res) => {
     });
 };
 
+const getAllUserChats = async (req, res) => {
+  try {
+    const users = await User.find({}).select([
+      "email",
+      "username",
+      "avatarImage",
+      "connections",
+    ]);
+    console.log(users);
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 // add profile of a user to connections of logged in user
 const addtoConnection = async (req, res) => {
   const { userid } = req.params;
@@ -79,4 +94,5 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
   addtoConnection,
+  getAllUserChats
 };
