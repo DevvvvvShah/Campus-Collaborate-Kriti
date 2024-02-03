@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
-import SkillsTiles from '../profileComponents/SkillsTiles';
 import fetchProfileFromServer from '../../fetch/profile';
+import { postComment } from '../../fetch/discussions';
+import axios from 'axios';
 
 const DiscussionUnit = (props) => {
     const [hoursAgo, setHoursAgo] = React.useState(0);
-
+    const [profile, setProfile] = React.useState({});
+    const [comment, setComment] = React.useState('');
     useEffect(() => {
         const postingTime = props.discussion.postingTime;
         const currentTime = new Date();
@@ -14,6 +16,8 @@ const DiscussionUnit = (props) => {
     }, [props.discussion.postingTime]);
 
     const handleTextAreaChange = (e) => {
+        console.log(e.target.value);
+        setComment(e.target.value);
         var element = e.target;
         element.style.overflow = 'hidden';
         element.style.height = 0;
@@ -21,12 +25,23 @@ const DiscussionUnit = (props) => {
     };    
 
     const handleSubmit = () => {
-        return;
+        postComment(props.discussion._id, comment ).then((res) => {
+            console.log(res);
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+    
+    const handleBlur = () => {
+        setTimeout(() => {
+            setSubmit('')
+        }, 200);
     }
 
     useEffect(() => {
         fetchProfileFromServer(props.discussion.poster).then((res) => {
-            console.log(res);
+           setProfile(res);
+
         }).catch(error => {
             console.error(error);
         });
@@ -37,7 +52,7 @@ const DiscussionUnit = (props) => {
 
     const submitCode =  <div className=''>
                                 <button className="bg-[#0016DA] shadow ml-auto text-white text-[12px] font-bold rounded-lg px-4 py-1"
-                                        onSubmit={handleSubmit}>
+                                        onClick={handleSubmit}>
                                     Submit
                                 </button>                         
                         </div>
@@ -49,17 +64,17 @@ const DiscussionUnit = (props) => {
                     <div className='bg-[#CCC] mx-auto md:max-w-[50px] md:max-h-[50px] md:w-[3.5vw] md:h-[3.5vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px] shadow rounded-full relative'>
                     </div>
                 </div>
-                <div className='md:col-span-8 flex flex-col md:items-start md:justify-center items-center'>
+                <div className='md:col-span-8 flex flex-col md:items-start md:justify-center items-center' >
                     <div className='flex gap-2'>
                         <div className='text-[1rem] font-semibold'>
-                            ABCD
+                            {profile && profile.name}
                         </div>
                         <div className='flex items-center'>
                             <img src="images/verify.png" alt="Description" className="object-cover object-center w-[1.125rem] h-[1.125rem]" />
                         </div>
                     </div>
                     <div className='text-[0.75rem] text-[#0016DA] align-bottom'>
-                        @abcd
+                        @{profile && profile.name}
                     </div>
                 </div>
                 <div className='md:col-span-3 flex flex-col items-end align-top'>
@@ -81,7 +96,7 @@ const DiscussionUnit = (props) => {
                         <textarea
                             onChange={handleTextAreaChange}
                             onFocus={() => {setSubmit(submitCode)}}
-                            onBlur={() => {setSubmit('')}}
+                            onBlur={handleBlur}
                             rows={1}
                             type="text"
                             placeholder="Answer Here"
