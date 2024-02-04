@@ -29,14 +29,14 @@ export default function ChatInput({ handleSendMsg }) {
     <Container>
       <div className="button-container">
         <div className="emoji">
-          <BsEmojiSmileFill onClick={handleEmojiPickerhideShow} />
+          <img src='/images/smiley.svg' class="smiley" onClick={handleEmojiPickerhideShow} />
           {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
         </div>
       </div>
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
         <input
           type="text"
-          placeholder="type your message here"
+          placeholder="Type a message"
           onChange={(e) => setMsg(e.target.value)}
           value={msg}
         />
@@ -52,8 +52,9 @@ const Container = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 5% 95%;
-  background-color: #080420;
+  background-color: #FFFFFF;
   padding: 0 2rem;
+  border-top: 1px solid #00000011;
   @media screen and (min-width: 720px) and (max-width: 1080px) {
     padding: 0 1rem;
     gap: 1rem;
@@ -65,6 +66,11 @@ const Container = styled.div`
     gap: 1rem;
     .emoji {
       position: relative;
+      .smiley{
+        width: 1.5rem;
+        height: 1.5rem;
+        cursor: pointer;
+      }
       svg {
         font-size: 1.5rem;
         color: #ffff00c8;
@@ -100,19 +106,17 @@ const Container = styled.div`
   }
   .input-container {
     width: 100%;
-    border-radius: 2rem;
     display: flex;
     align-items: center;
     gap: 2rem;
-    background-color: #ffffff34;
+    background-color: #ffffff23;
     input {
       width: 90%;
       height: 60%;
       background-color: transparent;
-      color: white;
       border: none;
       padding-left: 1rem;
-      font-size: 1.2rem;
+      font-size: 1rem;
 
       &::selection {
         background-color: #9a86f3;

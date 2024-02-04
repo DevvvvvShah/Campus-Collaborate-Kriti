@@ -3,10 +3,11 @@ import { DiscussionUnit } from './DiscussionUnit';
 
 const DiscussionSection = (props) => {
     const [units,setUnits] = React.useState([]);
+    console.log('DiscussionSection Rendered');
     
     useEffect(() => {
         props.discussions.map((discussion) => {
-            setUnits((units) => [...units, <DiscussionUnit discussion={discussion}/>]);
+            setUnits((units) => [...units, <DiscussionUnit discussion={discussion} key={units.length}/>]);
         });
     }, [props.discussions]);
 

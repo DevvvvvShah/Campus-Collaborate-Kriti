@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { allUsersRoute, host } from '../utils/APIRoutes';
-import Contacts from '../components/Contacts';
-import Welcome from '../components/Welcome';
-import ChatContainer from '../components/ChatContainer';
+import Contacts from '../components/Chat/Contacts';
+import Welcome from '../components/Chat/Welcome';
+import ChatContainer from '../components/Chat/ChatContainer';
 import {io} from 'socket.io-client'
 import fetchProfileFromServer from '../fetch/profile';
+import TopbarChat from '../components/Chat/TopbarChat';
 
 function Chat() {
   const socket = useRef();
@@ -18,11 +19,14 @@ function Chat() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     (async () => {  
+      localStorage.setItem('user', '65bfc898a056196ab18121fc');
       localStorage.removeItem('chat-app-user');
       if (!localStorage.getItem('chat-app-user')) {
         try{
        await fetchProfileFromServer(localStorage.getItem('user'))
         .then((res) => {
+          console.log(localStorage.getItem('user'));
+          console.log(res);
           setCurrentUser(res);
           localStorage.setItem('chat-app-user', JSON.stringify(res));
           setIsLoaded(true);
@@ -57,9 +61,10 @@ function Chat() {
 
   return (
     <Container>
+      <TopbarChat currentUser={currentUser}/>
       <div className="container">
-        <Contacts contacts={users} currentUser={currentUser} changeChat={handleChatChange}/>{
-          isLoaded && currentChat === undefined ? <Welcome currentUser={currentUser}/> : (<ChatContainer currentChat={currentChat} currentUser={currentUser} socket={socket}/>)
+        <Contacts contacts={users} currentUser={currentUser} changeChat={handleChatChange}/>{console.log(currentChat)}{
+          isLoaded && !currentChat? <Welcome currentUser={currentUser}/> : (<ChatContainer currentChat={currentChat} currentUser={currentUser} socket={socket}/>)
         }
       </div>
     </Container>
@@ -71,13 +76,12 @@ height: 100vh;
 width: 100vw;
 display: flex;
 flex-direction: column;
-justify-content: center;
-gap: 1rem;
-align-items: center;
-background-color: #131324;
+justify-content: end;
+background-color: #F8F8F8;
 .container {
-  height: 85vh;
-  width: 85vw;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
   background-color: #00000076;
   display: grid;
   grid-template-columns: 25% 75%;

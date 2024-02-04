@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Logo from '../assets/logo.svg';
-import userSmall from '../assets/userSmall.png';
+import Logo from '../../assets/logo.svg';
 
 export default function Contacts({ contacts, currentUser, changeChat }) {
     const [currentUserName, setCurrentUserName] = useState(undefined);
     const [currentUserImage, setCurrentUserImage] = useState(undefined);
     const [currentSelected, setCurrentSelected] = useState(undefined);
+    var userSmall = '/images/user.svg'
     useEffect(() => {
         (async () => {
           if (currentUser) {
@@ -26,8 +26,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                 currentUserImage && currentUserName && (
                     <Container>
                         <div className="brand">
-                            <img src={Logo} alt="logo" />
-                            <h3>snappy</h3>
+                            <div className='title'>PeerPulse</div>
                         </div>
                         <div className="contacts">
                             {
@@ -45,14 +44,14 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                                     );
                                 })}
                         </div>
-                        <div className="current-user">
+                        {/*<div className="current-user">
                             <div className="avatar">
                                 <img src={userSmall} alt="avatar" />
                             </div>
                             <div className="username">
                                 <h2>{currentUserName}</h2>
                             </div>
-                        </div>
+                              </div>*/}
                     </Container>
                 )
             }
@@ -61,24 +60,40 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
 }
 
 const Container = styled.div`
+position: fixed;  
+top: 0;
+left: 0;
+height: 100vh;
+width: 25vw;
 display: grid;
-grid-template-rows: 10% 75% 15%;
+grid-template-rows: 10% 90%;
 overflow: hidden;
-background-color: #080420;
+background-color: #FFFFFF;
+border-right: 1px solid #00000076;
 .brand {
   display: flex;
-  align-items: center;
   gap: 1rem;
   justify-content: center;
-  img {
-    height: 2rem;
+  .title {
+    padding-top: 2vh;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: 600;
   }
-  h3 {
-    color: white;
-    text-transform: uppercase;
+}
+.connections{
+  display: flex;
+  justify-content: start;
+  margin-top:auto;
+  margin-bottom: auto;
+  .mycon{
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-left: 5%;
   }
 }
 .contacts {
+  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,7 +108,7 @@ background-color: #080420;
     }
   }
   .contact {
-    background-color: #ffffff34;
+    background-color: #FFFFFF;
     min-height: 5rem;
     cursor: pointer;
     width: 90%;
@@ -103,6 +118,7 @@ background-color: #080420;
     gap: 1rem;
     align-items: center;
     transition: 0.5s ease-in-out;
+    box-shadow: 0 3px 10px #00000055;
     .avatar {
       img {
         height: 3rem;
@@ -110,12 +126,12 @@ background-color: #080420;
     }
     .username {
       h3 {
-        color: white;
+        color: black;
       }
     }
   }
   .selected {
-    background-color: #9a86f3;
+    box-shadow: 0 4px 10px #0016DA77;
   }
 }
 

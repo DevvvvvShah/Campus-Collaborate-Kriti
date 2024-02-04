@@ -14,8 +14,18 @@ const postComment = (discussionId, content) => {
   });
 };
 
+const putUpvote = (discussionId) => {
+  return axios.put('http://localhost:3001/discussion/upvote', {
+    discussionId,
+  },
+  {
+    withCredentials: true,
+  });
+};
+
 
 export {
   getDiscussions,
   postComment,
+  putUpvote,
 };

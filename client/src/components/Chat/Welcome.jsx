@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Robot from '../assets/robot.gif';
+import Robot from '../../assets/robot.gif';
 
 export default function Welcome({currentUser}) {
   return (
@@ -17,10 +17,13 @@ export default function Welcome({currentUser}) {
 }
 
 const Container = styled.div`
+margin-left: 25vw;
+width: 75vw;
 display: flex;
+background-color: #f8f8f8;
 justify-content: center;
 align-items: center;
-color: white;
+color: black;
 flex-direction: column;
 img {
   height: 20rem;
