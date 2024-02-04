@@ -6,7 +6,7 @@ const API_KEY = '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';
 
 const systemMessage = {
   role: 'system',
-  content: 'Explain like you are an expert in the field and you have to clear all the doubts of the user' //Speak like a pirate  
+  content: 'Explain like you are an expert in the field and you have to clear all the doubts of the user' //Speak like a pirate  
 }
 
 function App() {
@@ -52,7 +52,7 @@ function App() {
     //'system' -> generally one initial msg defining HOW we want chatGPT to talk
 
     const apiRequestBody = {
-      'model' : 'gpt-3.5-turbo',
+      'model' : 'gpt-4.0',
       'messages' : [
         systemMessage, 
         ...apiMessages //[msg1, msg2, msg3]
@@ -88,7 +88,7 @@ function App() {
           <ChatContainer>
             <MessageList
               scrollBehavior='smooth'
-              typingIndicator={typing ? <TypingIndicator content = 'ChatGPT is typing' /> : null}
+              typingIndicator={typing ? <TypingIndicator content = 'PeerBot is typing' /> : null}
             >
               {messages.map((message, i) => {
                 return <Message key={i} model={message} />

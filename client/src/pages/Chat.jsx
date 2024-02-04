@@ -19,7 +19,6 @@ function Chat() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     (async () => {  
-      localStorage.setItem('user', '65bfc898a056196ab18121fc');
       localStorage.removeItem('chat-app-user');
       if (!localStorage.getItem('chat-app-user')) {
         try{
