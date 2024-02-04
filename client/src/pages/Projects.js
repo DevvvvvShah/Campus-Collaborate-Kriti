@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Navbar from '../components/Navbar/Navbar';
-import Topbar from '../components/Navbar/topbar';
+import Topbar from '../components/Navbar/Topbar';
 import Project from '../components/Projects.js/MainProject';    
 import { getProjects } from '../fetch/projects';
 
@@ -28,7 +28,7 @@ function Projects() {
                         src='images/add.svg'
                         alt='add'
                         className={`w-[50%] h-[50%] md:w-fit md:h-[65%] object-contain`}/>
-                        <div className='text-[#0016DA] text-[0.875rem] font-semibold'>Add a Project</div>
+                    <div className='text-[#0016DA] text-[0.875rem] font-semibold'>Add a Project</div>
             </div>     
         </div>            
     );

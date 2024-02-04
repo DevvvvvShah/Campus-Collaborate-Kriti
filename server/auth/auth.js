@@ -82,6 +82,7 @@ router.get("/callback", async function (req, res) {
       console.log("User does not exist");
       const newUser = new User({
         name: user.displayName,
+        username: user.displayName,
         email: user.mail || user.userPrincipalName,
         rollNo: user.surname,
         program: user.jobTitle,

@@ -4,19 +4,34 @@ import { postComment } from '../../fetch/discussions';
 import axios from 'axios';
 
 const DiscussionUnit = (props) => {
-    const [hoursAgo, setHoursAgo] = React.useState(0);
+    const [hoursAgo, setHoursAgo] = React.useState('');
     const [profile, setProfile] = React.useState({});
     const [comment, setComment] = React.useState('');
+    const [submit,setSubmit] = React.useState(false);
     useEffect(() => {
         const postingTime = props.discussion.postingTime;
         const currentTime = new Date();
         const timeDifference = currentTime - new Date(postingTime);
-        const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
-        setHoursAgo(hoursAgo);
+
+        let timeAgo = '';
+        if (timeDifference < 60000) { // Less than 1 minute
+            const secondsAgo = Math.floor(timeDifference / 1000);
+            timeAgo = `${secondsAgo} seconds ago`;
+        } else if (timeDifference < 3600000) { // Less than 1 hour
+            const minutesAgo = Math.floor(timeDifference / 60000);
+            timeAgo = `${minutesAgo} minutes ago`;
+        } else if (timeDifference < 86400000) { // Less than 1 day
+            const hoursAgo = Math.floor(timeDifference / 3600000);
+            timeAgo = `${hoursAgo} hours ago`;
+        } else { // More than 1 day
+            const daysAgo = Math.floor(timeDifference / 86400000);
+            timeAgo = `${daysAgo} days ago`;
+        }
+
+        setHoursAgo(timeAgo);
     }, [props.discussion.postingTime]);
 
     const handleTextAreaChange = (e) => {
-        console.log(e.target.value);
         setComment(e.target.value);
         var element = e.target;
         element.style.overflow = 'hidden';
@@ -25,16 +40,17 @@ const DiscussionUnit = (props) => {
     };    
 
     const handleSubmit = () => {
-        postComment(props.discussion._id, comment ).then((res) => {
+        postComment(props.discussion._id, comment).then((res) => {
             console.log(res);
         }).catch(error => {
             console.error(error);
         });
+        console.log(comment)
     }
     
     const handleBlur = () => {
         setTimeout(() => {
-            setSubmit('')
+            setSubmit(false)
         }, 200);
     }
 
@@ -47,15 +63,6 @@ const DiscussionUnit = (props) => {
         });
 
     }, []);
-    
-    const [submit,setSubmit] = React.useState('')
-
-    const submitCode =  <div className=''>
-                                <button className="bg-[#0016DA] shadow ml-auto text-white text-[12px] font-bold rounded-lg px-4 py-1"
-                                        onClick={handleSubmit}>
-                                    Submit
-                                </button>                         
-                        </div>
 
     return (
         <div className='w-full text-black p-5 rounded-lg bg-white mb-2 drop-shadow-lg max-w-[50rem] mx-auto'>
@@ -79,7 +86,7 @@ const DiscussionUnit = (props) => {
                 </div>
                 <div className='md:col-span-3 flex flex-col items-end align-top'>
                     <div className='text-[0.875rem] text-[#0016DA]'>
-                        {hoursAgo} hr ago
+                        {hoursAgo}
                     </div>
                 </div>
                 <div className='md:col-span-1'></div>
@@ -95,7 +102,7 @@ const DiscussionUnit = (props) => {
                     <div className='flex flex-col gap-1 items-end text-black ml-[-0.5rem] mt-[1rem]'>
                         <textarea
                             onChange={handleTextAreaChange}
-                            onFocus={() => {setSubmit(submitCode)}}
+                            onFocus={() => {setSubmit(true)}}
                             onBlur={handleBlur}
                             rows={1}
                             type="text"
@@ -104,7 +111,12 @@ const DiscussionUnit = (props) => {
                             placeholder:font-semibold p-3 rounded-2xl w-[100%] focus:border-[#0016DA] focus:outline-none 
                             focus:border resize-none"
                         />     
-                        {submit}
+                        <div className={`${submit ? 'block' : 'hidden'}`}>
+                                <button className="bg-[#0016DA] shadow ml-auto text-white text-[12px] font-bold rounded-lg px-4 py-1"
+                                        onClick={handleSubmit}>
+                                    Submit
+                                </button>                         
+                        </div>
                     </div>
                 </div>
                 <div className='md:col-span-3'>

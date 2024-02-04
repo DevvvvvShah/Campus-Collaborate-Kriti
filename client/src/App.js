@@ -8,7 +8,7 @@ import Feed from "./pages/Feed";
 import Chat from "./pages/Chat";
 import DiscussionForum from "./pages/DiscussionForum";
 import Projects from "./pages/Projects";
-// import DiscussionForum from "./pages/DiscussionForum";
+import ProjectView from "./pages/ProjectView";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
         <Route path="/chat" element={<Chat/>} />
         <Route path="/discussion" element={<DiscussionForum/>} />
         <Route path="/projects" element={<Projects/>} />
+        <Route path="/projectview" element={<ProjectView/>} />
       </Routes>
     </BrowserRouter>
   );

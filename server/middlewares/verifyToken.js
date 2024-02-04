@@ -39,7 +39,7 @@ const authenticateUser = async (req, res, next) => {
       if (user === null) {
         res.status(403).json("No such user exists!");
       }
-      console.log(user);
+      //console.log(user);
       req.user = user._id.toHexString();
       next();
     }
