@@ -9,6 +9,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const socket = require('socket.io');
 
 const authRouter = require("./auth/auth.js");
 const ProfileRoutes = require("./Routes/profileRoutes.js");
@@ -17,6 +18,7 @@ const courseReviewRoutes = require("./Routes/courseReviewRoute.js");
 const commentRoutes = require("./Routes/commentRoutes.js");
 const postRoutes = require("./Routes/postRoutes.js");
 const projectRoutes = require("./Routes/projectRoutes.js");
+const messagesRoutes = require("./Routes/messagesRoute.js");
 
 var app = express();
 
@@ -90,6 +92,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -103,6 +106,7 @@ app.use("/coursereview", courseReviewRoutes);
 app.use("/comment", commentRoutes);
 app.use("/posts", postRoutes);
 app.use("/projects", projectRoutes);
+app.use("/messages", messagesRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -111,8 +115,34 @@ app.use(function (req, res, next) {
 
 connectDB();
 
-app.listen(process.env.PORT || 8080, () => {
+const server = app.listen(process.env.PORT || 8080, () => {
   console.log(`Listening on port ${process.env.PORT || 8080}`);
 });
+
+const io = socket(server, {
+  cors: {
+      origin: 'http://localhost:3000',
+      credentials: true
+  },
+});
+
+global.onlineUsers = new Map();
+
+io.on('connection', (socket) => {
+  global.chatSocket = socket;
+  socket.on('add-user', (userId) => {
+      onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on('send-msg', (data) => {
+      const sendUserSocket = onlineUsers.get(data.to);
+      if(sendUserSocket){
+          socket.to(sendUserSocket).emit('msg-receive', data.msg);
+      }
+  })
+})
+
+
+
 
 module.exports = app;

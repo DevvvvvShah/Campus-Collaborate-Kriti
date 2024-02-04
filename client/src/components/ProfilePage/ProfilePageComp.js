@@ -5,6 +5,8 @@ import ProfileCard from "./ProfileCard";
 import ProfileHeroSection from "./ProfileHeroSection";
 
 function ProfilePageComp() {
+
+
   return (
     <div>
       <HeaderImg />

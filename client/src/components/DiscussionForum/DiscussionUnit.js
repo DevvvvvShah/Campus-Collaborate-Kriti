@@ -1,19 +1,38 @@
 import React, { useEffect } from 'react'
-import SkillsTiles from '../profileComponents/SkillsTiles';
 import fetchProfileFromServer from '../../fetch/profile';
+import { postComment } from '../../fetch/discussions';
+import axios from 'axios';
 
 const DiscussionUnit = (props) => {
-    const [hoursAgo, setHoursAgo] = React.useState(0);
-
+    const [hoursAgo, setHoursAgo] = React.useState('');
+    const [profile, setProfile] = React.useState({});
+    const [comment, setComment] = React.useState('');
+    const [submit,setSubmit] = React.useState(false);
     useEffect(() => {
         const postingTime = props.discussion.postingTime;
         const currentTime = new Date();
         const timeDifference = currentTime - new Date(postingTime);
-        const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
-        setHoursAgo(hoursAgo);
+
+        let timeAgo = '';
+        if (timeDifference < 60000) { // Less than 1 minute
+            const secondsAgo = Math.floor(timeDifference / 1000);
+            timeAgo = `${secondsAgo} seconds ago`;
+        } else if (timeDifference < 3600000) { // Less than 1 hour
+            const minutesAgo = Math.floor(timeDifference / 60000);
+            timeAgo = `${minutesAgo} minutes ago`;
+        } else if (timeDifference < 86400000) { // Less than 1 day
+            const hoursAgo = Math.floor(timeDifference / 3600000);
+            timeAgo = `${hoursAgo} hours ago`;
+        } else { // More than 1 day
+            const daysAgo = Math.floor(timeDifference / 86400000);
+            timeAgo = `${daysAgo} days ago`;
+        }
+
+        setHoursAgo(timeAgo);
     }, [props.discussion.postingTime]);
 
     const handleTextAreaChange = (e) => {
+        setComment(e.target.value);
         var element = e.target;
         element.style.overflow = 'hidden';
         element.style.height = 0;
@@ -21,26 +40,29 @@ const DiscussionUnit = (props) => {
     };    
 
     const handleSubmit = () => {
-        return;
+        postComment(props.discussion._id, comment).then((res) => {
+            console.log(res);
+        }).catch(error => {
+            console.error(error);
+        });
+        console.log(comment)
+    }
+    
+    const handleBlur = () => {
+        setTimeout(() => {
+            setSubmit(false)
+        }, 200);
     }
 
     useEffect(() => {
         fetchProfileFromServer(props.discussion.poster).then((res) => {
-            console.log(res);
+           setProfile(res);
+
         }).catch(error => {
             console.error(error);
         });
 
     }, []);
-    
-    const [submit,setSubmit] = React.useState('')
-
-    const submitCode =  <div className=''>
-                                <button className="bg-[#0016DA] shadow ml-auto text-white text-[12px] font-bold rounded-lg px-4 py-1"
-                                        onSubmit={handleSubmit}>
-                                    Submit
-                                </button>                         
-                        </div>
 
     return (
         <div className='w-full text-black p-5 rounded-lg bg-white mb-2 drop-shadow-lg max-w-[50rem] mx-auto'>
@@ -49,22 +71,22 @@ const DiscussionUnit = (props) => {
                     <div className='bg-[#CCC] mx-auto md:max-w-[50px] md:max-h-[50px] md:w-[3.5vw] md:h-[3.5vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px] shadow rounded-full relative'>
                     </div>
                 </div>
-                <div className='md:col-span-8 flex flex-col md:items-start md:justify-center items-center'>
+                <div className='md:col-span-8 flex flex-col md:items-start md:justify-center items-center' >
                     <div className='flex gap-2'>
                         <div className='text-[1rem] font-semibold'>
-                            ABCD
+                            {profile && profile.name}
                         </div>
                         <div className='flex items-center'>
                             <img src="images/verify.png" alt="Description" className="object-cover object-center w-[1.125rem] h-[1.125rem]" />
                         </div>
                     </div>
                     <div className='text-[0.75rem] text-[#0016DA] align-bottom'>
-                        @abcd
+                        @{profile && profile.name}
                     </div>
                 </div>
                 <div className='md:col-span-3 flex flex-col items-end align-top'>
                     <div className='text-[0.875rem] text-[#0016DA]'>
-                        {hoursAgo} hr ago
+                        {hoursAgo}
                     </div>
                 </div>
                 <div className='md:col-span-1'></div>
@@ -80,8 +102,8 @@ const DiscussionUnit = (props) => {
                     <div className='flex flex-col gap-1 items-end text-black ml-[-0.5rem] mt-[1rem]'>
                         <textarea
                             onChange={handleTextAreaChange}
-                            onFocus={() => {setSubmit(submitCode)}}
-                            onBlur={() => {setSubmit('')}}
+                            onFocus={() => {setSubmit(true)}}
+                            onBlur={handleBlur}
                             rows={1}
                             type="text"
                             placeholder="Answer Here"
@@ -89,7 +111,12 @@ const DiscussionUnit = (props) => {
                             placeholder:font-semibold p-3 rounded-2xl w-[100%] focus:border-[#0016DA] focus:outline-none 
                             focus:border resize-none"
                         />     
-                        {submit}
+                        <div className={`${submit ? 'block' : 'hidden'}`}>
+                                <button className="bg-[#0016DA] shadow ml-auto text-white text-[12px] font-bold rounded-lg px-4 py-1"
+                                        onClick={handleSubmit}>
+                                    Submit
+                                </button>                         
+                        </div>
                     </div>
                 </div>
                 <div className='md:col-span-3'>

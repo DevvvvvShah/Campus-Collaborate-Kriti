@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import fetchProfileFromServer from "../../fetch/profile";
 const ProfileName = (prop) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/profile", { withCredentials: true })
-      .then((response) => setData(response.data))
+    fetchProfileFromServer(localStorage.getItem("user"))
+      .then((response) => setData(response))
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
   }, []);

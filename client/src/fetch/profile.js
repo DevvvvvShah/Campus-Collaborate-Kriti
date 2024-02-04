@@ -1,8 +1,11 @@
 import axios from 'axios';
 
 const fetchProfileFromServer = async (profileId) => {
+    axios.defaults.headers.common['authorization'] = `Bearer ${localStorage.getItem('token')}`;
     try {
-        const response = await axios.get(`http://localhost:3000/profile/${profileId}`);
+        console.log('fetching profile');
+        const response = await axios.get(`http://localhost:3001/profile/${profileId}`,
+            { withCredentials: true });
         return response.data;
     } catch (error) {
         console.error('Error fetching profile:', error);

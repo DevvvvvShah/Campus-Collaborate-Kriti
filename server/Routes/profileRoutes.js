@@ -15,6 +15,7 @@ const {
   getUserProfile,
   updateUserProfile,
   addtoConnection,
+  getAllUserChats,
 } = require("../controllers/profileController");
 
 router.get(
@@ -24,7 +25,14 @@ router.get(
   authenticateUser,
   upload.single("profilePic"),
   getProfile
-);
+  );
+  router.get(
+    "/allChats",
+    getToken,
+    verifyToken,
+    authenticateUser,
+    getAllUserChats
+  );
 router.get("/:userid",getToken, verifyToken, authenticateUser, getUserProfile);
 router.put(
   "/",
@@ -36,10 +44,11 @@ router.put(
 );
 router.put(
   "/:userid/addConnection",
-  getToken,
-  verifyToken,
-  authenticateUser,
+  // getToken,
+  // verifyToken,
+  // authenticateUser,
   addtoConnection
 );
+
 
 module.exports = router;

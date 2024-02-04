@@ -127,6 +127,7 @@ const getMyDiscussions = async (req,res) => {
 // add a comment to a discussion : POST
 const addComment = async (req,res) => {
     const { discussionId, content } = req.body;
+    console.log("discussionId", discussionId, "content", content, "userId", req.user);
     try{
         const newComment = await new Comment({content, userId: req.user}).save();
         const commentId = newComment._id;

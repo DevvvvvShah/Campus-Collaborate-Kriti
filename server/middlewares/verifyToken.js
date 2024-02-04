@@ -5,6 +5,7 @@ const USER = require("../auth/auth");
 const getToken = (req, res, next) => {
   // Assuming you have the cookie-parser middleware installed
   const token = req.cookies.token;
+  console.log(req.cookies);
   console.log('token is : ', token);
   // Include the token in the request headers
   req.headers.authorization = `Bearer ${token}`; // Prepend 'Bearer ' to the token
@@ -38,7 +39,7 @@ const authenticateUser = async (req, res, next) => {
       if (user === null) {
         res.status(403).json("No such user exists!");
       }
-      console.log(user);
+      //console.log(user);
       req.user = user._id.toHexString();
       next();
     }

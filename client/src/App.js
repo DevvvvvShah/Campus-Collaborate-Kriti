@@ -4,7 +4,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import ProfilePage from "./pages/ProfilePage";
 import Feed from "./pages/Feed";
-// import DiscussionForum from "./pages/DiscussionForum";
+import Chat from "./pages/Chat";
+import DiscussionForum from "./pages/DiscussionForum";
+import Projects from "./pages/Projects";
+import ProjectView from "./pages/ProjectView";
 
 function App() {
   return (
@@ -13,6 +16,10 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/chat" element={<Chat/>} />
+        <Route path="/discussion" element={<DiscussionForum/>} />
+        <Route path="/projects" element={<Projects/>} />
+        <Route path="/projectview" element={<ProjectView/>} />
       </Routes>
     </BrowserRouter>
   );

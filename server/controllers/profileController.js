@@ -11,7 +11,7 @@ const User = require('../models/User');
 
 // get profile of user
 const getUserProfile = async (req, res) => {
-  await User.findById(req.params.userid)
+  await User.findById(req.params.userid).populate("connections")
     .then((user) => {
       res.status(200).json(user);
     })
@@ -48,6 +48,21 @@ const updateUserProfile = async (req,res) => {
     });
 };
 
+const getAllUserChats = async (req, res) => {
+  try {
+    const users = await User.find({}).select([
+      "email",
+      "name",
+      "avatarImage",
+      "connections",
+    ]);
+    console.log(users);
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 // add profile of a user to connections of logged in user
 const addtoConnection = async (req, res) => {
   const { userid } = req.params;
@@ -79,4 +94,5 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
   addtoConnection,
+  getAllUserChats
 };
