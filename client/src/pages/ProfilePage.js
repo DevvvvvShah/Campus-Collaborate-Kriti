@@ -21,20 +21,13 @@ function ProfilePage() {
         .then((response) => setUser(response))
         .catch((error) => console.error(error));
     }
+
     console.log("user,", localStorage.getItem("user"));
+    
   }, [user, searchParams]);
 
   return (
     <div className="h-[100vh]">
-      {/* <Navbar />
-      <ProfileHeaderImg />
-      <div className="flex justify-around">
-        <ProfileCard />
-        <ProfileProjectsSection />
-      </div> */}
-      {/* <LandingPageComp /> */}
-
-      {/* <span>ProfilePage</span> */}
       <ProfilePageComp user={user} />
     </div>
   );
