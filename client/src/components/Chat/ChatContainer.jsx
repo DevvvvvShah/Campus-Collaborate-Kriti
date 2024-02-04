@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import ChatInput from './ChatInput';
 import axios from 'axios';
-import { getAllMessageRoute, sendMessageRoute } from '../utils/APIRoutes';
+import { getAllMessageRoute, sendMessageRoute } from '../../utils/APIRoutes';
 import { v4 as uuidv4 } from 'uuid';
-import userSmall from '../assets/userSmall.png'
 
 export default function ChatContainer({ currentChat, currentUser, socket }) {
   const [messages, setMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const scrollRef = useRef();
+  
+  var userSmall = '/images/user.svg';
 
-  console.log(currentChat);
   useEffect(() => {
     (async () => {
       if (currentChat) {
@@ -110,10 +110,13 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 }
 
 const Container = styled.div`
+margin-left: 25vw;
+width: 75vw;
 display: grid;
 grid-template-rows: 10% 80% 10%;
 gap: 0.1rem;
 overflow: hidden;
+background-color: #F8F8F8;
 @media screen and (min-width: 720px) and (max-width: 1080px) {
 grid-template-rows: 15% 70% 15%;
 }
@@ -122,6 +125,8 @@ grid-template-rows: 15% 70% 15%;
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
+    background-color: #FFFFFFFF;
+    box-shadow: 0 0 0.5rem #00000076;
     .user-details {
       display: flex;
       align-items: center;
@@ -133,7 +138,8 @@ grid-template-rows: 15% 70% 15%;
       }
       .username {
         h3 {
-          color: white;
+          font-weight: 600;
+          color: #000000;
         }
       }
     }
@@ -158,7 +164,10 @@ grid-template-rows: 15% 70% 15%;
       .content {
         max-width: 40%;
         overflow-wrap: break-word;
-        padding: 1rem;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
         font-size: 1.1rem;
         border-radius: 1rem;
         color: #d1d1d1;
@@ -170,13 +179,14 @@ grid-template-rows: 15% 70% 15%;
     .sended {
       justify-content: flex-end;
       .content {
-        background-color: #4f04ff21;
+        background-color: #0016DA;
+        color: white;
       }
     }
     .recieved {
       justify-content: flex-start;
       .content {
-        background-color: #9900ff20;
+        background-color: white;
       }
     }
   }

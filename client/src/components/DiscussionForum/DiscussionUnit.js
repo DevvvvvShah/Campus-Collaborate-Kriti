@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react'
 import fetchProfileFromServer from '../../fetch/profile';
-import { postComment } from '../../fetch/discussions';
-import axios from 'axios';
+import { postComment, putUpvote } from '../../fetch/discussions';
 
 const DiscussionUnit = (props) => {
     const [hoursAgo, setHoursAgo] = React.useState('');
     const [profile, setProfile] = React.useState({});
     const [comment, setComment] = React.useState('');
     const [submit,setSubmit] = React.useState(false);
+    const [comments,setComments] = React.useState(props.discussion.comments.length);
+    const [upvotes,setUpvotes] = React.useState(props.discussion.upvotes.length);
+    const [upvoted,setUpvoted] = React.useState(false);
+
     useEffect(() => {
         const postingTime = props.discussion.postingTime;
         const currentTime = new Date();
@@ -31,6 +34,32 @@ const DiscussionUnit = (props) => {
         setHoursAgo(timeAgo);
     }, [props.discussion.postingTime]);
 
+    useEffect(() => {
+        fetchProfileFromServer(localStorage.getItem('user')).then((res) => {
+            console.log(res);
+            if (props.discussion.upvotes.includes(res._id)) {
+                console.log('upvoted');
+                setUpvoted(true);
+            }
+            else{
+                console.log('not upvoted');
+                setUpvoted(false);
+            }
+        }).catch(error => {
+            console.error(error);
+        });
+    }, []);
+
+    const handleUpvote = () => {
+        putUpvote(props.discussion._id).then((res) => {
+            console.log(res);
+            setUpvotes(res.data.upvotes.length);
+            setUpvoted(!upvoted);
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
     const handleTextAreaChange = (e) => {
         setComment(e.target.value);
         var element = e.target;
@@ -42,6 +71,7 @@ const DiscussionUnit = (props) => {
     const handleSubmit = () => {
         postComment(props.discussion._id, comment).then((res) => {
             console.log(res);
+            setComments((comments) => comments + 1);
         }).catch(error => {
             console.error(error);
         });
@@ -57,7 +87,7 @@ const DiscussionUnit = (props) => {
     useEffect(() => {
         fetchProfileFromServer(props.discussion.poster).then((res) => {
            setProfile(res);
-
+            console.log(res);
         }).catch(error => {
             console.error(error);
         });
@@ -126,9 +156,22 @@ const DiscussionUnit = (props) => {
                 <div className='md:col-span-8'>
                 </div>      
                 <div className='md:col-span-3 flex justify-end'>
-                    <div className='flex w-fit h-fit gap-1 justify-end text-black align-center items-center py-0.5 px-2 rounded-full border-[1px] border-white'>
-                        <img src="images/upvote.svg" alt="Description" className="object-cover object-center w-[0.875rem] h-[0.875rem]" />
-                        <div className='text-[0.875rem]'>{props.discussion.upvotes.length}</div>
+                    <div className='flex w-fit h-fit gap-4 justify-end text-black align-center items-center py-0.5 px-2 rounded-full border-[1px] border-white'>
+                        <div className='flex gap-1 align-center items-center'>
+                            <img src={"images/comment.svg"} 
+                                alt="Description" 
+                                className="object-cover object-center w-[0.98rem] h-[0.98rem]" 
+                            />
+                            <div className='text-[0.875rem]'>{comments}</div>
+                        </div>
+                        <div className='flex gap-1 align-center items-center'>
+                            <img src={`images/${upvoted ? 'upvote' : 'emptyUpvote'}.svg`} 
+                                alt="Description" 
+                                className="object-cover object-center w-[0.875rem] h-[0.875rem]" 
+                                onClick={handleUpvote}
+                            />
+                            <div className='text-[0.875rem]'>{upvotes}</div>
+                        </div>
                     </div>                    
                 </div>
             </div>
