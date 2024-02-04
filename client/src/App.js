@@ -1,5 +1,4 @@
 import "./App.css";
-import "cors";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import EditProfileCard from "./pages/editProfileCard";
 import LandingPage from "./pages/LandingPage";

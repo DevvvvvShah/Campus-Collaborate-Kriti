@@ -43,20 +43,6 @@ const InputField = (props) => {
     setValue(event.target.value);
   };
 
-<<<<<<< HEAD
-    return (
-        <div className='py-2 relative mr-2 sm:mr-[20px] ml-2 sm:ml-[10px]'>
-            <label className="bg-white bg-opacity-100 text-[10px] font-bold mb-2 absolute top-[0.5px] left-[15px] px-1" htmlFor="inputField">
-                {label}
-            </label>
-            <input
-            type="text"
-            id="inputField"
-            className='w-full h-[35px] text-[12px] appearance-none border-[#46D97E] border-[1.5px] rounded-lg py- pl-3 pr-[20px] text-gray-700 leading-tight focus:outline-none focus:border-[#00FF00]'
-            value={value}
-            onChange={handleChange}
-        />
-=======
   return (
     <div className="py-2 relative mr-[20px] ml-[10px]">
       <label
@@ -89,7 +75,6 @@ const DivField = (props) => {
       </label>
       <div className="w-full text-[12px] h-[35px] appearance-none border border-[#46D97E] border-[1.5px] rounded-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-[#00FF00]">
         {data}
->>>>>>> e6a212492ce49a40957f9a66f30d71178442f5c0
       </div>
     </div>
   );
@@ -152,48 +137,6 @@ const MultiCreate = (props) => {
       label: label,
       value: value,
     };
-<<<<<<< HEAD
-  
-    return (
-        <div className='py-2 relative mr-2 sm:mr-[20px] ml-2 sm:ml-[10px]'>
-            <label className="z-10 bg-white bg-opacity-100 text-[10px] font-bold mb-2 absolute top-[0.5px] left-[15px] px-1" htmlFor="inputField">
-                {label}
-            </label>   
-            <CreatableSelect
-                styles={reactSelectStyle}                   
-                components={components}
-                inputValue={inputValue}
-                isClearable = {false}
-                isMulti
-                menuIsOpen={false}
-                onChange={(newValue) => setValue(newValue)}
-                onInputChange={(newValue) => setInputValue(newValue)}
-                onKeyDown={handleKeyDown}
-                placeholder=""
-                value={value}
-            />                   
-        </div>        
-    ) 
-}
-
-const MultiSelect = (props) => {
-    const {label,value,setValue} = props;   
-    
-    return(
-        <div className='py-2 relative mr-2 sm:mr-[20px] ml-2 sm:ml-[10px]'>
-            <label className="z-[1] bg-white bg-opacity-100 text-[10px] font-bold mb-2 absolute top-[0.5px] left-[15px] px-1" htmlFor="inputField">
-                {label}
-            </label>   
-            <Select
-                styles={reactSelectStyle}   
-                options={value.map((element)=>({label:element,value:element}))}                
-                onChange={(newValue) => setValue((prev) => [...prev,newValue])}
-                isMulti
-                placeholder=""
-            />                  
-        </div>        
-    );
-=======
   };
 
   const handleKeyDown = (event) => {
@@ -236,7 +179,6 @@ const MultiSelect = (props) => {
 
 const MultiSelect = (props) => {
   const { label, value, setValue } = props;
->>>>>>> e6a212492ce49a40957f9a66f30d71178442f5c0
 
   return (
     <div className="py-2 relative mr-[20px] ml-[10px]">

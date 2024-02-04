@@ -1,34 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import Card from "../Projects/Card";
+import Connection from "./Connection";
 
 const ProfileHeroSection = () => {
-  return (
-    <div className="flex bg-[#dad8d884] gap-10 min-h-[22.8rem] m-auto border-2  mt-[4rem] pl-[8rem]">
-      <div className="flex flex-col items-center  pt-[1.5rem] w-[20rem]">
-        <div className="flex flex-col">
-          <span className="text-[grey]">984646535</span>
-          <span className="text-[grey]">679864648</span>
-        </div>
-        <div className="flex flex-col mt-[1.2rem]">
-          <span className="text-sm">xyz@gmail.com</span>
-          {/* <span>xyz@gmail.com</span> */}
-        </div>
+  const [card, setCard] = useState("projects");
+  const [isActive1, setIsActive1] = useState(true);
+  const [isActive2, setIsActive2] = useState(false);
 
-        <div className="mt-[5rem] button flex items-center justify-center bg-[#4942E4] text-[white] font-medium w-[240px] p-[10px] border-none rounded-full cursor-pointer">
-          <span>Edit Profile</span>
-        </div>
-      </div>
+  const onCLickButton1 = () => {
+    setIsActive1(true);
+    setCard("projects");
+    setIsActive2(false);
+  };
+  const onCLickButton2 = () => {
+    setIsActive2(!isActive2);
+    setCard("connections");
+    setIsActive1(false);
+  };
+
+  return (
+    <div className="flex flex-col gap-10 pl-[35rem]">
       <div className=" pt-[1.5rem]">
         <div className="flex gap-10">
-          <div className=" buttons cursor-pointer">
-            <span>Projects</span>
-          </div>
-          <div className="  buttons cursor-pointer">
-            <span>Courses</span>
-          </div>
-          <div className=" buttons cursor-pointer">
-            <span>Connections</span>
-          </div>
+          <button
+            onClick={onCLickButton1}
+            type="button"
+            className={`text-black hover:bg-blue-700 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
+              isActive1 ? "outline-none text-white bg-blue-700" : ""
+            }`}
+          >
+            Projects
+          </button>
+
+          <button
+            onClick={onCLickButton2}
+            type="button"
+            className={`text-black hover:bg-blue-700 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
+              isActive2 ? "outline-none text-white bg-blue-700" : ""
+            }`}
+          >
+            Connection
+          </button>
         </div>
+      </div>
+      <div className="flex">
+        {card === "projects" && (
+          <div className="flex flex-wrap">
+            <Card />
+            <Card />
+            <Card />
+          </div>
+        )}
+        {card === "connections" && <Connection />}
       </div>
     </div>
   );

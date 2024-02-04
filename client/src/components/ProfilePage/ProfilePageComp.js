@@ -1,14 +1,14 @@
 import React from "react";
 // import axios from "axios";
 import HeaderImg from "./HeaderImg";
-import ProfileName from "./ProfileName";
+import ProfileCard from "./ProfileCard";
 import ProfileHeroSection from "./ProfileHeroSection";
 
 function ProfilePageComp() {
   return (
     <div>
       <HeaderImg />
-      <ProfileName />
+      <ProfileCard />
       <ProfileHeroSection />
     </div>
 
