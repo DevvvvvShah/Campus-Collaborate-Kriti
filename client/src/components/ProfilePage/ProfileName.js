@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import fetchProfileFromServer from "../../fetch/profile";
 const ProfileName = (prop) => {
   const [data, setData] = useState(null);

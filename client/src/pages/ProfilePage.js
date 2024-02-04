@@ -7,22 +7,22 @@ import { React, useEffect, useState } from "react";
 // import ProfileProjectsSection from "../components/profileComponents/ProfileProjectsSection";
 // import Navbar from "../components/Navbar/Navbar";
 
-  function ProfilePage() {
-    const [user, setUser] = useState(null);
-    const [searchParams, setSearchParams] = useSearchParams();
-    console.log(searchParams.get("user"));
-    
-    
-    useEffect(() => {
-      if (localStorage.getItem("user") === null) {
-        localStorage.setItem("user", searchParams.get("user"));
-      }
-      if (user === null && localStorage.getItem("user") !== null)
-      {fetchProfileFromServer(localStorage.getItem("user"))
-          .then((response) => setUser(response))
-          .catch((error) => console.error(error));}
-      console.log("user,", localStorage.getItem("user")); 
-    }, [user, searchParams]);
+function ProfilePage() {
+  const [user, setUser] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams.get("user"));
+
+  useEffect(() => {
+    if (localStorage.getItem("user") === "null") {
+      localStorage.setItem("user", searchParams.get("user"));
+    }
+    if (user === null && localStorage.getItem("user") !== null) {
+      fetchProfileFromServer(localStorage.getItem("user"))
+        .then((response) => setUser(response))
+        .catch((error) => console.error(error));
+    }
+    console.log("user,", localStorage.getItem("user"));
+  }, [user, searchParams]);
 
   return (
     <div className="h-[100vh]">
@@ -35,7 +35,7 @@ import { React, useEffect, useState } from "react";
       {/* <LandingPageComp /> */}
 
       {/* <span>ProfilePage</span> */}
-      <ProfilePageComp user = {user} />
+      <ProfilePageComp user={user} />
     </div>
   );
 }

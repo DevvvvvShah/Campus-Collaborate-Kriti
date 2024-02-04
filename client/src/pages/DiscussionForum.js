@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { MainDiscussion } from "../components/DiscussionForum/MainDiscussion";
 import { getDiscussions } from "../fetch/discussions";
-import Navbar from "../components/Navbar/navbaravbar";
+import Navbar from "../components/Navbar/navbar";
 import Topbar from "../components/Navbar/topbar";
 import ChatBot from "../chatBot/ChatBot";
 
