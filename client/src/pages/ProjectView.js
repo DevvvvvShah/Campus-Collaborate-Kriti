@@ -1,71 +1,84 @@
-import React from "react";
-import Topbar from "../components/Navbar/topbar";
-import HeaderCard from "../components/ProjectView/HeaderCard";
-import CommentCard from "../components/ProjectView/CommentCard";
-import { useEffect, useRef, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
+import React from 'react';
+import Topbar from '../components/Navbar/Topbar';
+import HeaderCard from '../components/ProjectView/HeaderCard';
+import CommentCard from '../components/ProjectView/CommentCard';
+import { useEffect, useRef, useState } from 'react';
+import { getProject } from '../fetch/projects';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
 function ProjectView() {
-  const Description =
-    "The selected code is a React hook called useEffect. This hook is used to perform side effects in function components. Side effects could be data fetching, subscriptions, or manually changing the DOM, etc.\n\n In this case, the side effect is setting up an Intersection Observer and cleaning it up when the component unmounts.The useEffect hook takes a function as its first argument. This function is executed after the component has been rendered.\n\n In this case, the function creates a new instance of IntersectionObserver, which is an API that provides a way to asynchronously observe changes in the intersection of a target element with an ancestor element or with a top-level document's viewport.";
+    const Description = "The selected code is a React hook called useEffect. This hook is used to perform side effects in function components. Side effects could be data fetching, subscriptions, or manually changing the DOM, etc.\n\n In this case, the side effect is setting up an Intersection Observer and cleaning it up when the component unmounts.The useEffect hook takes a function as its first argument. This function is executed after the component has been rendered.\n\n In this case, the function creates a new instance of IntersectionObserver, which is an API that provides a way to asynchronously observe changes in the intersection of a target element with an ancestor element or with a top-level document's viewport.";
+    const [project, setProject] = useState({});
 
-  function NextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          display: "flex",
-          background: "darkgray",
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: "1.5px",
-          borderRadius: "50%",
-        }}
-        onClick={onClick}
-      />
-    );
-  }
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedData = urlParams.get('id');
+        getProject(encodedData).then((response) => {
+            setProject(response.data);
+        }).catch((error) => {
+            console.error('Error fetching project:', error);
+        });
+    }, []);
 
-  function PrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          display: "flex",
-          background: "darkgray",
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: "1.5px",
-          borderRadius: "50%",
-        }}
-        onClick={onClick}
-      />
-    );
-  }
+    function NextArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+          <div
+            className={className}
+            style={{
+                ...style,
+                display: "flex",
+                background: "darkgray",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingTop: "1.5px",
+                borderRadius: "50%",
+            }}
+            onClick={onClick}
+          />
+        );
+      }
+      
+    function PrevArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{
+                    ...style,
+                    display: "flex",
+                    background: "darkgray",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingTop: "1.5px",
+                    borderRadius: "50%",
+                }}
+                onClick={onClick}
+            />
+        );
+    };
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    adaptiveHeight: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-  };
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />        
+    };
 
-  // Sample image and video URLs
-  const mediaUrls = [
-    "/images/demoPic.png",
-    "/images/demoVid.mkv",
-    // Add more URLs as needed
-  ];
+    // Sample image and video URLs
+    const mediaUrls = [
+        '/images/demoPic.png',
+        '/images/demoVid.mkv'
+        // Add more URLs as needed
+    ];
+
+
 
   return (
     <div className="w-screen flex flex-col justify-center items-center">

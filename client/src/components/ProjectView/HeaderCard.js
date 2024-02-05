@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
+import fetchProfileFromServer from '../../fetch/profile';
 
-const HeaderCard = () => {
+const HeaderCard = (props) => {
+    const [poster, setPoster] = useState({});
+
+
+    useEffect(() => {
+        fetchProfileFromServer(props.project.creatorId).then((response) => {
+            setPoster(response.data);
+            console.log('Poster:', response.data);
+        }).catch((error) => {
+            console.error('Error fetching poster:', error);
+        });
+    }, [props.project.posterId]);
+
     return (
         <div className="mt-[16vh] flex flex-col w-[80vw] bg-white">
             <div className='relative bg-[#FFFFFF] w-[80vw] z-10 flex flex-col mx-auto px-[5vw] overflow-hidden rounded-l-xl rounded-t-xl'
@@ -19,7 +32,7 @@ const HeaderCard = () => {
                         </div>
                     </div>
                     <div className='text-[3rem] font-bold'>
-                        My First Project
+                        {props.project.title}
                     </div>
                     <div className='flex mt-[3vh] gap-3'>
                         <div className='items-center flex'>
@@ -29,14 +42,14 @@ const HeaderCard = () => {
                         <div className="flex flex-col md:items-start md:justify-center items-center">
                             <div className='flex gap-2'>
                                 <div className='text-[1rem] font-semibold'>
-                                    ABCD
+                                    {poster.name}
                                 </div>
                                 <div className='flex items-center'>
                                     <img src="images/verify.png" alt="Description" className="object-cover object-center w-[1.125rem] h-[1.125rem]" />
                                 </div>
                             </div>
                             <div className='text-[0.75rem] text-[#0016DA] align-bottom'>
-                                @abcd
+                                {poster.title}
                             </div>
                         </div>                        
                     </div>

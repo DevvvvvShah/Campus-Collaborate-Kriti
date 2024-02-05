@@ -1,7 +1,7 @@
 import React from "react";
-import Navbar from "../Navbar/navbar";
+import Navbar from "../Navbar/Navbar";
 import FeedCard from "./FeedCard";
-import Topbar from "../Navbar/topbar";
+import Topbar from "../Navbar/Topbar";
 
 const FeedPageComp = () => {
   return (

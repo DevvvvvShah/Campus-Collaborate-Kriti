@@ -17,20 +17,7 @@ function Chat() {
   const [currentChat, setCurrentChat] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [users, setUsers] = useState([]);
-  useEffect(() => {
-    (async () => {  
-      localStorage.removeItem('chat-app-user');
-      if (!localStorage.getItem('chat-app-user')) {
-        try{
-       await fetchProfileFromServer(localStorage.getItem('user'))
-        .then((res) => {
-          console.log(localStorage.getItem('user'));
-          console.log(res);
-          setCurrentUser(res);
-          localStorage.setItem('chat-app-user', JSON.stringify(res));
-          setIsLoaded(true);
-        });}catch(err){
-    (async () => {
+  useEffect(async () => {
       localStorage.removeItem("chat-app-user");
       if (!localStorage.getItem("chat-app-user")) {
         try {
@@ -50,8 +37,7 @@ function Chat() {
         setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")));
         setIsLoaded(true);
       }
-    })();
-  }, []);
+    }, []);
 
   useEffect(() => {
     if (currentUser) {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Navbar from "../components/Navbar/navbar";
-import Topbar from "../components/Navbar/topbar";
+import Navbar from "../components/Navbar/Navbar";
+import Topbar from "../components/Navbar/Topbar";
 import Project from "../components/Projects/MainProject";
 import { getProjects } from "../fetch/projects";
 import { Link } from "react-router-dom";

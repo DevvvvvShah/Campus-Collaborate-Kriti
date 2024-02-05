@@ -8,9 +8,11 @@ const Card = (props) => {
     };
     console.log((project.mediaArray.length > 0 && project.mediaArray[0]));
     return (
-        <div className='md:my-[3vh] my-[1vh] md:w-[31vw] md:h-[48vh] w-[90vw] h-[40vh] min-h-fit flex justify-center items-center'>
-            <div className='flex flex-col justify-between md:w-[28vw] md:h-[48vh] w-[85vw] min-h-fit
-            transition-all duration-500 hover:md:w-[31vw] hover:md:h-[52vh] hover:w-[90vw] hover:pb-4 border border-[#0016DA] overflow-hidden rounded-xl shadow-lg'
+        <div className='md:my-[3vh] my-[1vh] md:w-[31vw] md:h-[52vh] w-[90vw] h-[40vh] min-h-fit flex justify-center items-center'
+             onClick={() => {window.location.href = `/projectView?id=${project._id}`}}    
+        >
+            <div className='flex flex-col justify-between md:w-[28vw] md:h-[48vh] w-[86vw] min-h-fit
+            transition-all duration-500 hover:md:w-[31vw] hover:md:h-[52vh] hover:w-[90vw] hover:pb-4 overflow-hidden rounded-xl shadow-lg'
             onMouseEnter={handleHover} onMouseLeave={handleHover}>
                 <div className="object-cover object-center w-full flex flex-col gap-2 ">
                     <div className='row-span-7'>
