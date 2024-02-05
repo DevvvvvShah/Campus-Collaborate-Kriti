@@ -77,13 +77,15 @@ const addtoConnection = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (user.connections.includes(userid)) {
+    if (user.connections.includes(userid) && user2.connections.includes(req.user)) {
       user.connections.pull(userid);
+      user2.connections.pull(req.user);
     } else {
       user.connections.push(userid);
+      user2.connections.push(req.user);
     }
     await user.save();
-    res.status(200).json(user);
+    res.status(200).json({ user, user2 });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

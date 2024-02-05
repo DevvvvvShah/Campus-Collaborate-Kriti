@@ -44,9 +44,9 @@ router.put(
 );
 router.put(
   "/:userid/addConnection",
-  // getToken,
-  // verifyToken,
-  // authenticateUser,
+  getToken,
+  verifyToken,
+  authenticateUser,
   addtoConnection
 );
 
