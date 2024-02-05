@@ -4,15 +4,24 @@ import fetchProfileFromServer from '../../fetch/profile';
 const HeaderCard = (props) => {
     const [poster, setPoster] = useState({});
 
-
+    console.log('Project:', props.project);
     useEffect(() => {
-        fetchProfileFromServer(props.project.creatorId).then((response) => {
-            setPoster(response.data);
-            console.log('Poster:', response.data);
+        if(!props.project) return;
+        if(!props.project.creatorId) return;
+        else if (props.project.creatorId.length === 0) return;
+        fetchProfileFromServer(props.project.creatorId[0]).then((response) => {
+            setPoster(response);
+            console.log('Poster:', response);
         }).catch((error) => {
             console.error('Error fetching poster:', error);
         });
-    }, [props.project.posterId]);
+    }, [props.project.creatorId]);
+
+    const formattedDate = new Date(props.project.timeOfPost).toLocaleDateString('en-UK', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    });
 
     return (
         <div className="mt-[16vh] flex flex-col w-[80vw] bg-white">
@@ -24,11 +33,11 @@ const HeaderCard = (props) => {
                 <div className='pt-[10vh] pb-[15vh]'>
                     <div className='flex gap-2'>
                         <div>
-                            11-Feb-2021
+                            {formattedDate}
                         </div>
                         .
-                        <div>
-                            GitHub
+                        <div className='z-20'>
+                            {props.project.githubLink && <a href={props.project.githubLink.startsWith('http') ? props.project.githubLink : `https://${props.project.githubLink}`} target="_blank" rel="noopener noreferrer">GitHub</a>}
                         </div>
                     </div>
                     <div className='text-[3rem] font-bold'>
@@ -42,14 +51,14 @@ const HeaderCard = (props) => {
                         <div className="flex flex-col md:items-start md:justify-center items-center">
                             <div className='flex gap-2'>
                                 <div className='text-[1rem] font-semibold'>
-                                    {poster.name}
+                                    {poster && poster.name}
                                 </div>
                                 <div className='flex items-center'>
                                     <img src="images/verify.png" alt="Description" className="object-cover object-center w-[1.125rem] h-[1.125rem]" />
                                 </div>
                             </div>
                             <div className='text-[0.75rem] text-[#0016DA] align-bottom'>
-                                {poster.title}
+                                {poster && poster.title}
                             </div>
                         </div>                        
                     </div>
@@ -57,22 +66,22 @@ const HeaderCard = (props) => {
             </div>
             <div className='relative ml-auto bg-[#FFFFFF] w-[30vw] flex gap-8 px-[5vw] overflow-hidden rounded-b-xl'
             style={{boxShadow: '0px 0px 15px 0px #CCCCCC'}}>            
-                <div className='flex items-center'>
+                <div className='flex items-center gap-1'>
                     <img src="images/view.svg" className='w-[2rem] h-[2rem]' alt="Project" />
                     <div className='text-[1rem]'>
                         512
                     </div>                       
                 </div>
-                <div className='flex items-center'>
+                <div className='flex items-center gap-1'>
                     <img src="images/upArrow.svg" className='w-[2rem] h-[2rem]' alt="star" />
                     <div className='text-[1rem]'>
-                        24
+                        {props.project.likes && props.project.likes.length}
                     </div>
                 </div>
-                <div className='flex items-center'>
+                <div className='flex items-center gap-1'>
                     <img src="images/downArrow.svg" className='w-[2rem] h-[2rem]' alt="star" />
                     <div className='text-[1rem]'>
-                        5
+                        {props.project.likes && props.project.dislikes.length}
                     </div>
                 </div>            
             </div>
