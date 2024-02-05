@@ -4,11 +4,12 @@ import HeaderImg from "./HeaderImg";
 import ProfileCard from "./ProfileCard";
 import ProfileHeroSection from "./ProfileHeroSection";
 
-function ProfilePageComp() {
+function ProfilePageComp(props) {
+  const user = props.user;
   return (
     <div>
       <HeaderImg />
-      <ProfileCard />
+      <ProfileCard user = {user} />
       <ProfileHeroSection />
     </div>
 
