@@ -3,16 +3,18 @@ const router = express.Router();
 const cloudinary = require('cloudinary').v2;
 const User = require('../models/User');
 
-// cloudinary.config({
-//   cloud_name: "dpobpe2ga",
-//   api_key: "528297887196318",
-//   api_secret: "jcpYq5B7_OEhB5nFK2gvgQmmqn8",
-// });
+cloudinary.config({
+  cloud_name: "dpobpe2ga",
+  api_key: "528297887196318",
+  api_secret: "jcpYq5B7_OEhB5nFK2gvgQmmqn8",
+});
 
 // get profile of user
 const getUserProfile = async (req, res) => {
   await User.findById(req.params.userid).populate("connections")
     .then((user) => {
+      user.views += 1;
+      user.save();
       res.status(200).json(user);
     })
     .catch((err) => {

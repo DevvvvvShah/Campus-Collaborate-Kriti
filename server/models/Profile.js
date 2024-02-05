@@ -66,6 +66,10 @@ const profileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     }],
+    views: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const Profile = mongoose.model('Profile', profileSchema);
