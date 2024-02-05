@@ -9,7 +9,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 function ProjectView() {
-    const Description = "The selected code is a React hook called useEffect. This hook is used to perform side effects in function components. Side effects could be data fetching, subscriptions, or manually changing the DOM, etc.\n\n In this case, the side effect is setting up an Intersection Observer and cleaning it up when the component unmounts.The useEffect hook takes a function as its first argument. This function is executed after the component has been rendered.\n\n In this case, the function creates a new instance of IntersectionObserver, which is an API that provides a way to asynchronously observe changes in the intersection of a target element with an ancestor element or with a top-level document's viewport.";
     const [project, setProject] = useState({});
 
     useEffect(() => {
@@ -85,17 +84,14 @@ function ProjectView() {
       <div className="fixed top-0 left-0 right-0 z-50">
         <Topbar title="Project" />
       </div>
-      <HeaderCard />
+      <HeaderCard project={project}/>
       <div className="flex flex-col gap-2 w-[80vw] mt-[20vh] pl-[2vw]">
         <div className="text-[1.5rem] text-[#0016DA] font-bold">
           Description
         </div>
         <div className="">
           <div className="text-[#000000] text-[1rem] mt-2">
-            {Description.split("\n").map((line, index) => {
-              if (line === "") line = <br />;
-              return <p>{line}</p>;
-            })}
+            {project.description}
           </div>
         </div>
       </div>
@@ -127,11 +123,10 @@ function ProjectView() {
         </div>
         <div>
           <div>
-            <span className="inline-block mr-8">React</span>
-            <span className="inline-block mr-8">Node.js</span>
-            <span className="inline-block mr-8">MongoDB</span>
-            <span className="inline-block mr-8">Express.js</span>
-          </div>
+            {project.techStacks && project.techStacks.map((techStack, index) => (
+            <span className="inline-block mr-8 border rounded-lg px-2 bg-white shadow-sm" key={index}>{techStack}</span>
+            ))}
+            </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 w-[80vw] mt-[10vh] pl-[2vw]">
@@ -139,9 +134,9 @@ function ProjectView() {
           Comments
         </div>
         <div>
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
+          {project.commentsId && project.commentsId.map((comment, index) => (
+            <CommentCard key={index} comments={comment} />
+          ))}
         </div>
       </div>
     </div>

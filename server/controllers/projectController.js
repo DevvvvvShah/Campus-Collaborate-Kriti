@@ -46,7 +46,9 @@ const getAllProjects = async (req, res) => {
 const getProject = async (req, res) => {
     const { projectId } = req.params;
     try {
-        const project = await Project.findById(projectId);
+        const project = await Project.findById(projectId).populate('commentsId');
+        project.views += 1;
+        await project.save();
         res.status(200).json(project);
     } catch (error) {
         res.status(404).json({ message: error.message });
