@@ -6,6 +6,7 @@ const DiscussionSection = (props) => {
     console.log('DiscussionSection Rendered');
     
     useEffect(() => {
+        setUnits([]);
         props.discussions.map((discussion) => {
             setUnits((units) => [...units, <DiscussionUnit discussion={discussion} key={units.length}/>]);
         });

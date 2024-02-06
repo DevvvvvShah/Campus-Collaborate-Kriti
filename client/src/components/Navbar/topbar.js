@@ -54,7 +54,18 @@ const Topbar = (props) => {
         props.setFilteredPosts(filteredPosts);
       }
     }
-  }, [search]);
+    else{
+      if (discussions){
+        props.setFilteredDiscussions(discussions);
+      }
+      if(courseReviews){
+        props.setFilteredCourseReviews(courseReviews);
+      }
+      if(posts){
+        props.setFilteredPosts(posts);
+      }
+    }
+  }, [courseReviews, discussions, posts, props, search]);
 
   return (
     <div className="w-screen bg-white drop-shadow-md">
