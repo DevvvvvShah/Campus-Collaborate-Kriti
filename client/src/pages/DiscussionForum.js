@@ -55,32 +55,40 @@ const DiscussionForum = (props) => {
           </div>
           <div
             ref={chatBotRef}
-            className={`fixed flex justify-center shadow items-center ${
+            className={`fixed flex gap-2 justify-center items-center ${
               chatBot
                 ? "bottom-[37vh] right-[14vw]"
                 : "md:bottom-2 md:right-2 bottom-[11vh] right-2"
-            } w-[60px] h-[60px] bg-[#FFFFFF] rounded-full`}
+            }`}
           >
-            <img
-              src="images/chat.svg"
-              alt="chat"
-              className={`w-[50%] h-[50%] md:w-[65%] md:h-[65%] object-contain ${
-                chatBot ? "hidden" : "block"
-              }`}
-              onClick={handleChat}
-            />
-            <div className={`${chatBot ? "block" : "hidden"}`}>
-              <ChatBot />
-            </div>
+            <div
+              className="flex justify-center shadow-lg items-center gap-2
+                          w-[140px] h-[45px] bg-[#FFFFFF] rounded-full"
+            >
+              <img
+                src="images/add.svg"
+                alt="add"
+                className={`w-[50%] h-[50%] md:w-fit md:h-[65%] object-contain`}
+              />
+              <div className="text-[#0016DA] text-[0.875rem] font-semibold">
+                Question
+              </div>
+            </div>  
+            <div className="flex w-[50px] h-[50px] bg-[#FFFFFF] rounded-full justify-center shadow items-center">
+              <img
+                src="images/chat.svg"
+                alt="chat"
+                className={`w-[50%] h-[50%] md:w-[65%] md:h-[65%] object-contain ${
+                  chatBot ? "hidden" : "block"
+                }`}
+                onClick={handleChat}
+              />
+              <div className={`${chatBot ? "block" : "hidden"}`}>
+                <ChatBot />
+              </div>
+            </div>                      
           </div>
         </div>
-      </div>
-      <div className="fixed flex justify-center shadow items-center bottom-2 right-2 w-[60px] h-[60px] bg-[#FFFFFF] rounded-full">
-        <img
-          src="images/chat.svg"
-          alt="chat"
-          className="w-[50%] h-[50%] md:w-[65%] md:h-[65%] object-contain"
-        />
       </div>
     </div>
   );
