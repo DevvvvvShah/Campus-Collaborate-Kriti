@@ -17,7 +17,8 @@ function Chat() {
   const [currentChat, setCurrentChat] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [users, setUsers] = useState([]);
-  useEffect(async () => {
+  useEffect(() => {
+    (async () => {
       localStorage.removeItem("chat-app-user");
       if (!localStorage.getItem("chat-app-user")) {
         try {
@@ -37,7 +38,8 @@ function Chat() {
         setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")));
         setIsLoaded(true);
       }
-    }, []);
+    })();
+  }, []);
 
   useEffect(() => {
     if (currentUser) {
