@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Row from './CardRow'
+import Row from './CardRow';
 
 const MainProject = (props) => {
     let projects = props.projects;
@@ -8,7 +8,7 @@ const MainProject = (props) => {
 
     useEffect(() => {
         const rows = [];
-        for (let i = 0; i < projects.length; i += 2) {
+        for (let i = 0; i < projects.length-1; i += 2) {
             const project1 = projects[i];
             const project2 = projects[i + 1];
             const row = (
@@ -25,7 +25,6 @@ const MainProject = (props) => {
         }
         setRows(rows);
     }, [projects]);
-
 
     return (
         <div className='md:ml-[25vw] mt-16 flex flex-col'>

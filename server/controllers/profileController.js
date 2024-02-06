@@ -3,16 +3,18 @@ const router = express.Router();
 const cloudinary = require('cloudinary').v2;
 const User = require('../models/User');
 
-// cloudinary.config({
-//   cloud_name: "dpobpe2ga",
-//   api_key: "528297887196318",
-//   api_secret: "jcpYq5B7_OEhB5nFK2gvgQmmqn8",
-// });
+cloudinary.config({
+  cloud_name: "dpobpe2ga",
+  api_key: "528297887196318",
+  api_secret: "jcpYq5B7_OEhB5nFK2gvgQmmqn8",
+});
 
 // get profile of user
 const getUserProfile = async (req, res) => {
   await User.findById(req.params.userid).populate("connections")
     .then((user) => {
+      user.views += 1;
+      user.save();
       res.status(200).json(user);
     })
     .catch((err) => {
@@ -77,13 +79,15 @@ const addtoConnection = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (user.connections.includes(userid)) {
+    if (user.connections.includes(userid) && user2.connections.includes(req.user)) {
       user.connections.pull(userid);
+      user2.connections.pull(req.user);
     } else {
       user.connections.push(userid);
+      user2.connections.push(req.user);
     }
     await user.save();
-    res.status(200).json(user);
+    res.status(200).json({ user, user2 });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

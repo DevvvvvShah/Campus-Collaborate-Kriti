@@ -60,7 +60,7 @@ function Navbar() {
       <div className="w-full">
         <div className="md:pt-[10vh] px-10 md:px-0 py-[2vh] items-center align-center text-xl text-[#424242] flex md:justify-normal justify-between md:flex-col">
           <Tab to="/feed" name="Home" img="home" />
-          <Tab to="/coursereviews" name="Course Reviews" img="courses" />
+          <Tab to="/courseReview" name="Course Reviews" img="courses" />
           <Tab to="/projects" name="Projects" img="projects" />
           <Tab to="/discussion" name="Discussions" img="questions" />
         </div>

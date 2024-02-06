@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './Card';
+import Card from '../Projects.js/Card';
 import UseMediaQuery from '../../hooks/useMediaQuery';
 
 const CardRow = (props) => {
@@ -8,9 +8,9 @@ const CardRow = (props) => {
 
 
     return (
-        <div className='flex gap-0 justify-center'>
+        <div className='flex flex-col md:flex-row gap-0 justify-center items-center'>
             <Card project={projects[0]} />
-            {md ? '' : <Card project ={projects[1]} />}
+            {projects.length ==2 ? <Card project ={projects[1]} /> : ''}
         </div>
     );
 };

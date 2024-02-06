@@ -8,6 +8,7 @@ import Chat from "./pages/Chat";
 import DiscussionForum from "./pages/DiscussionForum";
 import Projects from "./pages/Projects";
 import ProjectView from "./pages/ProjectView";
+import CourseReview from "./pages/CourseReview";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/projectview" element={<ProjectView />} />
         <Route path="/editProfile" element={<EditProfileCard />} />
+        <Route path="/courseReview" element={<CourseReview />} />
       </Routes>
     </BrowserRouter>
   );

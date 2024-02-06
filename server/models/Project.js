@@ -38,6 +38,7 @@ const projectSchema = new mongoose.Schema({
     }],
     githubLink: {
         type: String,
+        required: true,
     },
     timeOfPost: {
         type: Date,
@@ -48,6 +49,10 @@ const projectSchema = new mongoose.Schema({
         type: String,
         default: [],
     }],
+    views: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const Project = mongoose.model('Project', projectSchema);

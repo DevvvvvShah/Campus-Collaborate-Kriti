@@ -38,8 +38,7 @@ function Chat() {
         setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")));
         setIsLoaded(true);
       }
-    })();
-  }, []);
+    }, []);
 
   useEffect(() => {
     if (currentUser) {

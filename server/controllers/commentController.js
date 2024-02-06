@@ -48,4 +48,15 @@ const dislikeComment = async (req,res) => {
     }
 }
 
-module.exports = { likeComment, dislikeComment };
+const getComment = async (req,res) => {
+    const commentId = req.params.commentId;
+    try{
+        const comment = await Comment.findById(commentId);
+        res.status(200).json(comment);
+    }
+    catch(error){
+        res.status(404).json({message: error.message});
+    }
+}
+
+module.exports = { likeComment, dislikeComment, getComment };

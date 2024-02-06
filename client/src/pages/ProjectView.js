@@ -1,3 +1,11 @@
+import React from 'react';
+import Topbar from '../components/Navbar/Topbar';
+import HeaderCard from '../components/ProjectView/HeaderCard';
+import CommentCard from '../components/ProjectView/CommentCard';
+import { useEffect, useRef, useState } from 'react';
+import { getProject } from '../fetch/projects';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css"; 
 import React from "react";
 import Topbar from "../components/Navbar/Topbar";
 import HeaderCard from "../components/ProjectView/HeaderCard";
@@ -8,81 +16,80 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 function ProjectView() {
-  const Description =
-    "The selected code is a React hook called useEffect. This hook is used to perform side effects in function components. Side effects could be data fetching, subscriptions, or manually changing the DOM, etc.\n\n In this case, the side effect is setting up an Intersection Observer and cleaning it up when the component unmounts.The useEffect hook takes a function as its first argument. This function is executed after the component has been rendered.\n\n In this case, the function creates a new instance of IntersectionObserver, which is an API that provides a way to asynchronously observe changes in the intersection of a target element with an ancestor element or with a top-level document's viewport.";
+    const [project, setProject] = useState({});
 
-  function NextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          display: "flex",
-          background: "darkgray",
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: "1.5px",
-          borderRadius: "50%",
-        }}
-        onClick={onClick}
-      />
-    );
-  }
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedData = urlParams.get('id');
+        getProject(encodedData).then((response) => {
+            setProject(response.data);
+        }).catch((error) => {
+            console.error('Error fetching project:', error);
+        });
+    }, []);
 
-  function PrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          display: "flex",
-          background: "darkgray",
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: "1.5px",
-          borderRadius: "50%",
-        }}
-        onClick={onClick}
-      />
-    );
-  }
+    function NextArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+          <div
+            className={className}
+            style={{
+                ...style,
+                display: "flex",
+                background: "darkgray",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingTop: "1.5px",
+                borderRadius: "50%",
+            }}
+            onClick={onClick}
+          />
+        );
+      }
+      
+    function PrevArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{
+                    ...style,
+                    display: "flex",
+                    background: "darkgray",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingTop: "1.5px",
+                    borderRadius: "50%",
+                }}
+                onClick={onClick}
+            />
+        );
+    };
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    adaptiveHeight: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-  };
-
-  // Sample image and video URLs
-  const mediaUrls = [
-    "/images/demoPic.png",
-    "/images/demoVid.mkv",
-    // Add more URLs as needed
-  ];
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />        
+    };
 
   return (
-    <div className="w-screen flex flex-col justify-center items-center">
+    <div className="w-screen flex flex-col justify-center items-center mb-[10vh]">
       <div className="fixed top-0 left-0 right-0 z-50">
         <Topbar title="Project" />
       </div>
-      <HeaderCard />
+      <HeaderCard project={project}/>
       <div className="flex flex-col gap-2 w-[80vw] mt-[20vh] pl-[2vw]">
         <div className="text-[1.5rem] text-[#0016DA] font-bold">
           Description
         </div>
         <div className="">
           <div className="text-[#000000] text-[1rem] mt-2">
-            {Description.split("\n").map((line, index) => {
-              if (line === "") line = <br />;
-              return <p>{line}</p>;
-            })}
+            {project.description}
           </div>
         </div>
       </div>
@@ -90,10 +97,11 @@ function ProjectView() {
         <div className="text-[1.5rem] text-[#0016DA] font-bold">
           Project Showcase
         </div>
-        <Slider {...settings}>
-          {mediaUrls.map((url, index) => (
+        {project.mediaArray && project.mediaArray.length!==0 ? 
+          <Slider {...settings}>
+          {project.mediaArray.map((url, index) => (
             <div className="flex justify-center w-fit">
-              {url.endsWith(".png") ? (
+              {(url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".svg")) ? (
                 <img
                   src={url}
                   alt={`Image ${index + 1}`}
@@ -106,19 +114,23 @@ function ProjectView() {
               )}
             </div>
           ))}
-        </Slider>
+        </Slider> 
+        : 
+        <div className="text-[#000000] text-[1rem] mt-2">No media to display</div>}
+
       </div>
-      <div className="flex flex-col gap-2 w-[80vw] mt-[20vh] pl-[2vw]">
+      <div className="flex flex-col gap-2 w-[80vw] mt-[10vh] pl-[2vw]">
         <div className="text-[1.5rem] text-[#0016DA] font-bold">
           Tech Stacks
         </div>
         <div>
           <div>
-            <span className="inline-block mr-8">React</span>
-            <span className="inline-block mr-8">Node.js</span>
-            <span className="inline-block mr-8">MongoDB</span>
-            <span className="inline-block mr-8">Express.js</span>
-          </div>
+            {(project.techStacks && project.techStacks.length!==0) ? project.techStacks.map((techStack, index) => (
+            <span className="inline-block mr-8 border rounded-lg px-2 bg-white shadow-sm" key={index}>{techStack.name}</span>
+            ))
+            :
+            <span className="inline-block mr-8 border rounded-lg px-2 bg-white shadow-sm">NONE</span>}
+            </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 w-[80vw] mt-[10vh] pl-[2vw]">
@@ -126,9 +138,12 @@ function ProjectView() {
           Comments
         </div>
         <div>
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
+          {(project.commentsId && project.commentsId.length!==0) ? project.commentsId.map((comment, index) => (
+            <CommentCard key={index} comments={comment} />
+          )):
+          <div className="text-[#000000] text-[1rem] mt-2">
+            No comments yet
+          </div>}
         </div>
       </div>
     </div>
