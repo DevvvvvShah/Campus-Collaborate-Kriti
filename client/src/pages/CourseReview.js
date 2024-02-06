@@ -1,72 +1,53 @@
 import { useState } from "react";
-
-// const DiscussionForum = () => {
-//     const [isOpen, setIsOpen] = useState(false);
-
-//     const togglePage = () => {
-//         setIsOpen(!isOpen);
-//     };
-
-//     return (
-//         <div>
-//             <button onClick={togglePage}>Toggle Page</button>
-//             {isOpen && (
-//                 <div className="sliding-page">
-//                     {/* Your page content goes here */}
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default DiscussionForum;
-
 import React, { useEffect } from "react";
 import CourseReviewComp from "../components/CourseReview/CourseReviewComp";
+import DialogBox from "../components/CourseReview/Dialogue";
+import Topbar from "../components/Navbar/Topbar";
+import Navbar from '../components/Navbar/Navbar';
 
 
 // import { useLocation } from 'react-router-dom';
 // import { MainDiscussion } from '../components/DiscussionForum/MainDiscussion'
 // import getDiscussions from '../fetch/discussions'
-// import Navbar from '../components/Navbar/navbar';
 // import Topbar from '../components/Navbar/topbar';
 // import topbar from './topbar';
 
 const CourseReview = () => {
-  // const [isExpanded, setIsExpanded] = React.useState(true);
-  // const [discussions, setDiscussions] = React.useState([]);
-
-  // useEffect(() => {
-  //     getDiscussions().then((res) => {
-  //         setDiscussions(res.data);
-  //         console.log(res.data);
-  //     }).catch(error => {
-  //         console.error(error);
-  //     });
-  // }, []);
-
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const togglePage = () => {
-    setIsExpanded(!isExpanded);
+  const [isDialogOpen, setDialogOpen] = useState(false);
+
+  const openDialog = () => {
+    setDialogOpen(true);
   };
 
-  return (
-    <div>
-      <div className={`page ${isExpanded ? "expanded" : ""}`}>
-        <div className="relative flex flex-col md:flex-row bg-[#e4e3e3] w-full min-h-[100vh]">
+  const closeDialog = () => {
+    setDialogOpen(false);
+  };
 
-
-          <div className="flex flex-col w-full">
-           <CourseReviewComp />
-           <CourseReviewComp />
-           <CourseReviewComp />
-           <CourseReviewComp />
-          </div>
-        </div>
+  const dialogMessage = {
+    title: 'Instruction',
+    body: 'Explore and share your thoughts on an existing course! If it\'s not there, simply click \'Add New Course\' to start the conversation.',
+  };
+return (
+  <div className='relative flex flex-col md:flex-row bg-[#F8F8F8] w-screen min-h-[100vh]'>
+    <Navbar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+    <div className='w-full'>
+      <Topbar />
+      <div className='md:ml-[27vw] pl-[10%] pr-[10%] pt-16 md:pl-[3%] md:pr-[10%] '>
+         <DialogBox
+      isOpen={isDialogOpen}
+      onClose={closeDialog}
+      message={dialogMessage}
+    />
+      <div className='text-white font-bold z-50 fixed flex justify-center shadow items-center bottom-2 right-2 w-[200px] h-[60px] bg-[#bcc2f7] rounded-full hover:scale-105 transition-all duration-300'>
+          <button onClick={openDialog}><h1>+ Add a course review</h1></button>
+      </div>
+        <CourseReviewComp/>
       </div>
     </div>
-  );
+    
+  </div>);
 };
 
 export default CourseReview;

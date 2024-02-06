@@ -5,7 +5,7 @@ import Downvote from "../../assets/downvote.svg";
 
 const CourseReviewComp = () => {
     return ( 
-        <div className="flex items-center justify-center w-full mt-5 mb-5 rounded-3xl  bg-white hover:scale-[1.03] transition-all duration-300">
+        <div className="flex items-center justify-center w-fit mt-5 mb-5 rounded-3xl  bg-white hover:scale-[1.03] transition-all duration-300">
               <div className="w-1/4">
                 <img src={image} alt="Image" className="py-9 mx-7" />
               </div>
