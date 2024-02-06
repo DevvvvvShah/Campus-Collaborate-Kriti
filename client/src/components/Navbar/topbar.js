@@ -2,6 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Topbar = (props) => {
+  const navigate = useNavigate();
+
+    const handleLogout = () => {
+      localStorage.removeItem("user");
+      console.log("Logout button clicked");
+
+      // Redirect to home page
+      navigate("/");
+    };
   const handleSearch = () => {
     if (window.innerWidth < 768) {
       const search = document.querySelector("input");
@@ -45,6 +54,7 @@ const Topbar = (props) => {
           </div>
           <div className="profile bg-[#CCC] mr-[5vw] ml-[2vw] w-[30px] h-[30px] shadow rounded-full"></div>
         </div>
+        <button onClick={handleLogout} className=" py-1 px-2 mr-2 rounded bg-blue-500 text-white">Logout</button>
       </div>
     </div>
   );

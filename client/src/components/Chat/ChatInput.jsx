@@ -12,8 +12,9 @@ export default function ChatInput({ handleSendMsg }) {
   };
 
   const handleEmojiClick = (event, emojiObject) => {
+    // console.log(event, emojiObject);
     let message = msg;
-    message += emojiObject.emoji;
+    message += event.emoji;
     setMsg(message);
   };
 
@@ -27,12 +28,12 @@ export default function ChatInput({ handleSendMsg }) {
 
   return (
     <Container>
-      <div className="button-container">
+      <div className="button-container absolute " style={{ top: "320px" }}>
         <div className="emoji">
-          <img src='/images/smiley.svg' class="smiley" onClick={handleEmojiPickerhideShow} />
-          {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
+          {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />} 
         </div>
       </div>
+            <img src='/images/smiley.svg' alt="emoji picker" className="smiley" style={{ width: "1.5rem", height: "1.5rem" }} onClick={handleEmojiPickerhideShow} />
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
         <input
           type="text"
