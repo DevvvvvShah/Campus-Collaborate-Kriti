@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Topbar = (props) => {
+  const discussions = props.discussions;
+  const courseReviews = props.courseReviews;
+  const posts = props.posts;
+  const [search, setSearch] = React.useState("");
+
   const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -12,6 +17,7 @@ const Topbar = (props) => {
       navigate("/");
     };
   const handleSearch = () => {
+    console.log("Search button clicked");
     if (window.innerWidth < 768) {
       const search = document.querySelector("input");
       search.classList.toggle("hidden");
@@ -32,6 +38,24 @@ const Topbar = (props) => {
     }
   };
 
+  useEffect(() => {
+    if(search){
+      if(discussions){
+        const filteredDiscussions = discussions.filter((discussion) => discussion.content.toLowerCase().includes(search.toLowerCase()));
+        console.log(filteredDiscussions);
+        props.setFilteredDiscussions(filteredDiscussions);
+      }
+      if(courseReviews){
+        const filteredCourseReviews = courseReviews.filter((courseReview) => courseReview.course.toLowerCase().includes(search.toLowerCase()));
+        props.setFilteredCourseReviews(filteredCourseReviews);
+      }
+      if(posts){
+        const filteredPosts = posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase()));
+        props.setFilteredPosts(filteredPosts);
+      }
+    }
+  }, [search]);
+
   return (
     <div className="w-screen bg-white drop-shadow-md">
       <div className="md:ml-[25vw] ml-[5vw] flex items-center py-[1.5vh] align-center justify-between">
@@ -43,13 +67,14 @@ const Topbar = (props) => {
             <img
               src="images/search.svg"
               alt="Description"
-              className="icon md:absolute left-3 top-2 object-cover object-center w-[1rem] h-[1.05rem]"
+              className="icon md:absolute left-3 top-2 object-cover object-center w-[1rem] h-[1.05rem] hover:cursor-pointer"
               onClick={handleSearch}
             />
             <input
               type="text"
               className="bg-[#EEE] rounded-full md:block hidden px-8 py-1 focus:outline-none"
               placeholder="Search"
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="profile bg-[#CCC] mr-[5vw] ml-[2vw] w-[30px] h-[30px] shadow rounded-full"></div>
