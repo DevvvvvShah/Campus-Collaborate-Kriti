@@ -1,5 +1,5 @@
 import React from "react";
-import Topbar from "../components/Navbar/topbar";
+import Topbar from "../components/Navbar/Topbar";
 import HeaderCard from "../components/ProjectView/HeaderCard";
 import CommentCard from "../components/ProjectView/CommentCard";
 import { useEffect, useRef, useState } from "react";

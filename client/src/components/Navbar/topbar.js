@@ -23,11 +23,9 @@ const Topbar = (props) => {
   };
 
   return (
-    <div className="w-full bg-white drop-shadow-md">
-      <div className="md:ml-[25vw] ml-[5vw] flex items-center py-[1.5vh] align-center justify-between">
-        <div className="topic md:text-xl md:text-lg h-fit pl-[2vw]">
-          {props.title}
-        </div>
+    <div className="w-[95rem] bg-white drop-shadow-md">
+      <div className="flex items-center py-[1.5vh] align-center justify-between">
+        <div className="topic md:text-xl h-fit pl-[2vw]">{props.title}</div>
         <div className="flex items-center">
           <div className="relative min-w-[2rem] md:max-w-[20rem]">
             <img

@@ -1,31 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, NavLink } from "react-router-dom";
 
 function Tab(props) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleLeave = () => {
-    setIsHovered(false);
-  };
-
-  let tabStyle;
-  props.select
-    ? (tabStyle = { boxShadow: "0px 7px 20px rgba(0, 0, 0, 0.2)" })
-    : (tabStyle = {});
-
   return (
-    <div
-      className={`grid grid-cols-12 md:w-full py-2 px-2 md:px-0 md:py-2 md:mb-2 rounded-full md:${
-        tabStyle.boxShadow ? " border-b-2 border-blue-700" : ""
-      }
-        md:rounded-none ${isHovered ? "drop-shadow-lg" : ""}`}
-      style={tabStyle}
-      onMouseEnter={handleHover}
-      onMouseLeave={handleLeave}
+    <NavLink
+      to={props.to}
+      activeClassName="active"
+      className="grid grid-cols-12 md:w-full py-2 px-2 md:px-0 md:py-2 md:mb-2 rounded-full md:rounded-none"
     >
       <div className="col-span-12 md:col-span-5 flex items-center">
         <img
@@ -35,11 +16,11 @@ function Tab(props) {
         />
       </div>
       <div className="md:col-span-7 hidden md:block">{props.name}</div>
-    </div>
+    </NavLink>
   );
 }
 
-function Navbar(props) {
+function Navbar() {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isTop, setIsTop] = useState(true);
 
@@ -78,11 +59,10 @@ function Navbar(props) {
       </div>
       <div className="w-full">
         <div className="md:pt-[10vh] px-10 md:px-0 py-[2vh] items-center align-center text-xl text-[#424242] flex md:justify-normal justify-between md:flex-col">
-          <Tab name="Home" img="home" />
-          <Tab name="Courses" img="courses" />
-          <Tab name="Projects" img="projects" />
-          <Tab name="Questions" img="questions" select={true} />
-          <Tab name="Something" img="something" />
+          <Tab to="/feed" name="Home" img="home" />
+          <Tab to="/coursereviews" name="Course Reviews" img="courses" />
+          <Tab to="/projects" name="Projects" img="projects" />
+          <Tab to="/discussion" name="Discussions" img="questions" />
         </div>
       </div>
     </div>
