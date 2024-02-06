@@ -8,7 +8,7 @@ const MainProject = (props) => {
 
     useEffect(() => {
         const rows = [];
-        for (let i = 0; i < projects.length; i += 2) {
+        for (let i = 0; i < projects.length-1; i += 2) {
             const project1 = projects[i];
             const project2 = projects[i + 1];
             const row = (

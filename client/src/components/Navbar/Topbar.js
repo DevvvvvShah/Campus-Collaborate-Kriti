@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Topbar = (props) => {
   const handleSearch = () => {
@@ -23,7 +24,7 @@ const Topbar = (props) => {
   };
 
   return (
-    <div className="w-full bg-white drop-shadow-md">
+    <div className="w-screen bg-white drop-shadow-md">
       <div className="md:ml-[25vw] ml-[5vw] flex items-center py-[1.5vh] align-center justify-between">
         <div className="topic md:text-xl md:text-lg h-fit pl-[2vw]">
           {props.title}

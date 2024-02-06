@@ -25,7 +25,7 @@ function Projects() {
         setIsExpanded={setIsExpanded}
         select={{ projects: true }}
       />
-      <div className="w-full">
+      <div className="w-screen">
         <Topbar title="Projects" />
         <Project projects={projects} />
       </div>

@@ -1,12 +1,14 @@
 import React , {useState,useEffect}from 'react';
 import fetchProfileFromServer from '../../fetch/profile';
-import { putUpvote } from '../../fetch/comments';
+import { putUpvote,putDownvote } from '../../fetch/comments';
 
 const CommentCard = (props) => {
     const [hoursAgo, setHoursAgo] = React.useState('');
     const [profile, setProfile] = React.useState({});
-    const [upvotes,setUpvotes] = React.useState(props.comments.likes.length);
+    const [upvotes,setUpvotes] = React.useState(0);
     const [upvoted,setUpvoted] = React.useState(false);
+    const [downvotes,setDownvotes] = React.useState(0);
+    const [downvoted,setDownvoted] = React.useState(false);
 
     useEffect(() => {
         const postingTime = props.comments.timeOfPost;
@@ -34,35 +36,55 @@ const CommentCard = (props) => {
     useEffect(() => {
         fetchProfileFromServer(localStorage.getItem('user')).then((res) => {
             if(props.comments) {
-                console.log(props.comments);
+                setUpvotes(props.comments.likes.length);
                 if (props.comments.likes.includes(res._id)) {
-                    console.log('upvoted');
                     setUpvoted(true);
                 }
                 else{
-                    console.log('not upvoted');
                     setUpvoted(false);
                 }
-            }
-        }).catch(error => {
+                setDownvotes(props.comments.dislikes.length);
+                if (props.comments.dislikes.includes(res._id)) {
+                    console.log('downvoted');
+                    setDownvoted(true);
+                }
+                else{
+                    console.log('not downvoted');
+                    setDownvoted(false);
+                }
+                }                
+            }    
+        ).catch(error => {
             console.error(error);
         });
     }, [props.comments]);
 
     const handleUpvote = () => {
         putUpvote(props.comments._id).then((res) => {
-            console.log(res);
+            if(downvoted) setDownvoted(!downvoted);
             setUpvotes(res.data.likes.length);
+            setDownvotes(res.data.dislikes.length);     
             setUpvoted(!upvoted);
         }).catch(error => {
             console.error(error);
         });
     }
 
+    const handleDownvote = () => {  
+        putDownvote(props.comments._id).then((response) => {
+            console.log('Dislike:', response);
+            if(upvoted) setUpvoted(!upvoted);
+            setDownvoted(!downvoted);
+            setUpvotes(response.data.likes.length);
+            setDownvotes(response.data.dislikes.length);            
+        }).catch((error) => {
+            console.error('Error disliking:', error);
+        });
+    }    
+
     useEffect(() => {
         fetchProfileFromServer(props.comments.userId).then((res) => {
            setProfile(res);
-            console.log(res);
         }).catch(error => {
             console.error(error);
         });
@@ -111,11 +133,20 @@ const CommentCard = (props) => {
                         <div className='flex gap-1 align-center items-center'>
                             <img src={`images/${upvoted ? 'upvote' : 'emptyUpvote'}.svg`} 
                                 alt="Description" 
-                                className="object-cover object-center w-[0.875rem] h-[0.875rem]" 
+                                className="object-cover object-center w-[1rem] h-[1rem]" 
                                 onClick={handleUpvote}
                             />
                             <div className='text-[0.875rem]'>{upvotes}</div>
                         </div>
+                        <div className='flex justify-center items-center gap-1'>
+                            <img src={`images/${downvoted ? 'downvote' : 'emptyDownvote'}.svg`}  
+                                className={`${downvoted ? 'w-[1.6rem] h-[1.6rem]}':'w-[1.5rem] h-[1.5rem]'}`} alt="star"
+                                onClick={handleDownvote}
+                            />
+                            <div className='text-[1rem]'>
+                                {downvotes}
+                            </div>
+                        </div>                           
                     </div>                    
                 </div>
             </div>

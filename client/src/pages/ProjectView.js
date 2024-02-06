@@ -70,17 +70,8 @@ function ProjectView() {
         prevArrow: <PrevArrow />        
     };
 
-    // Sample image and video URLs
-    const mediaUrls = [
-        '/images/demoPic.png',
-        '/images/demoVid.mkv'
-        // Add more URLs as needed
-    ];
-
-
-
   return (
-    <div className="w-screen flex flex-col justify-center items-center">
+    <div className="w-screen flex flex-col justify-center items-center mb-[10vh]">
       <div className="fixed top-0 left-0 right-0 z-50">
         <Topbar title="Project" />
       </div>
@@ -99,10 +90,11 @@ function ProjectView() {
         <div className="text-[1.5rem] text-[#0016DA] font-bold">
           Project Showcase
         </div>
-        <Slider {...settings}>
-          {mediaUrls.map((url, index) => (
+        {project.mediaArray && project.mediaArray.length!==0 ? 
+          <Slider {...settings}>
+          {project.mediaArray.map((url, index) => (
             <div className="flex justify-center w-fit">
-              {url.endsWith(".png") ? (
+              {(url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".svg")) ? (
                 <img
                   src={url}
                   alt={`Image ${index + 1}`}
@@ -115,17 +107,22 @@ function ProjectView() {
               )}
             </div>
           ))}
-        </Slider>
+        </Slider> 
+        : 
+        <div className="text-[#000000] text-[1rem] mt-2">No media to display</div>}
+
       </div>
-      <div className="flex flex-col gap-2 w-[80vw] mt-[20vh] pl-[2vw]">
+      <div className="flex flex-col gap-2 w-[80vw] mt-[10vh] pl-[2vw]">
         <div className="text-[1.5rem] text-[#0016DA] font-bold">
           Tech Stacks
         </div>
         <div>
           <div>
-            {project.techStacks && project.techStacks.map((techStack, index) => (
-            <span className="inline-block mr-8 border rounded-lg px-2 bg-white shadow-sm" key={index}>{techStack}</span>
-            ))}
+            {(project.techStacks && project.techStacks.length!==0) ? project.techStacks.map((techStack, index) => (
+            <span className="inline-block mr-8 border rounded-lg px-2 bg-white shadow-sm" key={index}>{techStack.name}</span>
+            ))
+            :
+            <span className="inline-block mr-8 border rounded-lg px-2 bg-white shadow-sm">NONE</span>}
             </div>
         </div>
       </div>
@@ -134,9 +131,12 @@ function ProjectView() {
           Comments
         </div>
         <div>
-          {project.commentsId && project.commentsId.map((comment, index) => (
+          {(project.commentsId && project.commentsId.length!==0) ? project.commentsId.map((comment, index) => (
             <CommentCard key={index} comments={comment} />
-          ))}
+          )):
+          <div className="text-[#000000] text-[1rem] mt-2">
+            No comments yet
+          </div>}
         </div>
       </div>
     </div>

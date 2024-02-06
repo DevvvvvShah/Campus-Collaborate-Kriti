@@ -23,19 +23,8 @@ const Topbar = (props) => {
     }
   };
 
-
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-      localStorage.removeItem("user");
-      console.log("Logout button clicked");
-
-      // Redirect to home page
-      navigate("/");
-    };
-
   return (
-    <div className="w-full bg-white drop-shadow-md">
+    <div className="w-screen bg-white drop-shadow-md">
       <div className="md:ml-[25vw] ml-[5vw] flex items-center py-[1.5vh] align-center justify-between">
         <div className="topic md:text-xl md:text-lg h-fit pl-[2vw]">
           {props.title}
@@ -55,7 +44,6 @@ const Topbar = (props) => {
             />
           </div>
           <div className="profile bg-[#CCC] mr-[5vw] ml-[2vw] w-[30px] h-[30px] shadow rounded-full"></div>
-          <button onClick={handleLogout} className=" py-1 px-2 mr-2 rounded bg-blue-500 text-white">Logout</button>
         </div>
       </div>
     </div>

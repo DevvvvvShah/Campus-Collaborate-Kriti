@@ -5,11 +5,11 @@ const USER = require("../auth/auth");
 const getToken = (req, res, next) => {
   // Assuming you have the cookie-parser middleware installed
   const token = req.cookies.token;
-  console.log(req.cookies);
-  console.log('token is : ', token);
+  // console.log(req.cookies);
+  // console.log('token is : ', token);
   // Include the token in the request headers
   req.headers.authorization = `Bearer ${token}`; // Prepend 'Bearer ' to the token
-  console.log(req.headers.authorization);
+  // console.log(req.headers.authorization);
   next();
 };
 
@@ -19,7 +19,7 @@ const verifyToken = (req, res, next) => {
   if (typeof bearerHeader !== "undefined") {
     const bearerToken = bearerHeader.split(" ")[1];
     req.token = bearerToken;
-    console.log(bearerToken);
+    // console.log(bearerToken);
     next();
   } else {
     res.status(403).json("Invalid token!");
@@ -28,9 +28,9 @@ const verifyToken = (req, res, next) => {
 
 const authenticateUser = async (req, res, next) => {
   try {
-    console.log(req.token);
+    // console.log(req.token);
     const decoded = jwt.verify(req.token, process.env.JWT_SEC);
-    console.log(decoded);
+    // console.log(decoded);
     req.user = decoded.id;
     if (!decoded.id) {
       res.status(403).json("No user provided!");

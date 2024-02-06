@@ -8,4 +8,12 @@ const putUpvote = (commentId) => {
     });
   };
 
-export { putUpvote };
+const putDownvote = (commentId) => {
+    return axios.put(`http://localhost:3001/comment/dislike/${commentId}`,
+    {},
+    {
+      withCredentials: true,
+    });
+  }
+
+export { putUpvote, putDownvote};

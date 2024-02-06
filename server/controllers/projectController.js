@@ -36,7 +36,7 @@ const newProject = async (req, res) => {
 // get all projects
 const getAllProjects = async (req, res) => {
     try {
-        const projects = await Project.find();
+        const projects = await Project.find().populate('creatorId');
         res.status(200).json(projects);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -46,11 +46,12 @@ const getAllProjects = async (req, res) => {
 const getProject = async (req, res) => {
     const { projectId } = req.params;
     try {
-        const project = await Project.findById(projectId).populate('commentsId');
+        const project = await Project.findById(projectId).populate('commentsId').populate('creatorId');
         project.views += 1;
         await project.save();
         res.status(200).json(project);
     } catch (error) {
+        console.log(error);
         res.status(404).json({ message: error.message });
     }
 }
@@ -68,7 +69,7 @@ const likeProject = async (req, res) => {
     const { projectId } = req.body;
     try {
         const project = await Project.findById(projectId);
-        console.log(project);
+        console.log("USER:   ",req.user);
         await User.findById(req.user).then(user => {
             if (project.likes.includes(user._id)) {
                 project.likes.pull(user._id);
@@ -82,6 +83,7 @@ const likeProject = async (req, res) => {
         await project.save();
         res.status(200).json(project);
     } catch (error) {
+        console.log(error);
         res.status(404).json({ message: error.message });
     }
 }
