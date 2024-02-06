@@ -4,6 +4,9 @@ import { getMyConnectionPosts } from "../../fetch/feed";
 
 const FollowingFeed = (props) => {
   const [posts, setPosts] = React.useState([]);
+  const postSearch = props.postSearch;
+  const [filteredPosts, setFilteredPosts] = React.useState([]);
+
   useEffect(() => {
     console.log("Running useEffect");
     getMyConnectionPosts()
@@ -15,9 +18,23 @@ const FollowingFeed = (props) => {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    console.log(postSearch);
+    if(postSearch){
+      const filteredPosts = posts.filter((post) => post.caption.toLowerCase().includes(postSearch.toLowerCase()));
+      console.log(filteredPosts);
+      setFilteredPosts(filteredPosts);
+    }
+    else{
+      setFilteredPosts(posts);
+    }
+  }
+  ,[postSearch, posts])
+
   return (
     <div className=" pt-8">
-      <FeedSection posts={posts} />
+      <FeedSection posts={filteredPosts} />
     </div>
   );
 };

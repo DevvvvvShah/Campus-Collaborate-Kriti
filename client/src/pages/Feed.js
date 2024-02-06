@@ -10,6 +10,7 @@ import { FavoritesFeed } from "../components/FeedPage/FavoritesFeed";
 const Feed = (props) => {
   const [isExpanded, setIsExpanded] = React.useState(true);
   const [posts, setPosts] = React.useState([]);
+  const [postSearch, setPostSearch] = React.useState("");
   //   const [currentTab, setCurrentTab] = React.useState("global");
 
   const [activeTab, setActiveTab] = useState("global");
@@ -32,11 +33,11 @@ const Feed = (props) => {
   const renderTabContent = () => {
     switch (activeTab) {
       case "global":
-        return <MainFeed />;
+        return <MainFeed postSearch={postSearch} />;
       case "following":
-        return <FollowingFeed />;
+        return <FollowingFeed postSearch={postSearch} />;
       case "favorites":
-        return <FavoritesFeed />;
+        return <FavoritesFeed postSearch={postSearch} />;
       default:
         return null;
     }
@@ -52,7 +53,7 @@ const Feed = (props) => {
             select={{ questions: true }}
           />
           <div className="w-[95rem]">
-            <Topbar title="Feed" />
+            <Topbar title="Feed" postSearch={postSearch} setPostSearch={setPostSearch}/>
             <div className="bg-white">
               <div className=" ml-[24rem] flex items-center justify-around py-3">
                 <div className="flex justify-center w-[33.33%]  border-r-2 border-[lightgrey]">

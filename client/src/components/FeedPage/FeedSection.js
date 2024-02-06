@@ -6,6 +6,7 @@ const FeedSection = (props) => {
   console.log("Feed Section Rendered");
 
   useEffect(() => {
+    setUnits([]);
     props.posts.map((post) => {
       setUnits((units) => [
         ...units,

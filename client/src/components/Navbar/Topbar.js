@@ -1,13 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import fetchProfileFromServer from "../../fetch/profile";
 
 const Topbar = (props) => {
   const discussions = props.discussions;
   const courseReviews = props.courseReviews;
-  const posts = props.posts;
+  const postSearch = props.postSearch;
+  const projects = props.projects;
   const [search, setSearch] = React.useState("");
+  const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
+  const [showDetails, setShowDetails] = useState(false);
+
+  useEffect(() => {
+    const userFromLocalStorage = localStorage.getItem('user');
+    if (userFromLocalStorage) {
+      fetchProfileFromServer(userFromLocalStorage)
+        .then((res) => setUser(res))
+        .catch((err) => console.log(err));
+    }
+    console.log('This is the user as per topbar', userFromLocalStorage);
+  }, []);
+  console.log(user);
+
+  const handleMouseEnter = () => {
+    setShowDetails(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowDetails(false);
+  };
 
     const handleLogout = () => {
       localStorage.removeItem("user");
@@ -40,18 +63,23 @@ const Topbar = (props) => {
 
   useEffect(() => {
     if(search){
-      if(discussions){
-        const filteredDiscussions = discussions.filter((discussion) => discussion.content.toLowerCase().includes(search.toLowerCase()));
+      if(discussions && props.setFilteredDiscussions){
+        const filteredDiscussions = discussions.filter((discussion) => discussion.content.toLowerCase().includes(search.toLowerCase())||discussion.title.toLowerCase().includes(search.toLowerCase()));
         console.log(filteredDiscussions);
         props.setFilteredDiscussions(filteredDiscussions);
       }
-      if(courseReviews){
-        const filteredCourseReviews = courseReviews.filter((courseReview) => courseReview.course.toLowerCase().includes(search.toLowerCase()));
+      if(courseReviews && props.setFilteredCourseReviews){
+        const filteredCourseReviews = courseReviews.filter((courseReview) => courseReview.title.toLowerCase().includes(search.toLowerCase())||courseReview.description.toLowerCase().includes(search.toLowerCase()));
+        console.log(filteredCourseReviews);
         props.setFilteredCourseReviews(filteredCourseReviews);
       }
-      if(posts){
-        const filteredPosts = posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase()));
-        props.setFilteredPosts(filteredPosts);
+      if(projects && props.setFilteredProjects){
+        const filteredProjects = projects.filter((project) => project.title.toLowerCase().includes(search.toLowerCase())||project.description.toLowerCase().includes(search.toLowerCase()));
+        props.setFilteredProjects(filteredProjects);
+      } 
+      if(props.setPostSearch){
+        props.setPostSearch(search);
+        console.log(search);
       }
     }
     else{
@@ -61,11 +89,15 @@ const Topbar = (props) => {
       if(courseReviews){
         props.setFilteredCourseReviews(courseReviews);
       }
-      if(posts){
-        props.setFilteredPosts(posts);
+      if(projects){
+        props.setFilteredProjects(projects);
       }
+      if(postSearch){
+        props.setPostSearch("");
+      }
+
     }
-  }, [courseReviews, discussions, posts, props, search]);
+  }, [search]);
 
   return (
     <div className="w-screen bg-white drop-shadow-md">
@@ -88,7 +120,34 @@ const Topbar = (props) => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="profile bg-[#CCC] mr-[5vw] ml-[2vw] w-[30px] h-[30px] shadow rounded-full"></div>
+          <div>
+            {user && (
+              <div>
+                <img
+                  src={user.profilePic}
+                  alt="Profile"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  className="profile mr-[1vw] ml-[5vw] w-[30px] h-[30px] rounded-full"
+                />
+                <p
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  {user.name}
+                </p>
+              </div>
+            )}
+
+            {showDetails && user && (
+              <div className="dialog-box">
+                <p>Name: {user.name}</p>
+                <p>Program: {user.program}</p>
+                <p>Branch: {user.branch}</p>
+                <p>Email: {user.email}</p>
+              </div>
+            )}
+          </div>
         </div>
         <button onClick={handleLogout} className=" py-1 px-2 mr-2 rounded bg-blue-500 text-white">Logout</button>
       </div>
