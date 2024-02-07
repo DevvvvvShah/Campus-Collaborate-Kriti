@@ -10,8 +10,25 @@ import Projects from "./pages/Projects";
 import ProjectView from "./pages/ProjectView";
 import CourseReview from "./pages/CourseReview";
 import SearchPage from "./pages/SearchPage";
+import { Navigate } from "react-router-dom";
+
 
 function App() {
+  const user = localStorage.getItem("user");
+  console.log("user", user);
+
+  if (!user) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -24,7 +41,8 @@ function App() {
         <Route path="/projectview" element={<ProjectView />} />
         <Route path="/editProfile" element={<EditProfileCard />} />
         <Route path="/courseReview" element={<CourseReview />} />
-        <Route path="/search" element={<SearchPage/>} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
