@@ -24,6 +24,7 @@ const newProject = async (req, res) => {
             });
             const results = await Promise.all(uploadPromises);
             newProject.mediaArray = results.map(result => result.secure_url); // Add secure URLs to newProject.mediaArray
+            await newProject.save();
         }
         const user = await User.findById(req.user);
         user.projects.push(newProject._id);

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button, Container, Typography, Box, Paper } from '@mui/material';
 import { Autocomplete, Chip } from '@mui/material';
 import { getTechStacks } from '../../fetch/techStacks';
+import axios from 'axios';
 
 function AddProject(props) {
+  const [techStackIds, setTechStackIds] = useState([]);
   const [projectName, setProjectName] = useState('');
   const [linkToProject, setLinkToProject] = useState('');
   const [description, setDescription] = useState('');
@@ -30,27 +32,32 @@ function AddProject(props) {
 
   const handleAddProject = () => {
     const formData = new FormData();
+    setTechStackIds(selectedTechStacks.map((value, index) => value.id));
+
+
     formData.append('title', projectName);
     formData.append('githubLink', linkToProject);
     formData.append('description', description);
-    formData.append('techStacks', JSON.stringify(selectedTechStacks));
-    formData.append('creatorId', localStorage.getItem('userId'));
-    formData.append('files', selectedFile);
+    techStackIds.forEach((value, index) => {
+      formData.append('techStacks', value);
+    });
+    formData.append('creatorId', localStorage.getItem('user'));
+    for (let i = 0; i < selectedFile.length; i++) {
+      formData.append('media', selectedFile[i]);
+    }
 
-    // Send the formData to the server using fetch or axios
-    fetch('http://localhost:3001/projects/', {
-      method: 'POST',
-      body: formData,
-      files: selectedFile,
+
+    const config = {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
-      credentials: 'include' // Add credentials option
-    })
-      .then(response => response.json())
-      .then(data => {
+      withCredentials: true // Add withCredentials option
+    };
+
+    axios.post('http://localhost:3001/projects/', formData, config)
+      .then(response => {
         // Handle the response from the server
-        console.log(data);
+        console.log(response.data);
       })
       .catch(error => {
         // Handle any errors
