@@ -187,6 +187,7 @@ grid-template-rows: 15% 70% 15%;
       justify-content: flex-start;
       .content {
         background-color: white;
+        color:black;
       }
     }
   }

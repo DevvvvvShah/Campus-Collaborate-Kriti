@@ -19,6 +19,7 @@ const commentRoutes = require("./Routes/commentRoutes.js");
 const postRoutes = require("./Routes/postRoutes.js");
 const projectRoutes = require("./Routes/projectRoutes.js");
 const messagesRoutes = require("./Routes/messagesRoute.js");
+const techStackRoutes = require("./Routes/techStacksRoutes.js");
 
 var app = express();
 
@@ -107,6 +108,7 @@ app.use("/comment", commentRoutes);
 app.use("/posts", postRoutes);
 app.use("/projects", projectRoutes);
 app.use("/messages", messagesRoutes);
+app.use("/techstacks", techStackRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

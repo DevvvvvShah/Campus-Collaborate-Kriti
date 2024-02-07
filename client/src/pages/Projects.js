@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Topbar from "../components/Navbar/Topbar";
 import Project from "../components/Projects/MainProject";
 import { getProjects } from "../fetch/projects";
+import AddProject from "../components/Projects/addProject";
 import { Link } from "react-router-dom";
 
 function Projects() {
-  const [isExpanded, setIsExpanded] = React.useState(true);
-  const [projects, setProjects] = React.useState([]);
-  const [filteredProjects, setFilteredProjects] = React.useState([]);
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [projects, setProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  const [isAddProject, setIsAddProject] = useState(false);
 
   useEffect(() => {
     getProjects()
@@ -27,13 +29,19 @@ function Projects() {
         setIsExpanded={setIsExpanded}
         select={{ projects: true }}
       />
+      <div className={`flex justify-center rounded-xl items-center z-50 
+      w-screen h-screen bg-[#00000022] fixed top-0 left-0
+      ${isAddProject ? ' block' : ' hidden'}`}>
+        <AddProject setIsAddProject={setIsAddProject}/>
+      </div>
       <div className="w-screen">
         <Topbar title="Projects" projects={projects} setFilteredProjects={setFilteredProjects}/>
         <Project projects={filteredProjects} />
       </div>
       <div
         className="fixed flex justify-center shadow-lg items-center gap-2 md:bottom-2 md:right-2 bottom-[9vh] right-2
-                     w-[180px] h-[45px] bg-[#FFFFFF] rounded-full"
+                     w-[180px] h-[45px] bg-[#FFFFFF] rounded-full "
+        onClick={() => setIsAddProject(true)}
       >
         <img
           src="images/add.svg"
