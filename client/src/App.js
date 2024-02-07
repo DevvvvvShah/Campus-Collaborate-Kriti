@@ -9,6 +9,7 @@ import DiscussionForum from "./pages/DiscussionForum";
 import Projects from "./pages/Projects";
 import ProjectView from "./pages/ProjectView";
 import CourseReview from "./pages/CourseReview";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/projectview" element={<ProjectView />} />
         <Route path="/editProfile" element={<EditProfileCard />} />
         <Route path="/courseReview" element={<CourseReview />} />
+        <Route path="/search" element={<SearchPage/>} />
       </Routes>
     </BrowserRouter>
   );

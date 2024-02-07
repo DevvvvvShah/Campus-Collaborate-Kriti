@@ -20,9 +20,7 @@ const Topbar = (props) => {
         .then((res) => setUser(res))
         .catch((err) => console.log(err));
     }
-    console.log('This is the user as per topbar', userFromLocalStorage);
   }, []);
-  console.log(user);
 
   const handleMouseEnter = () => {
     setShowDetails(true);
@@ -40,7 +38,6 @@ const Topbar = (props) => {
       navigate("/");
     };
   const handleSearch = () => {
-    console.log("Search button clicked");
     if (window.innerWidth < 768) {
       const search = document.querySelector("input");
       search.classList.toggle("hidden");
@@ -65,12 +62,10 @@ const Topbar = (props) => {
     if(search){
       if(discussions && props.setFilteredDiscussions){
         const filteredDiscussions = discussions.filter((discussion) => discussion.content.toLowerCase().includes(search.toLowerCase())||discussion.title.toLowerCase().includes(search.toLowerCase()));
-        console.log(filteredDiscussions);
         props.setFilteredDiscussions(filteredDiscussions);
       }
       if(courseReviews && props.setFilteredCourseReviews){
         const filteredCourseReviews = courseReviews.filter((courseReview) => courseReview.title.toLowerCase().includes(search.toLowerCase())||courseReview.description.toLowerCase().includes(search.toLowerCase()));
-        console.log(filteredCourseReviews);
         props.setFilteredCourseReviews(filteredCourseReviews);
       }
       if(projects && props.setFilteredProjects){
@@ -120,7 +115,7 @@ const Topbar = (props) => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div>
+          <div className="ml-10">
             {user && (
               <div>
                 <img
@@ -128,7 +123,7 @@ const Topbar = (props) => {
                   alt="Profile"
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
-                  className="profile mr-[1vw] ml-[5vw] w-[30px] h-[30px] rounded-full"
+                  className="profile mr-[1vw] ml-[5vw] w-[10px] h-[10px] rounded-full"
                 />
                 <p
                   onMouseEnter={handleMouseEnter}
@@ -140,11 +135,13 @@ const Topbar = (props) => {
             )}
 
             {showDetails && user && (
-              <div className="dialog-box">
-                <p>Name: {user.name}</p>
-                <p>Program: {user.program}</p>
-                <p>Branch: {user.branch}</p>
-                <p>Email: {user.email}</p>
+              <div className="dialog-box absolute z-[9999] border-1 bg-white rounded-md border">
+                <div className="p-2">
+                  <p>Name: {user.name}</p>
+                  <p>Program: {user.program}</p>
+                  <p>Branch: {user.branch}</p>
+                  <p>Email: {user.email}</p>
+                </div>
               </div>
             )}
           </div>

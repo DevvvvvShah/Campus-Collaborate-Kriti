@@ -33,6 +33,17 @@ const getProfile = async (req, res) => {
     });
 };
 
+//search profiles
+const searchProfiles = async (req, res) => {
+  const { searchTerm } = req.body;
+  try {
+    const users = await User.find({ name: { $regex: searchTerm, $options: "i" } });  
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // update profile of logged in user
 const updateUserProfile = async (req,res) => {
     console.log("body: ",req.file);
@@ -98,5 +109,6 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
   addtoConnection,
-  getAllUserChats
+  getAllUserChats,
+  searchProfiles
 };
