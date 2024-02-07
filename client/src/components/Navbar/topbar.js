@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import fetchProfileFromServer from "../../fetch/profile";
+import axios from "axios";
 
 const Topbar = (props) => {
   const discussions = props.discussions;
@@ -31,11 +32,20 @@ const Topbar = (props) => {
   };
 
     const handleLogout = () => {
-      localStorage.removeItem("user");
       console.log("Logout button clicked");
-
+      try{
+        axios.defaults.headers.common["authorization"] = "";
+        axios.get("http://localhost:3001/auth/signout", { withCredentials: true }).then((res) => {
+          localStorage.removeItem("user");
+          console.log(res);
+          navigate("/");
+        });
+        
+      }
+      catch(err){
+        console.log(err);
+      }
       // Redirect to home page
-      navigate("/");
     };
   const handleSearch = () => {
     if (window.innerWidth < 768) {
