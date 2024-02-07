@@ -8,11 +8,13 @@ import { Link } from "react-router-dom";
 function Projects() {
   const [isExpanded, setIsExpanded] = React.useState(true);
   const [projects, setProjects] = React.useState([]);
+  const [filteredProjects, setFilteredProjects] = React.useState([]);
 
   useEffect(() => {
     getProjects()
       .then((res) => {
         setProjects(res.data);
+        setFilteredProjects(res.data);
       })
       .catch((error) => {
         console.error(error);
@@ -26,8 +28,8 @@ function Projects() {
         select={{ projects: true }}
       />
       <div className="w-screen">
-        <Topbar title="Projects" />
-        <Project projects={projects} />
+        <Topbar title="Projects" projects={projects} setFilteredProjects={setFilteredProjects}/>
+        <Project projects={filteredProjects} />
       </div>
       <div
         className="fixed flex justify-center shadow-lg items-center gap-2 md:bottom-2 md:right-2 bottom-[9vh] right-2

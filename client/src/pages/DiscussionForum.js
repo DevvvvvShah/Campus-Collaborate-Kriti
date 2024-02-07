@@ -9,6 +9,7 @@ import ChatBot from "../chatBot/ChatBot";
 const DiscussionForum = (props) => {
   const [isExpanded, setIsExpanded] = React.useState(true);
   const [discussions, setDiscussions] = React.useState([]);
+  const [filteredDiscussions, setFilteredDiscussions] = React.useState([]);
   const [chatBot, setChatBot] = React.useState(false);
   const chatBotRef = useRef(null);
 
@@ -20,6 +21,7 @@ const DiscussionForum = (props) => {
     getDiscussions()
       .then((res) => {
         setDiscussions(res.data);
+        setFilteredDiscussions(res.data);
         console.log(res.data);
       })
       .catch((error) => {
@@ -50,8 +52,8 @@ const DiscussionForum = (props) => {
             select={{ questions: true }}
           />
           <div className="w-full">
-            <Topbar title="Discussion Forum" />
-            <MainDiscussion discussions={discussions} />
+            <Topbar title="Discussion Forum" discussions={discussions} setFilteredDiscussions={setFilteredDiscussions} />
+            <MainDiscussion discussions={filteredDiscussions} />
           </div>
           <div
             ref={chatBotRef}
