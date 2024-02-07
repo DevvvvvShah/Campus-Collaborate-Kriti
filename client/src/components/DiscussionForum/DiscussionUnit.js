@@ -4,7 +4,6 @@ import { postComment, putUpvote } from "../../fetch/discussions";
 
 const DiscussionUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
-  const [profile, setProfile] = React.useState({});
   const [comment, setComment] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
   const [comments, setComments] = React.useState(
@@ -95,16 +94,6 @@ const DiscussionUnit = (props) => {
     }, 200);
   };
 
-  useEffect(() => {
-    fetchProfileFromServer(props.discussion.poster)
-      .then((res) => {
-        setProfile(res);
-        console.log(res);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   return (
     <div className="w-full text-black p-5 rounded-lg bg-white mb-2 drop-shadow-lg max-w-[50rem] mx-auto">
@@ -115,7 +104,7 @@ const DiscussionUnit = (props) => {
         <div className="md:col-span-8 flex flex-col md:items-start md:justify-center items-center">
           <div className="flex gap-2">
             <div className="text-[1rem] font-semibold">
-              {profile && profile.name}
+              {props.discussion.poster && props.discussion.poster.name}
             </div>
             <div className="flex items-center">
               <img
@@ -126,14 +115,14 @@ const DiscussionUnit = (props) => {
             </div>
           </div>
           <div className="text-[0.75rem] text-[#0016DA] align-bottom">
-            @{profile && profile.name}
+            @{props.discussion.poster && props.discussion.poster.email}
           </div>
         </div>
         <div className="md:col-span-3 flex flex-col items-end align-top">
           <div className="text-[0.875rem] text-[#0016DA]">{hoursAgo}</div>
         </div>
         <div className="md:col-span-1"></div>
-        <div className="md:col-span-8">
+        <div className="md:col-span-8 hover:cusor-pointer" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}>
           <div className="text-[1rem]">{props.discussion.content}</div>
         </div>
         <div className="flex justify-end md:col-span-3 items-center"></div>

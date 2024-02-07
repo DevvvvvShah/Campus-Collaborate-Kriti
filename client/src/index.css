@@ -50,26 +50,38 @@
   border-bottom: 2.5px solid #1d4ed8;
 }
 
+.firstElement {
+  opacity: 1;
+  transform: translateY(-50px);
+  transition: all 1s ease-out;
+}
+
 .secondElement {
   opacity: 0;
-  transform: translateY(50px);
+  transform: translateY(25px);
   transition: all 1s ease-out;
 }
 
 .thirdElement {
   opacity: 0;
-  transform: translateY(50px);
+  transform: translateY(25vh);
+  transition: all 1s ease-out;
+}
+
+.firstElement.fade-out {
+  opacity: 0;
+  transform: translateY(0px);
   transition: all 1s ease-out;
 }
 
 .secondElement.fade-in {
   opacity: 1;
-  transform: translateY(0px);
+  transform: translateY(-200px);
   transition: all 1s ease-out;
 }
 
 .thirdElement.fade-in {
   opacity: 1;
-  transform: translateY(0px);
+  transform: translateY(0);
   transition: all 1s ease-out;
 }

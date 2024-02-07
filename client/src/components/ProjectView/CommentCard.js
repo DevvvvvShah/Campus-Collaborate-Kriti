@@ -80,16 +80,7 @@ const CommentCard = (props) => {
         }).catch((error) => {
             console.error('Error disliking:', error);
         });
-    }    
-
-    useEffect(() => {
-        fetchProfileFromServer(props.comments.userId).then((res) => {
-           setProfile(res);
-        }).catch(error => {
-            console.error(error);
-        });
-
-    }, []);    
+    }      
 
     return (
         <div className='w-full text-black p-5 bg-white shadow-lg rounded-lg mb-2'>
@@ -101,14 +92,14 @@ const CommentCard = (props) => {
                 <div className='md:col-span-8 flex flex-col md:items-start md:justify-center items-center' >
                     <div className='flex gap-2'>
                         <div className='text-[1rem] font-semibold'>
-                            {profile && profile.name}
+                            {props.comments && props.comments.userId.name}
                         </div>
                         <div className='flex items-center'>
                             <img src="images/verify.png" alt="Description" className="object-cover object-center w-[1.125rem] h-[1.125rem]" />
                         </div>
                     </div>
                     <div className='text-[0.75rem] text-[#0016DA] align-bottom'>
-                        {profile && profile.email}
+                        {props.comments && props.comments.userId.email}
                     </div>
                 </div>
                 <div className='md:col-span-3 flex flex-col items-end align-top'>

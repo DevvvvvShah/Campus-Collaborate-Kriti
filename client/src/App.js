@@ -10,6 +10,7 @@ import Projects from "./pages/Projects";
 import ProjectView from "./pages/ProjectView";
 import CourseReview from "./pages/CourseReview";
 import SearchPage from "./pages/SearchPage";
+import DiscussionView from "./pages/discussionView";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/discussion" element={<DiscussionForum />} />
+        <Route path="/discussionView" element={<DiscussionView />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/projectview" element={<ProjectView />} />
         <Route path="/editProfile" element={<EditProfileCard />} />

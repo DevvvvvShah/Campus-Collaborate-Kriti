@@ -4,6 +4,10 @@ const getDiscussions = () => {
   return axios.get('http://localhost:3001/discussion/'); 
 };
 
+const getDiscussion = (id) => {
+  return axios.get(`http://localhost:3001/discussion/${id}`);
+};
+
 const postComment = (discussionId, content) => {
   return axios.post('http://localhost:3001/discussion/comment', {
     discussionId,
@@ -23,9 +27,28 @@ const putUpvote = (discussionId) => {
   });
 };
 
+const putDownvote = (discussionId) => {
+  return axios.put('http://localhost:3001/discussion/downvote', {
+    discussionId,
+  },
+  {
+    withCredentials: true,
+  });
+}
+
+const postDiscussion = (body) => {
+  console.log(body);
+  return axios.post('http://localhost:3001/discussion/', body, {
+    withCredentials: true,
+  });
+}
+
 
 export {
   getDiscussions,
   postComment,
   putUpvote,
+  postDiscussion,
+  getDiscussion,
+  putDownvote,
 };

@@ -8,6 +8,7 @@ function SearchPage() {
     const [isExpanded, setIsExpanded] = useState(true);
     const [search, setSearch] = useState("");
     const [profiles, setProfiles] = useState([]);
+    const [hover, setHover] = useState(false);
 
     useEffect(() => {
         fetchProfilesBySearch(search)
@@ -15,7 +16,7 @@ function SearchPage() {
         .catch((err) => console.log(err));
     }, [search]);
     
-
+    console.log(hover);
 
   
     return (
@@ -27,14 +28,18 @@ function SearchPage() {
         />
         <div className="w-screen">
           <Topbar title="Search" />
-          
-          <div className="ml-[40vw] flex  m-10 w-[40vw] h-[4vh] border-2 border-gray-300 rounded-xl">
-            <img
-                src="images/search.svg"
-                alt="search icon"
-                className="w-[1rem] h-[1rem] m-2 hover:cursor-pointer"
-                />
-            <input type="text" placeholder="Search for users" className='w-full focus:outline-none' onChange={(e) => setSearch(e.target.value)} />
+          <div className='ml-[40vw] '>
+            <div className={`flex ${hover ? ' border-[1px] border-[#0016DA] ' : ''} pl-4 items-center bg-white shadow-sm mt-10 mb-10 mr-10 w-[40vw] h-[2.5rem] rounded-xl overflow-hidden`}>
+              <img
+                  src="images/search.svg"
+                  alt="search icon"
+                  className="w-[1rem] h-[1rem] m-2 hover:cursor-pointer"
+                  />
+              <input type="text" placeholder="Search for users" className='w-full h-full focus:outline-none' 
+                      onChange={(e) => setSearch(e.target.value)}
+                      onFocus={() => setHover(true)}
+                      onBlur={() => setHover(false)} />
+            </div>
           </div>
 
             <div className="ml-[40vw] w-[40vw]">

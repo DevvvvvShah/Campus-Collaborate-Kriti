@@ -5,12 +5,14 @@ import { getDiscussions } from "../fetch/discussions";
 import Navbar from "../components/Navbar/Navbar";
 import Topbar from "../components/Navbar/Topbar";
 import ChatBot from "../chatBot/ChatBot";
+import AddDiscussion from "../components/DiscussionForum/addDiscussions";
 
 const DiscussionForum = (props) => {
   const [isExpanded, setIsExpanded] = React.useState(true);
   const [discussions, setDiscussions] = React.useState([]);
   const [filteredDiscussions, setFilteredDiscussions] = React.useState([]);
   const [chatBot, setChatBot] = React.useState(false);
+  const [isAddDiscussion, setIsAddDiscussion] = React.useState(false);
   const chatBotRef = useRef(null);
 
   function handleChat() {
@@ -51,6 +53,11 @@ const DiscussionForum = (props) => {
             setIsExpanded={setIsExpanded}
             select={{ questions: true }}
           />
+          <div className={`flex justify-center rounded-xl items-center z-50 
+          w-screen h-screen bg-[#00000022] fixed top-0 left-0
+          ${isAddDiscussion ? ' block' : ' hidden'}`}>
+            <AddDiscussion setIsAddDiscussion={setIsAddDiscussion}/>
+          </div>          
           <div className="w-full">
             <Topbar title="Discussion Forum" discussions={discussions} setFilteredDiscussions={setFilteredDiscussions} />
             <MainDiscussion discussions={filteredDiscussions} />
@@ -66,6 +73,7 @@ const DiscussionForum = (props) => {
             <div
               className="flex justify-center shadow-lg items-center gap-2
                           w-[140px] h-[45px] bg-[#FFFFFF] rounded-full"
+              onClick={() => setIsAddDiscussion(true)}
             >
               <img
                 src="images/add.svg"
@@ -76,7 +84,8 @@ const DiscussionForum = (props) => {
                 Question
               </div>
             </div>  
-            <div className="flex w-[50px] h-[50px] bg-[#FFFFFF] rounded-full justify-center shadow items-center">
+            <div className="flex w-[50px] h-[50px] bg-[#FFFFFF] rounded-full justify-center shadow items-center"
+            >
               <img
                 src="images/chat.svg"
                 alt="chat"

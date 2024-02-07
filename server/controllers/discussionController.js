@@ -23,7 +23,7 @@ const newDiscussion = async (req,res) => {
 // get all discussions : GET
 const getAllDiscussion = async (req,res) => {
     try{
-        const discussions = await Discussion.find();
+        const discussions = await Discussion.find().populate('poster');
         res.status(200).json(discussions);
     }
     catch(error){
@@ -35,7 +35,15 @@ const getAllDiscussion = async (req,res) => {
 const getDiscussion = async (req,res) => {
     const { discussionId } = req.params;
     try{
-        const discussion = await Discussion.findById(discussionId).populate('comments');
+        const discussion = await Discussion.findById(discussionId).populate({
+            path: 'comments',
+            populate: {
+                path: 'userId',
+                model: 'User'
+            }
+        });
+        discussion.views += 1;
+        await discussion.save();
         res.status(200).json(discussion);
     }
     catch(error){

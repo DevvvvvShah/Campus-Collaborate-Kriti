@@ -5,6 +5,7 @@ import DialogBox from "../components/CourseReview/Dialogue";
 import Topbar from "../components/Navbar/Topbar";
 import Navbar from '../components/Navbar/Navbar';
 import { getAllCourseReviews } from "../fetch/courseReview";
+import AddCourse from "../components/CourseReview/addCourse";
 
 
 // import { useLocation } from 'react-router-dom';
@@ -19,6 +20,7 @@ const CourseReview = () => {
   const [filteredCourseReviews, setFilteredCourseReviews] = useState([]);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [unit, setUnit] = useState([]);
+  const [isAddCourse, setIsAddCourse] = useState(false);
 
 
   useEffect(() => {
@@ -54,6 +56,25 @@ const CourseReview = () => {
 return (
   <div className='relative flex flex-col md:flex-row bg-[#F8F8F8] w-screen min-h-[100vh]'>
     <Navbar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+    <div
+      className="fixed z-20 flex justify-center shadow-lg items-center gap-2 md:bottom-2 md:right-2 bottom-[9vh] right-2
+                    w-[180px] h-[45px] bg-[#FFFFFF] rounded-full "
+      onClick = {() => setIsAddCourse(true)}
+    >
+      <img
+        src="images/add.svg"
+        alt="add"
+        className={`w-[50%] h-[50%] md:w-fit md:h-[65%] object-contain`}
+      />
+      <div className="text-[#0016DA] text-[0.875rem] font-semibold">
+        Add Review
+      </div>
+    </div>    
+    <div className={`flex justify-center rounded-xl items-center z-50 
+      w-screen h-screen bg-[#00000022] fixed top-0 left-0
+      ${isAddCourse ? ' block' : ' hidden'}`}>
+        <AddCourse setIsAddCourse={setIsAddCourse}/>
+      </div>
     <div className='w-full'>
       <Topbar courseReviews={courseReviews} setFilteredCourseReviews={setFilteredCourseReviews} />
       <div className='md:ml-[27vw] pl-[10%] pr-[10%] pt-16 md:pl-[3%] md:pr-[10%] '>
@@ -62,9 +83,6 @@ return (
       onClose={closeDialog}
       message={dialogMessage}
     />
-      <div className='text-white font-bold z-50 fixed flex justify-center shadow items-center bottom-2 right-2 w-[200px] h-[60px] bg-[#bcc2f7] rounded-full hover:scale-105 transition-all duration-300'>
-          <button onClick={openDialog}><h1>+ Add a course review</h1></button>
-      </div>
         {unit}
       </div>
     </div>

@@ -53,6 +53,7 @@ function AddProject(props) {
       },
       withCredentials: true // Add withCredentials option
     };
+    props.setIsAddProject(false);
 
     axios.post('http://localhost:3001/projects/', formData, config)
       .then(response => {

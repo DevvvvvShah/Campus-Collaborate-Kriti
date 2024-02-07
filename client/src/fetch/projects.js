@@ -32,10 +32,21 @@ const putDislike = (id) => {
     });
 }
 
+const postComment = (id,content) => {
+    return axios.post('http://localhost:3001/projects/comment/',{
+        projectId: id,
+        content: content,
+    },
+    {
+        withCredentials: true,
+    })
+}
+
 
 export {
     getProjects,
     getProject,
     putLike,
     putDislike,
+    postComment,
 };
