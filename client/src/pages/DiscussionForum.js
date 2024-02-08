@@ -103,14 +103,14 @@ const DiscussionForum = (props) => {
             setIsExpanded={setIsExpanded}
             select={{ questions: true }}
           />
-          <div className={`flex justify-center rounded-xl items-center z-50 
+          <div className={`flex justify-center rounded-xl items-center z-[999]
           w-screen h-screen bg-[#00000022] fixed top-0 left-0
           ${isAddDiscussion ? ' block' : ' hidden'}`}>
             <AddDiscussion setIsAddDiscussion={setIsAddDiscussion}/>
           </div>          
           <div className="w-full">
             <Topbar title="Discussion Forum" discussions={discussions} setFilteredDiscussions={setFilteredDiscussions} />
-            <div className="mt-[10vh] min-h-[2rem] z-[999] relative" ref={filterRef}>
+            <div className="mt-[10vh] min-h-[2rem] z-[200] relative" ref={filterRef}>
         <div className={`bg-white p-4 absolute ml-auto mt-[2rem] right-[4vw] shadow-xl min-[200px] w-[20vw] ml-auto ${isFilterOpen ? 'block' : 'hidden'}`}> 
             <Autocomplete
               className="mt-4"
@@ -138,7 +138,7 @@ const DiscussionForum = (props) => {
             ref={chatBotRef}
             className={`fixed flex gap-2 justify-center items-center ${
               chatBot
-                ? "bottom-[37vh] right-[14vw]"
+                ? "bottom-[33vh] right-[14vw]"
                 : "md:bottom-2 md:right-2 bottom-[11vh] right-2"
             }`}
           >
@@ -165,7 +165,7 @@ const DiscussionForum = (props) => {
                 }`}
                 onClick={handleChat}
               />
-              <div className={`${chatBot ? "block" : "hidden"}`}>
+              <div className={`${chatBot ? "block" : "hidden"} z-[300]`}>
                 <ChatBot />
               </div>
             </div>
