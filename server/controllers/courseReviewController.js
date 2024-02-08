@@ -52,16 +52,25 @@ const postCourseReview = async (req, res) => {
     }
 }
 
+
 //delete course review: DELETE
 const deleteCourseReview = async (req, res) => {
-    const {courseId} = req.body;
-    try{
-        const review = await Course.findByIdAndDelete(courseId);
-        res.status(200).json(review);
-    } catch(err){
-        res.status(404).json({message: err.message});
+    const { courseReviewId } = req.params;
+    try {
+        const courseReview = await Course.findById(courseReviewId);
+        await User.findById(req.user).then((user) => {
+            if (courseReview.creator.toHexString() !== user._id.toHexString()) {
+                res.status(401).json({ message: "Unauthorized" });
+            }
+            user.courses.pull(courseReviewId);
+            user.save();
+        });
+        await Course.findByIdAndDelete(courseReviewId);
+        res.status(200).json(courseReview);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
     }
-}
+};
 
 //get my course reviews:GET
 //TODO populate courses

@@ -63,6 +63,7 @@ const deleteDiscussion = async (req,res) => {
                 res.status(401).json({message: "Unauthorized"});
             }
             user.discussions.pull(discussionId);
+            user.save();
         })
         await Discussion.findByIdAndDelete(discussionId);
         res.status(200).json(discussion);

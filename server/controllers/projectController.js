@@ -57,6 +57,13 @@ const getProject = async (req, res) => {
             })
             .populate('creatorId');
         project.views += 1;
+        const c = 0.5;
+        const d = 2;
+        const e = 2;
+        const index = project.views - Math.pow(c * project.dislikes.length, d) + (e * project.likes.length);
+        const div = project.views + ((e *0.1*project.views* project.likes.length));
+        const rating = (index/div)*10;
+        project.rating = Math.min(rating, 10); 
         await project.save();
         res.status(200).json(project);
     } catch (error) {
@@ -64,15 +71,31 @@ const getProject = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+
+
 // delete  a project using its ID
 const deleteProject = async (req, res) => {
     try {
-        const project = await Project.findByIdAndDelete(req.params.projectId);
+        const project = await Project.findById(req.params.projectId);
+        
+        // Check if the user is authorized to delete the project
+        if (!Array.isArray(project.creatorId) || !project.creatorId.includes(req.user)) {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+
+        // Pull the project from all users in creatorId
+        await User.updateMany({ _id: { $in: project.creatorId } }, { $pull: { projects: project._id } });
+        
+        // Delete the project
+        await Project.findByIdAndDelete(req.params.projectId);
+        
         res.status(200).json(project);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
+
+
 // like a project: PUT
 const likeProject = async (req, res) => {
     const { projectId } = req.body;
@@ -89,6 +112,13 @@ const likeProject = async (req, res) => {
                 project.likes.push(user._id);
             }
         });
+        const c = 0.5;
+        const d = 2;
+        const e = 2;
+        const index = project.views - Math.pow(c * project.dislikes.length, d) + (e * project.likes.length);
+        const div = project.views + ((e *0.1*project.views *project.likes.length));
+        const rating = (index/div)*10;
+        project.rating = Math.min(rating, 10); 
         await project.save();
         res.status(200).json(project);
     } catch (error) {
@@ -111,6 +141,13 @@ const dislikeProject = async (req, res) => {
                 project.dislikes.push(user._id);
             }
         });
+        const c = 0.5;
+        const d = 2;
+        const e = 2;
+        const index = project.views - Math.pow(c * project.dislikes.length, d) + (e * project.likes.length);
+        const div = project.views + ((e *0.1* project.views*project.likes.length));
+        const rating = (index/div)*10;
+        project.rating = Math.min(rating, 10); 
         await project.save();
         res.status(200).json(project);
     } catch (error) {

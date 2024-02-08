@@ -13,7 +13,9 @@ cloudinary.config({
 const getUserProfile = async (req, res) => {
   await User.findById(req.params.userid).populate("connections")
     .then((user) => {
-      user.views += 1;
+      if (user._id.toString() !== req.user.toString()) {
+        user.views += 1;
+      }
       user.save();
       res.status(200).json(user);
     })

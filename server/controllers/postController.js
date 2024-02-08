@@ -118,14 +118,24 @@ const getMyFavPosts = async (req, res) => {
 
 // delete post using id: DELETE
 const deletePost = async (req, res) => {
-  const { postId } = req.body;
+  const { postId } = req.params;
   try {
-    const post = await Post.findByIdAndDelete(postId);
+    const post = await Post.findById(postId);
+    await User.findById(req.user).then((user) => {
+      if (post.creator.toHexString() !== user._id.toHexString()) {
+        res.status(401).json({ message: "Unauthorized" });
+      }
+      user.posts.pull(postId);
+      user.save();
+    });
+    await Post.findByIdAndDelete(postId);
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-};
+}
+
+
 // like a post : PUT
 const likePost = async (req, res) => {
   const { postId } = req.body;
