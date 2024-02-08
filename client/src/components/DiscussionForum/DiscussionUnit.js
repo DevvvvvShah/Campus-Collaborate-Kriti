@@ -13,6 +13,13 @@ const DiscussionUnit = (props) => {
   const [upvoted, setUpvoted] = React.useState(false);
 
   useEffect(() => {
+    setUpvotes(props.discussion.upvotes.length);
+    setComments(props.discussion.comments.length);
+    setUpvoted(props.discussion.upvotes.includes(localStorage.getItem("user")));
+  }, [props.discussion]);
+  
+
+  useEffect(() => {
     const postingTime = props.discussion.postingTime;
     const currentTime = new Date();
     const timeDifference = currentTime - new Date(postingTime);

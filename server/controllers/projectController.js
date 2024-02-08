@@ -3,6 +3,7 @@ const router = express.Router();
 const cloudinary = require('cloudinary').v2;
 const Project = require('../models/Project');
 const User = require('../models/User');
+const Skill = require('../models/Skills');
 const Comment = require('../models/Comments');
 
 cloudinary.config({ 
@@ -55,7 +56,8 @@ const getProject = async (req, res) => {
                     model: 'User'
                 }
             })
-            .populate('creatorId');
+            .populate('creatorId')
+            .populate('techStacks');
         project.views += 1;
         await project.save();
         res.status(200).json(project);
