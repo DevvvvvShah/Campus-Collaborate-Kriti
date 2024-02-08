@@ -46,16 +46,16 @@ const Feed = (props) => {
   return (
     <div>
       <div>
-        <div className=" flex flex-col md:flex-row bg-[#F8F8F8] w-[95rem] min-h-[100vh]">
+        <div className=" flex flex-col md:flex-row bg-[#F8F8F8] w-[100vw] min-h-[100vh]">
           <Navbar
             isExpanded={isExpanded}
             setIsExpanded={setIsExpanded}
             select={{ questions: true }}
           />
-          <div className="w-[95rem]">
+          <div className="w-[100vw]">
             <Topbar title="Feed" postSearch={postSearch} setPostSearch={setPostSearch}/>
             <div className="bg-white">
-              <div className=" ml-[24rem] flex items-center justify-around py-3">
+              <div className=" ml-[24vw] flex items-center justify-around py-3">
                 <div className="flex justify-center w-[33.33%]  border-r-2 border-[lightgrey]">
                   <button
                     className={`text-xl focus:outline-none  ${

@@ -23,9 +23,18 @@ const getCourseReviews = async (req, res) => {
 
 //get a course review: GET
 const getCourseReview = async (req, res) => {
-    const { courseReviewId } = req.body;
+    const { courseid } = req.params;
+    console.log(courseid);
     try{
-        const courseReview = await Course.findById(courseReviewId).populate('comments');
+        const courseReview = await Course.findById(courseid)
+            .populate('commentsId')
+            .populate({
+                path: 'commentsId',
+                populate: {
+                    path: 'userId',
+                    model: 'User'
+                }
+            });
         res.status(200).json(courseReview);
     } catch(err){
         res.status(404).json({message: err.message});
@@ -38,7 +47,7 @@ const postCourseReview = async (req, res) => {
     try{
         const newReview = await new Course(review).save();
         if(req.file){
-            cloudinary.uploader.upload(req.file.path, async (result) => {
+            cloudinary.uploader.upload(req.file.path,{resource_type: 'auto'}).then(async (result) => {
                 newReview.coursePic = result.secure_url;
                 await newReview.save();
             });
@@ -88,11 +97,12 @@ const getMyReviews = async (req, res) => {
 
 //comment:PUT
 const addComment = async (req, res) => {
+    console.log(req.body)
     const { courseId, content } = req.body;
     try{
         const newComment = await new Comment({content, userId: req.user}).save();
         const commentId = newComment._id;
-        const review = await Course.findById(commentId);
+        const review = await Course.findById(courseId);
         review.commentsId.push(commentId);
         await review.save();
         res.status(200).json(review);
@@ -101,4 +111,28 @@ const addComment = async (req, res) => {
     }
 }
 
-module.exports = {getCourseReview, getCourseReviews, getMyReviews, postCourseReview, addComment, deleteCourseReview};
+const toggleEnroll = async (req, res) => {
+    const { courseId } = req.body;
+    try{
+        const course = await Course.findById(courseId);
+        if(course.enrolledStudents.includes(req.user)){
+            course.enrolledStudents = course.enrolledStudents.filter(student => student != req.user);
+            await course.save();
+            const user = await User.findById(req.user);
+            user.courses = user.courses.filter(course => course != courseId);
+            await user.save();
+            res.status(200).json(course);
+        } else {
+            course.enrolledStudents.push(req.user);
+            await course.save();
+            const user = await User.findById(req.user);
+            user.courses.push(courseId);
+            await user.save();
+            res.status(200).json(course);
+        }
+    } catch(err){
+        res.status(404).json({message: err.message});
+    }
+}
+
+module.exports = {getCourseReview, getCourseReviews, getMyReviews, postCourseReview, addComment, deleteCourseReview, toggleEnroll};

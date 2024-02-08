@@ -17,6 +17,9 @@ function ProjectView() {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const encodedData = urlParams.get('id');
+        if (!encodedData) {
+          window.location.href = '/404';
+        }        
         getProject(encodedData).then((response) => {
             setProject(response.data);
         }).catch((error) => {

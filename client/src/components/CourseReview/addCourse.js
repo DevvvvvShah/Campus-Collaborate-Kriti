@@ -12,6 +12,7 @@ function AddProject(props) {
   const [selectedTechStacks, setSelectedTechStacks] = useState([]);
   const [selectedFile, setSelectedFile] = useState([]);
 
+  console.log(selectedFile[0])
   useEffect(() => {
     getTechStacks().then((res) => {
       const formattedTechStacks = res.data.map((value, index) => (
@@ -38,7 +39,7 @@ function AddProject(props) {
     techStackIds.forEach((value, index) => {
       formData.append('techStacks', value);
     });
-    formData.append('thumbnail', selectedFile);
+    formData.append('thumbnail', selectedFile[0]);
 
     const config = {
       headers: {

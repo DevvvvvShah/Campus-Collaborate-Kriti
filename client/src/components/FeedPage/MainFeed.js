@@ -33,7 +33,7 @@ const MainFeed = (props) => {
   ,[postSearch, posts])
 
   return (
-    <div className="pt-8 w-[95rem] flex justify-center">
+    <div className="pt-8 w-[100vw] flex justify-center">
       <FeedSection posts={filteredPosts} />
     </div>
   );

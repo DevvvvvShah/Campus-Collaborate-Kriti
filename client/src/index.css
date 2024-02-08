@@ -8,12 +8,32 @@
   font-family: "Montserrat", sans-serif;
 }
 
-.classes {
-  background-image: url("/public/bg3.png");
+#section1 {
+  background-image: url("/public/images/bg1.jpg");
   background-attachment: fixed;
-  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center bottom;  
+  background-position: top;  
+}
+
+#section2 {
+  background-image: url("/public/images/bg1.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: bottom;  
+}
+
+#section3 {
+  background-image: url("/public/images/bg1.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+#section4 {
+  background-image: url("/public/images/bg1.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position-y: 25%;
+  background-position-x: 25%;  
 }
 
 .button {
@@ -50,38 +70,7 @@
   border-bottom: 2.5px solid #1d4ed8;
 }
 
-.firstElement {
-  opacity: 1;
-  transform: translateY(-50px);
-  transition: all 1s ease-out;
-}
 
-.secondElement {
-  opacity: 0;
-  transform: translateY(25px);
-  transition: all 1s ease-out;
-}
-
-.thirdElement {
-  opacity: 0;
-  transform: translateY(25vh);
-  transition: all 1s ease-out;
-}
-
-.firstElement.fade-out {
-  opacity: 0;
-  transform: translateY(0px);
-  transition: all 1s ease-out;
-}
-
-.secondElement.fade-in {
-  opacity: 1;
-  transform: translateY(-200px);
-  transition: all 1s ease-out;
-}
-
-.thirdElement.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-  transition: all 1s ease-out;
+.section {
+  height: 100vh;
 }

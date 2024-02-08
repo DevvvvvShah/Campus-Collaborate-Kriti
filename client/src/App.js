@@ -11,6 +11,7 @@ import ProjectView from "./pages/ProjectView";
 import CourseReview from "./pages/CourseReview";
 import SearchPage from "./pages/SearchPage";
 import DiscussionView from "./pages/discussionView";
+import CourseView from "./pages/courseView";
 import { Navigate } from "react-router-dom";
 
 
@@ -44,6 +45,7 @@ function App() {
         <Route path="/editProfile" element={<EditProfileCard />} />
         <Route path="/courseReview" element={<CourseReview />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/courseView" element={<CourseView />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

@@ -64,6 +64,7 @@ function AddProject(props) {
         // Handle any errors
         console.error(error);
       });
+      window.location.reload();
   };
 
   return (

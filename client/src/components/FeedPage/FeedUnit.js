@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import fetchProfileFromServer from "../../fetch/profile";
 import { postComment, postFavorite, putLike } from "../../fetch/feed";
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 const FeedUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
@@ -123,8 +126,55 @@ const FeedUnit = (props) => {
       });
   }, []);
 
+    function NextArrow(props) {
+      const { className, style, onClick } = props;
+      return (
+        <div
+          className={className}
+          style={{
+              ...style,
+              display: "flex",
+              background: "darkgray",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingTop: "1.5px",
+              borderRadius: "50%",
+          }}
+          onClick={onClick}
+        />
+      );
+    }
+    
+  function PrevArrow(props) {
+      const { className, style, onClick } = props;
+      return (
+          <div
+              className={className}
+              style={{
+                  ...style,
+                  display: "flex",
+                  background: "darkgray",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingTop: "1.5px",
+                  borderRadius: "50%",
+              }}
+              onClick={onClick}
+          />
+      );
+  };
+
+  const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      adaptiveHeight: true,     
+  };  
+
   return (
-    <div className="flex flex-col w-[35rem] h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] ml-[20rem] py-[1rem]">
+    <div className="flex flex-col w-[40vw] h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] ml-[20vw]">
       <div className="flex items-center justify-between p-3">
         <div className="flex items-center gap-2">
           <img
@@ -146,11 +196,25 @@ const FeedUnit = (props) => {
         <button>...</button>
       </div>
 
-      <img
-        className="w-full h-[20rem] object-cover"
-        src={props.post.mediaArray[0]}
-        alt="Post"
-      />
+      {props.post.thumbnail && props.post.thumbnail.length!==0 ? 
+          <Slider {...settings}>
+          {props.post.thumbnail.map((url, index) => (
+            <div className="flex h-[15rem] justify-center w-fit">
+              {(url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".svg")) ? (
+                <img
+                  src={url}
+                  alt={`Image ${index + 1}`}
+                  className="slider-image"
+                />
+              ) : (
+                <video controls>
+                  <source src={url} type="video/mp4" />
+                </video>
+              )}
+            </div>
+          ))}
+        </Slider> : <div className="h-[20rem]"></div>
+        }
 
       <div className="flex items-center justify-between p-3">
         <div className="flex gap-4">

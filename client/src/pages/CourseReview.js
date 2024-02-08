@@ -76,7 +76,7 @@ return (
         <AddCourse setIsAddCourse={setIsAddCourse}/>
       </div>
     <div className='w-full'>
-      <Topbar courseReviews={courseReviews} setFilteredCourseReviews={setFilteredCourseReviews} />
+      <Topbar title = "Course Review" courseReviews={courseReviews} setFilteredCourseReviews={setFilteredCourseReviews} />
       <div className='md:ml-[27vw] pl-[10%] pr-[10%] pt-16 md:pl-[3%] md:pr-[10%] '>
          <DialogBox
       isOpen={isDialogOpen}

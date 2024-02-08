@@ -34,7 +34,7 @@ const FavoritesFeed = (props) => {
 
 
   return (
-    <div className="ml-[20rem] pt-8  md:pr-[10%]">
+    <div className="ml-[20vw] pt-8  md:pr-[10%]">
       <FeedSection posts={filteredPosts} />
     </div>
   );

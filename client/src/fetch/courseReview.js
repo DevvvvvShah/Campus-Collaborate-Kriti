@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const getCourseReview = (courseId) => {
-    return axios.get(`http://localhost:3001/coursereview/${courseId}`,
+const getCourseReview = (courseReviewId) => {
+    return axios.get(`http://localhost:3001/coursereview/${courseReviewId}`,
     {
       withCredentials: true,
     });
@@ -14,4 +14,18 @@ const getAllCourseReviews = () => {
     });
 }
 
-export { getCourseReview, getAllCourseReviews };
+const postComment = (courseId, content) => {
+    return axios.post(`http://localhost:3001/coursereview/comment`, {courseId, content},
+    {
+      withCredentials: true,
+    });
+}
+
+const toggleEnroll = (courseId) => {
+    return axios.put(`http://localhost:3001/coursereview/enroll`, {courseId},
+    {
+      withCredentials: true,
+    });
+}
+
+export { getCourseReview, getAllCourseReviews, postComment,toggleEnroll };

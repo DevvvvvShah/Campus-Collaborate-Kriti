@@ -14,6 +14,7 @@ const DiscussionForum = (props) => {
   const [chatBot, setChatBot] = React.useState(false);
   const [isAddDiscussion, setIsAddDiscussion] = React.useState(false);
   const chatBotRef = useRef(null);
+  const [selectedOption, setSelectedOption] = React.useState("");
 
   function handleChat() {
     setChatBot((prev) => !prev);
@@ -22,6 +23,7 @@ const DiscussionForum = (props) => {
   useEffect(() => {
     getDiscussions()
       .then((res) => {
+        res.data.sort((a, b) => new Date(b.postingTime) - new Date(a.postingTime));
         setDiscussions(res.data);
         setFilteredDiscussions(res.data);
         console.log(res.data);
@@ -44,6 +46,24 @@ const DiscussionForum = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    let temp = [...filteredDiscussions];
+    if (selectedOption === "upvotes") {
+      temp.forEach((discussion) => { console.log(discussion.upvotes.length); });
+      temp.sort((a, b) => b.upvotes.length - a.upvotes.length);
+      temp.forEach((discussion) => { console.log(discussion.upvotes.length); });
+      console.log(temp);
+    } else if (selectedOption === "views") {
+      temp.sort((a, b) => b.views - a.views);
+    } else if (selectedOption === "comments") {
+      temp.sort((a, b) => b.comments.length - a.comments.length);
+    }
+    else{
+      temp.sort((a, b) => new Date(b.postingTime) - new Date(a.postingTime));
+    }
+    setFilteredDiscussions(temp);
+  }, [selectedOption]);
+
   return (
     <div>
       <div>
@@ -60,6 +80,12 @@ const DiscussionForum = (props) => {
           </div>          
           <div className="w-full">
             <Topbar title="Discussion Forum" discussions={discussions} setFilteredDiscussions={setFilteredDiscussions} />
+          <select className="ml-[400px]" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+            <option value="">Sort By</option>
+            <option value="upvotes">Upvotes</option>
+            <option value="views">Views</option>
+            <option value="comments">No. of Comments</option>
+          </select>
             <MainDiscussion discussions={filteredDiscussions} />
           </div>
           <div
@@ -84,8 +110,7 @@ const DiscussionForum = (props) => {
                 Question
               </div>
             </div>  
-            <div className="flex w-[50px] h-[50px] bg-[#FFFFFF] rounded-full justify-center shadow items-center"
-            >
+            <div className="flex w-[50px] h-[50px] bg-[#FFFFFF] rounded-full justify-center shadow items-center">
               <img
                 src="images/chat.svg"
                 alt="chat"
@@ -97,7 +122,7 @@ const DiscussionForum = (props) => {
               <div className={`${chatBot ? "block" : "hidden"}`}>
                 <ChatBot />
               </div>
-            </div>                      
+            </div>
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ const Topbar = (props) => {
 
   const navigate = useNavigate();
   const [showDetails, setShowDetails] = useState(false);
+  const [showExit, setShowExit] = useState(false);
 
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem('user');
@@ -125,27 +126,21 @@ const Topbar = (props) => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="ml-10">
+          <div className="">
             {user && (
               <div>
                 <img
-                  src={user.profilePic}
+                  src={user && user.profilePic || "/images/defaultThumbnail.jpeg"}
                   alt="Profile"
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
-                  className="profile mr-[1vw] ml-[5vw] w-[10px] h-[10px] rounded-full"
+                  className="profile mr-[1vw] ml-[1vw] w-[2rem] h-[2rem] rounded-full"
                 />
-                <p
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  {user.name}
-                </p>
               </div>
             )}
 
             {showDetails && user && (
-              <div className="dialog-box absolute z-[9999] border-1 bg-white rounded-md border">
+              <div className=" absolute right-[5vw] border-1 bg-white rounded-md border">
                 <div className="p-2">
                   <p>Name: {user.name}</p>
                   <p>Program: {user.program}</p>
@@ -155,8 +150,30 @@ const Topbar = (props) => {
               </div>
             )}
           </div>
+          <div>
+          <div>
+                <img
+                  src={"/images/chat_ppl.svg"}
+                  alt="Profile"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  className="mr-[0.5vw] ml-[0.5vw] w-[1.7rem] h-[1.7rem] rounded-full"
+                />
+              </div>            
+          </div>
+          <div className="flex items-center overflow-hidden h-[2rem]"
+          onMouseEnter={() => setShowExit(true)}
+          onMouseLeave={() => setShowExit(false)}>
+            <img src = "/images/exit.svg" onClick={handleLogout} className=" py-1 w-[2.8rem] h-[2.8rem] px-2 mr-2 text-black" />
+          </div>   
+          {showExit &&
+            <div className="dialog-box absolute right-[1vw] top-[7vh] z-50 border-1 bg-white rounded-md border">
+              <div className="p-2">
+                <p>Logout</p>
+              </div>
+            </div>            
+          }     
         </div>
-        <button onClick={handleLogout} className=" py-1 px-2 mr-2 rounded bg-blue-500 text-white">Logout</button>
       </div>
     </div>
   );
