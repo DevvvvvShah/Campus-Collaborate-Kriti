@@ -23,9 +23,10 @@ const newPost = async (req, res) => {
           resource_type: "auto", // Automatically detect the resource type (image or video)
         });
       });
-      const results = await Promise.all(uploadPromises);
+      const results = await Promise.all(uploadPromises);    
       newPost.mediaArray = results.map((result) => result.secure_url); // Add secure URLs to newPost.media array
       await newPost.save();
+      console.log("Successfully uploaded media to cloudinary")
     }
     const user = await User.findById(req.user);
     user.posts.push(newPost._id);
@@ -80,7 +81,13 @@ const getMyConnectionPosts = async (req, res) => {
     const user = await User.findById(req.user);
     const connections = user.connections;
     console.log(connections);
-    const posts = await Post.find({ creator: { $in: connections } });
+    const posts = await Post.find({ creator: { $in: connections } }).populate({
+      path: 'comments',
+      populate: {
+        path: 'userId',
+        model: 'User'
+      }
+    }).populate('creator');;
     console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
@@ -118,7 +125,13 @@ const getMyFavPosts = async (req, res) => {
     console.log(user);
     const favPosts = user.favPosts;
     console.log(favPosts);
-    const posts = await Post.find({ _id: { $in: favPosts } });
+    const posts = await Post.find({ _id: { $in: favPosts } }).populate({
+      path: 'comments',
+      populate: {
+        path: 'userId',
+        model: 'User'
+      }
+    }).populate('creator');;
     res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ message: error.message });
