@@ -52,7 +52,7 @@ function ChatBot() {
     //'system' -> generally one initial msg defining HOW we want chatGPT to talk
 
     const apiRequestBody = {
-      'model' : 'gpt-3.5-turbo',
+      'model' : 'gpt-4.0',
       'messages' : [
         systemMessage, 
         ...apiMessages //[msg1, msg2, msg3]

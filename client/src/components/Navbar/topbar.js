@@ -151,7 +151,7 @@ const Topbar = (props) => {
             )}
           </div>
           <div>
-          <div>
+          <div onClick={() => window.location.href = "/chat"}>
                 <img
                   src={"/images/chat_ppl.svg"}
                   alt="Profile"

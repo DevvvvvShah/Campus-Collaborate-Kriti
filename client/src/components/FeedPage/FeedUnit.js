@@ -5,6 +5,9 @@ import { postComment, postFavorite, putLike } from "../../fetch/feed";
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import CommentCard from "./CommentCard";
+import { TextField, Button, Container, Typography, Box, Paper } from '@mui/material';
+
 
 const FeedUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
@@ -16,6 +19,8 @@ const FeedUnit = (props) => {
   const [likes, setLikes] = React.useState(props.post.likes.length);
   const [liked, setLiked] = React.useState(false);
   const [isFavorited, setFavorited] = React.useState(false);
+  const [commentCount, setCommentCount] = React.useState(0);
+  const [isAddComment, setIsAddComment] = React.useState(false);
 
   useEffect(() => {
     const postingTime = props.post.timeOfCreation;
@@ -75,6 +80,15 @@ const FeedUnit = (props) => {
 
   const handleCommentButtonClick = () => {
     setIsCommenting(true);
+    setCommentCount(5);
+  };
+
+  const handleCommentButtonHide = () => {
+    setIsCommenting(false);
+  };
+
+  const handleCommentAdd = () => {
+    setCommentCount(commentCount + 5);
   };
 
   const handleTextAreaChange = (e) => {
@@ -115,16 +129,12 @@ const FeedUnit = (props) => {
       });
   };
 
-  useEffect(() => {
-    fetchProfileFromServer(props.post.creator)
-      .then((res) => {
-        setProfile(res);
-        console.log(res);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  const handleAddComment = () => {
+    postComment(props.post._id, comment).then((res) => {
+      console.log("Comment Posted:  ", res);
+      window.location.reload();
+    });
+  };
 
     function NextArrow(props) {
       const { className, style, onClick } = props;
@@ -174,16 +184,16 @@ const FeedUnit = (props) => {
   };  
 
   return (
-    <div className="flex flex-col w-[40vw] h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] ml-[20vw]">
+    <div className="flex flex-col w-[40vw] min-h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] ml-[20vw]">
       <div className="flex items-center justify-between p-3">
         <div className="flex items-center gap-2">
           <img
-            src={profile && profile.profilePic}
+            src={props.post.creator && (props.post.creator.profilePic || '/images/defaultThumbnail.jpeg')}
             alt="Profile"
             className="w-[2rem] h-[2rem] rounded-full"
           />
           <div className="text-[1rem] font-semibold">
-            {profile && profile.name}
+            {props.post.creator && props.post.creator.name}
           </div>
           <div className="flex items-center">
             <img
@@ -242,33 +252,6 @@ const FeedUnit = (props) => {
         </button>
       </div>
       <div className="md:col-span-8">
-        <div className="flex flex-col gap-1 items-end text-black ml-[-0.5rem] mt-[1rem]">
-          <div className={`${isCommenting ? "block" : "hidden"}`}>
-            <textarea
-              onChange={handleTextAreaChange}
-              onFocus={() => {
-                setSubmit(true);
-              }}
-              onBlur={handleBlur}
-              rows={1}
-              cols={80}
-              type="text"
-              placeholder="Answer Here"
-              value={comment}
-              className="overflow-hidden shadow py-[0.375rem] bg-[#E5E5E5] text-black
-                            placeholder:font-semibold p-3 rounded-2xl w-[100%] focus:border-[#0016DA] focus:outline-none 
-                            focus:border resize-none"
-            />
-            <div className={`${submit ? "block" : "hidden"}`}>
-              <button
-                className="bg-[#0016DA] shadow ml-auto text-white text-[12px] font-bold rounded-lg px-4 py-1"
-                onClick={handleSubmit}
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
       <div className="p-3">
         <p className="font-semibold">{likes} likes</p>
@@ -276,7 +259,46 @@ const FeedUnit = (props) => {
           {/* <span className="font-semibold">{profile && profile.name}</span> */}
           {props.post.caption}
         </p>
-        <button className="text-gray-500">View all {comments} comments</button>
+        { !isCommenting ?
+        <button className="text-gray-500" onClick={handleCommentButtonClick}>View all {comments} comments</button>
+        :
+        <div>
+        <button className="text-gray-500" onClick={handleCommentButtonHide}>Hide all comments</button>
+        <div className="flex flex-col gap-2 w-full mt-[1vh] pl-[2vw]">
+          <div className="text-[1rem] font-bold mb-[3vh]"
+                onClick = {() => setIsAddComment(!isAddComment)}>
+            Add Comment {isAddComment ? '▲' : '▼'}
+          </div>
+          <div className={`flex flex-col ml-[1vw] mr-[3vw] ${isAddComment ? 'block' : 'hidden'}`}>
+            <TextField
+              label="Add comment here"
+              variant="outlined"
+              className='w-full'
+              multiline
+              rows={4}
+              size="small"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              margin="normal"
+            />
+            <Button variant="contained" className="w-full" onClick={handleAddComment} style={{ backgroundColor: '#0016DA'}}>Submit</Button>
+
+          </div>
+        </div>         
+        {(props.post.comments && props.post.comments.length!==0) ? 
+        <div>
+          {props.post.comments.map((comment, index) => {
+            if (index < commentCount) {
+              return (
+                <CommentCard key={index} comments={comment} />
+              )
+            }
+          })}
+        <button className="text-gray-500" onClick={handleCommentAdd}>View More</button>
+        </div>
+          :null}
+        </div>
+        }
       </div>
       <div className="text-[0.875rem] text-[#0016DA] px-[1rem]">{hoursAgo}</div>
     </div>
