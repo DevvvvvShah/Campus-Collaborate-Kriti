@@ -7,7 +7,6 @@ import Topbar from "../components/Navbar/Topbar";
 import ChatBot from "../chatBot/ChatBot";
 import AddDiscussion from "../components/DiscussionForum/addDiscussions";
 import { Autocomplete, Chip, TextField } from "@mui/material";
-import { sort } from "mathjs";
 
 const DiscussionForum = (props) => {
   const [isExpanded, setIsExpanded] = React.useState(true);
