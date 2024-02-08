@@ -62,6 +62,11 @@ const FeedUnit = (props) => {
           console.log("not liked");
           setLiked(false);
         }
+        if (res.favPosts.includes(props.post._id)) {
+          setFavorited(true);
+        } else {
+          setFavorited(false);
+        }
       })
       .catch((error) => {
         console.error(error);
