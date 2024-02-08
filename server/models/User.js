@@ -83,6 +83,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    portfolio: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project'
+    }],
 });
 
 const User = mongoose.model('User', userSchema);

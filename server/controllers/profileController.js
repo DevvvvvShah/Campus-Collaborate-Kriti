@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const cloudinary = require('cloudinary').v2;
 const User = require('../models/User');
+const Project = require('../models/Project');  
 
 cloudinary.config({
   cloud_name: "dpobpe2ga",
@@ -106,11 +107,34 @@ const addtoConnection = async (req, res) => {
   }
 };
 
+const addtoPortfolio = async (req,res) => {
+  const {project} = req.body;
+  try {
+    const user = await User.findById(req.user);
+    const projectfound = await Project.findById(project);
+      
+    if (!projectfound) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    if(user.portfolio.includes(projectfound._id)){
+      user.portfolio.pull(projectfound._id);
+    } else {
+      user.portfolio.push(projectfound._id);
+    }
+    
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getProfile,
   getUserProfile,
   updateUserProfile,
   addtoConnection,
   getAllUserChats,
-  searchProfiles
+  searchProfiles,
+  addtoPortfolio
 };
