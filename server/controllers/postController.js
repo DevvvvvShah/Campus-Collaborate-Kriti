@@ -4,6 +4,7 @@ const cloudinary = require("cloudinary").v2;
 const User = require("../models/User");
 const Comment = require("../models/Comments");
 const Post = require("../models/Posts");
+const Skill = require("../models/Skills");
 
 cloudinary.config({
   cloud_name: "dpobpe2ga",
@@ -24,6 +25,7 @@ const newPost = async (req, res) => {
       });
       const results = await Promise.all(uploadPromises);
       newPost.mediaArray = results.map((result) => result.secure_url); // Add secure URLs to newPost.media array
+      await newPost.save();
     }
     const user = await User.findById(req.user);
     user.posts.push(newPost._id);
@@ -36,7 +38,14 @@ const newPost = async (req, res) => {
 // get All Post: GET
 const getAllPost = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find()
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'userId',
+        model: 'User'
+      }
+    }).populate('creator');
     res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -46,7 +55,7 @@ const getAllPost = async (req, res) => {
 const getPost = async (req, res) => {
   const { postId } = req.params;
   try {
-    const post = await Post.findById(postId).populate("comments");
+    const post = await Post.findById(postId).populate("comments").populate("techStacks");
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({ message: error.message });

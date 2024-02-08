@@ -74,7 +74,7 @@ function Projects() {
       });
     }
     setFilteredFilteredProjects(temp);
-  }, [selectedTechStacks]);
+  }, [selectedTechStacks, filteredProjects]);
 
   const handleTechStacksChange = (event, value) => {
     setSelectedTechStacks(value);

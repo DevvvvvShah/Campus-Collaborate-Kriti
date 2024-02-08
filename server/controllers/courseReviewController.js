@@ -4,6 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const Course = require('../models/Courses');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
+const Skill = require('../models/Skills');
 
 cloudinary.config({ 
     cloud_name: 'dpobpe2ga', 
@@ -28,6 +29,7 @@ const getCourseReview = async (req, res) => {
     try{
         const courseReview = await Course.findById(courseid)
             .populate('commentsId')
+            .populate('techStacks')
             .populate({
                 path: 'commentsId',
                 populate: {
