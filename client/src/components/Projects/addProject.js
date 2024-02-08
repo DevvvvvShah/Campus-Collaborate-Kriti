@@ -59,12 +59,12 @@ function AddProject(props) {
       .then(response => {
         // Handle the response from the server
         console.log(response.data);
+        window.location.reload();
       })
       .catch(error => {
         // Handle any errors
         console.error(error);
       });
-      window.location.reload();
   };
 
   return (
