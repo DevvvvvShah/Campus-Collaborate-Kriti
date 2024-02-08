@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import React, { useEffect } from "react";
 import CourseReviewComp from "../components/CourseReview/CourseReviewComp";
 import DialogBox from "../components/CourseReview/Dialogue";
@@ -27,10 +27,20 @@ const CourseReview = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [techStacks, setTechStacks] = useState([]);
   const [selectedTechStacks, setSelectedTechStacks] = useState([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedOptionForMUI, setSelectedOptionForMUI] = useState({ id: 'time', title: 'Time'});
 
+  const sortList = [
+    { id: 'enrolled', title: 'Enrolled' },
+    { id: 'views', title: 'Views' },
+    { id: 'comments', title: 'No. of Comments' },
+    { id: 'time', title: 'Time'}
+  ]
+  console.log("Sort for:",selectedOption)
 
   useEffect(() => {
     getAllCourseReviews().then((res) => {
+      res.data.sort((a, b) => new Date(b.timeOfPost) - new Date(a.timeOfPost));
       setCourseReviews(res.data);
       setFilteredCourseReviews(res.data);
       setFilteredFilteredCourseReviews(res.data);
@@ -74,6 +84,10 @@ const CourseReview = () => {
     setSelectedTechStacks(value);
   }
 
+  const handleFilter = () => {
+    setIsFilterOpen((prev) => !prev);
+  }
+
   useEffect(() => {
     let temp = [...filteredFilteredCourseReviews];
     if (selectedOption === "enrolled") {
@@ -83,7 +97,7 @@ const CourseReview = () => {
     } else if (selectedOption === "comments") {
       temp.sort((a, b) => b.commentsId.length - a.commentsId.length);
     }
-    else{
+    else if (selectedOption === "time"){
       temp.sort((a, b) => new Date(b.timeOfPost) - new Date(a.timeOfPost));
     }
     setFilteredFilteredCourseReviews(temp);
@@ -104,6 +118,22 @@ const CourseReview = () => {
     }
     setFilteredFilteredCourseReviews(temp);
   }, [selectedTechStacks, filteredCourseReviews]);
+
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setIsFilterOpen(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+ 
 
 return (
   <div className='relative flex flex-col md:flex-row bg-[#F8F8F8] w-screen min-h-[100vh]'>
@@ -129,34 +159,50 @@ return (
       </div>
     <div className='w-full'>
       <Topbar title = "Course Review" courseReviews={courseReviews} setFilteredCourseReviews={setFilteredCourseReviews} />
-      <select className="ml-[400px]" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-            <option value="">Sort By</option>
-            <option value="enrolled">No. of Enrolled Students</option>
-            <option value="views">Views</option>
-            <option value="comments">No. of Comments</option>
-        </select>
-        <Autocomplete
-          className='mt-4 ml-[400px]'
-          multiple
-          options={techStacks}
-          getOptionLabel={(option) => option.title}
-          value={selectedTechStacks}
-          onChange={handleTechStacksChange}
-          renderTags={(value, getTagProps) =>
-            value.map((option, index) => (
-              <Chip label={option.title} {...getTagProps({ index })} />
-            ))
-          }
-          renderInput={(params) => (
-            <TextField {...params} variant="outlined" label="TechStacks Used" placeholder="Select TechStacks" size="small" />
-          )}
-        />
-      <div className='md:ml-[27vw] pl-[10%] pr-[10%] pt-16 md:pl-[3%] md:pr-[10%] '>
+      <div className="mt-[10vh] min-h-[2rem] z-[999] relative" ref={filterRef}>
+        <div className={`bg-white p-4 absolute ml-auto mt-[2rem] right-[4vw] shadow-xl min-[200px] w-[20vw] ml-auto ${isFilterOpen ? 'block' : 'hidden'}`}> 
+            <Autocomplete
+              className="mt-4"
+              options={sortList}
+              defaultValue={sortList[3]}
+              clearIcon = {false}
+              getOptionLabel={(option) => option.title}
+              value={selectedOptionForMUI}
+              onChange={(e, value) => {setSelectedOption(value.id);setSelectedOptionForMUI(value)}}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip label={option.title} {...getTagProps({ index })} />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Sort By" placeholder="Select TechStacks" />
+              )}
+            />             
+            <Autocomplete
+              className='mt-4'
+              multiple
+              options={techStacks}
+              getOptionLabel={(option) => option.title}
+              value={selectedTechStacks}
+              onChange={handleTechStacksChange}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip label={option.title} {...getTagProps({ index })} />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="TechStacks Used" placeholder="Select TechStacks" />
+              )}
+            />
+          </div>
+          <img src="images/filter.svg" alt="arrow" className={`w-[1.7rem] h-[1.7rem] ml-auto mr-[5vw]`} onClick={handleFilter}/>
+      </div>
+      <div className='md:ml-[27vw] pl-[10%] pr-[10%] md:pl-[3%] md:pr-[10%] '>
          <DialogBox
-      isOpen={isDialogOpen}
-      onClose={closeDialog}
-      message={dialogMessage}
-    />
+            isOpen={isDialogOpen}
+            onClose={closeDialog}
+            message={dialogMessage}
+        />
         {unit}
       </div>
     </div>

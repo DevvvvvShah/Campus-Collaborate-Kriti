@@ -47,7 +47,7 @@ function Navbar() {
 
   return (
     <div
-      className={`md:h-[full] md:max-w-[25rem] z-10 fixed min-w-[12.5rem] transition-all duration-700 md:top-0 md:left-0 bottom-0 left-0
+      className={`md:h-[full] md:max-w-[25rem] z-[200] fixed min-w-[12.5rem] transition-all duration-700 md:top-0 md:left-0 bottom-0 left-0
             transform bg-white border-r-[1px] drop-shadow-lg w-full ${
               isExpanded || isTop ? "md:w-[25vw]" : "md:w-[20vw]"
             }`}

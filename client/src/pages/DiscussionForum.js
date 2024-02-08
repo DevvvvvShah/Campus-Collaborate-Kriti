@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar/Navbar";
 import Topbar from "../components/Navbar/Topbar";
 import ChatBot from "../chatBot/ChatBot";
 import AddDiscussion from "../components/DiscussionForum/addDiscussions";
+import { Autocomplete, Chip, TextField } from "@mui/material";
+import { sort } from "mathjs";
 
 const DiscussionForum = (props) => {
   const [isExpanded, setIsExpanded] = React.useState(true);
@@ -15,6 +17,17 @@ const DiscussionForum = (props) => {
   const [isAddDiscussion, setIsAddDiscussion] = React.useState(false);
   const chatBotRef = useRef(null);
   const [selectedOption, setSelectedOption] = React.useState("");
+
+  const sortList = [
+    { id: 'upvotes', title: 'Upvotes' },
+    { id: 'views', title: 'Views' },
+    { id: 'comments', title: 'No. of Comments' },
+    { id: 'time', title: 'Time'}
+  ]
+
+  const handleFilter = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
 
   function handleChat() {
     setChatBot((prev) => !prev);
@@ -58,11 +71,28 @@ const DiscussionForum = (props) => {
     } else if (selectedOption === "comments") {
       temp.sort((a, b) => b.comments.length - a.comments.length);
     }
-    else{
+    else if(selectedOption === "time") {
       temp.sort((a, b) => new Date(b.postingTime) - new Date(a.postingTime));
     }
     setFilteredDiscussions(temp);
   }, [selectedOption]);
+
+  const [isFilterOpen, setIsFilterOpen] = React.useState(false);
+  const [selectedOptionForMUI, setSelectedOptionForMUI] = React.useState({ id: 'time', title: 'Time'});
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setIsFilterOpen(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);  
 
   return (
     <div>
@@ -80,12 +110,28 @@ const DiscussionForum = (props) => {
           </div>          
           <div className="w-full">
             <Topbar title="Discussion Forum" discussions={discussions} setFilteredDiscussions={setFilteredDiscussions} />
-          <select className="ml-[400px]" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-            <option value="">Sort By</option>
-            <option value="upvotes">Upvotes</option>
-            <option value="views">Views</option>
-            <option value="comments">No. of Comments</option>
-          </select>
+            <div className="mt-[10vh] min-h-[2rem] z-[999] relative" ref={filterRef}>
+        <div className={`bg-white p-4 absolute ml-auto mt-[2rem] right-[4vw] shadow-xl min-[200px] w-[20vw] ml-auto ${isFilterOpen ? 'block' : 'hidden'}`}> 
+            <Autocomplete
+              className="mt-4"
+              options={sortList}
+              defaultValue={sortList[3]}
+              clearIcon = {false}
+              getOptionLabel={(option) => option.title}
+              value={selectedOptionForMUI}
+              onChange={(e, value) => {setSelectedOption(value.id);setSelectedOptionForMUI(value)}}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip label={option.title} {...getTagProps({ index })} />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Sort By" placeholder="Select TechStacks" />
+              )}
+            />             
+          </div>
+          <img src="images/filter.svg" alt="arrow" className={`w-[1.7rem] h-[1.7rem] ml-auto mr-[5vw]`} onClick={handleFilter}/>
+      </div>
             <MainDiscussion discussions={filteredDiscussions} />
           </div>
           <div

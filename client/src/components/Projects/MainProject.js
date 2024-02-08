@@ -27,7 +27,7 @@ const MainProject = (props) => {
     }, [projects]);
 
     return (
-        <div className='md:ml-[25vw] mt-16 flex flex-col'>
+        <div className='md:ml-[25vw]  flex flex-col w-full' style={{marginLeft: 'auto'}}>
             {rows}
         </div>
     );

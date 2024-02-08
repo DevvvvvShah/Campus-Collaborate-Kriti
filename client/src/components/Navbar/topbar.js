@@ -140,7 +140,7 @@ const Topbar = (props) => {
             )}
 
             {showDetails && user && (
-              <div className=" absolute right-[5vw] border-1 bg-white rounded-md border">
+              <div className=" absolute right-[7.5vw] z-[9999] border-1 bg-white rounded-md border">
                 <div className="p-2">
                   <p>Name: {user.name}</p>
                   <p>Program: {user.program}</p>
@@ -155,8 +155,6 @@ const Topbar = (props) => {
                 <img
                   src={"/images/chat_ppl.svg"}
                   alt="Profile"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
                   className="mr-[0.5vw] ml-[0.5vw] w-[1.7rem] h-[1.7rem] rounded-full"
                 />
               </div>            
