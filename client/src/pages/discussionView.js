@@ -14,6 +14,9 @@ function DiscussionView() {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const encodedData = urlParams.get('id');
+        if (!encodedData) {
+          window.location.href = '/404';
+        }        
         getDiscussion(encodedData).then((response) => {
             setdiscussion(response.data);
         }).catch((error) => {
@@ -46,12 +49,12 @@ function DiscussionView() {
       </div>
       <div className="flex flex-col gap-2 w-[80vw] mt-[10vh] pl-[2vw]">
         <div className="text-[1.5rem] text-[#0016DA] font-bold">
-          Comments
+          Discussion and Answers
         </div>
         <div className="flex flex-col gap-2 w-[80vw] mt-[1vh] pl-[2vw]">
           <div className="text-[1rem] font-bold mb-[3vh]"
                 onClick = {() => setIsAddComment(!isAddComment)}>
-            Add Comment {isAddComment ? '▲' : '▼'}
+            Discuss {isAddComment ? '▲' : '▼'}
           </div>
           <div className={`flex flex-col mx-[2vw] ${isAddComment ? 'block' : 'hidden'}`}>
             <TextField

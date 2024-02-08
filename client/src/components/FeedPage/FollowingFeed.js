@@ -33,7 +33,7 @@ const FollowingFeed = (props) => {
   ,[postSearch, posts])
 
   return (
-    <div className=" pt-8">
+    <div className="ml-[20vw] pt-8  md:pr-[10%]">
       <FeedSection posts={filteredPosts} />
     </div>
   );

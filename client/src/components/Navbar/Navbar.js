@@ -8,14 +8,14 @@ function Tab(props) {
       activeClassName="active"
       className="grid grid-cols-12 md:w-full py-2 px-2 md:px-0 md:py-2 md:mb-2 rounded-full md:rounded-none"
     >
-      <div className="col-span-12 md:col-span-5 flex items-center">
+      <div className="col-span-12 md:col-span-4 flex items-center">
         <img
           src={"images/" + props.img + ".png"}
           alt="Description"
           className="mx-auto ml-auto mr-[10%] object-cover object-center w-[1.25rem] h-[1.25rem]"
         />
       </div>
-      <div className="md:col-span-7 hidden md:block">{props.name}</div>
+      <div className="md:col-span-8 hidden md:block">{props.name}</div>
     </NavLink>
   );
 }
