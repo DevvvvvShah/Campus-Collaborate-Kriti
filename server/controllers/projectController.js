@@ -63,9 +63,9 @@ const getProject = async (req, res) => {
         const d = 2;
         const e = 2;
         const index = project.views - Math.pow(c * project.dislikes.length, d) + (e * project.likes.length);
-        const div = project.views + ((e *0.1*project.views* project.likes.length));
+        const div = project.views + ((e *0.2*project.views));
         const rating = (index/div)*10;
-        project.rating = Math.min(rating, 10); 
+        project.rating = Math.min(10, rating); 
         await project.save();
         res.status(200).json(project);
     } catch (error) {
@@ -118,9 +118,9 @@ const likeProject = async (req, res) => {
         const d = 2;
         const e = 2;
         const index = project.views - Math.pow(c * project.dislikes.length, d) + (e * project.likes.length);
-        const div = project.views + ((e *0.1*project.views *project.likes.length));
+        const div = project.views + ((e *0.2*project.views));
         const rating = (index/div)*10;
-        project.rating = Math.min(rating, 10); 
+        project.rating = Math.min(10, rating); 
         await project.save();
         res.status(200).json(project);
     } catch (error) {
@@ -147,9 +147,9 @@ const dislikeProject = async (req, res) => {
         const d = 2;
         const e = 2;
         const index = project.views - Math.pow(c * project.dislikes.length, d) + (e * project.likes.length);
-        const div = project.views + ((e *0.1* project.views*project.likes.length));
+        const div = project.views + ((e *0.2* project.views));
         const rating = (index/div)*10;
-        project.rating = Math.min(rating, 10); 
+        project.rating = Math.min(10, rating); 
         await project.save();
         res.status(200).json(project);
     } catch (error) {
