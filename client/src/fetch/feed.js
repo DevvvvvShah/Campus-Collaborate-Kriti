@@ -17,6 +17,12 @@ const getFavorites = () => {
 }
 
 const postComment = (postId, content) => {
+  if(localStorage.getItem('lastCommentTime') && Date.now() - localStorage.getItem('lastCommentTime') < 60000){
+    return new Promise((resolve,reject) => {
+        resolve({data: {message: 'Please wait a few seconds before commenting again.'}});
+    });
+}
+  localStorage.setItem('lastCommentTime',Date.now());
   return axios.post('http://localhost:3001/posts/comment', {
     postId,
     content,

@@ -78,6 +78,10 @@ function ProjectView() {
 
     const handleAddComment = () => {
       postComment(project._id, comment).then((res) => {
+        if (res.data.message) {
+          alert(res.data.message);
+          return;
+        }
         console.log('Comment Posted:  ', res);
         window.location.reload();
       });

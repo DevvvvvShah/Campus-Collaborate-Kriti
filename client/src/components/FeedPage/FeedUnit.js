@@ -109,6 +109,10 @@ const FeedUnit = (props) => {
   const handleSubmit = () => {
     postComment(props.post._id, comment)
       .then((res) => {
+        if (res.data.message) {
+          alert(res.data.message);
+          return;
+        }
         setComments((comments) => comments + 1);
         setComment("");
         setIsCommenting(false);

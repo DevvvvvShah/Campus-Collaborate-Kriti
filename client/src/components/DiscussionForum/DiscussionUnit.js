@@ -86,6 +86,10 @@ const DiscussionUnit = (props) => {
   const handleSubmit = () => {
     postComment(props.discussion._id, comment)
       .then((res) => {
+        if (res.data.message) {
+          alert(res.data.message);
+          return;
+        }
         console.log(res);
         setComments((comments) => comments + 1);
       })
