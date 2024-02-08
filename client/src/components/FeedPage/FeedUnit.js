@@ -49,6 +49,8 @@ const FeedUnit = (props) => {
     setHoursAgo(timeAgo);
   }, [props.post.timeOfCreation]);
 
+  console.log(props.post)
+
   useEffect(() => {
     fetchProfileFromServer(localStorage.getItem("user"))
       .then((res) => {
@@ -206,10 +208,10 @@ const FeedUnit = (props) => {
         <button>...</button>
       </div>
 
-      {props.post.thumbnail && props.post.thumbnail.length!==0 ? 
+      {props.post.mediaArray && props.post.mediaArray.length!==0 ? 
           <Slider {...settings}>
-          {props.post.thumbnail.map((url, index) => (
-            <div className="flex h-[15rem] justify-center w-fit">
+          {props.post.mediaArray.map((url, index) => (
+            <div className="flex min-h-[15rem] justify-center w-fit">
               {(url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".svg")) ? (
                 <img
                   src={url}

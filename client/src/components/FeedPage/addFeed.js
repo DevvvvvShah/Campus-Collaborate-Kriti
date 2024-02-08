@@ -57,6 +57,7 @@ function AddFeed(props) {
       // Handle any errors
       console.error(error);
     });
+
   };
 
   return (
