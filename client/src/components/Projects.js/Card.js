@@ -11,7 +11,7 @@ const Card = (props) => {
     )
     console.log((project.mediaArray.length > 0 && project.mediaArray[0]));
     return (
-        <div className='md:my-[3vh] my-[1vh] md:w-[31vw] md:h-[52vh] w-[70vw] h-[40vh] min-h-fit flex justify-center items-center'
+        <div className='md:my-[3vh] my-[1vh] md:w-[31vw] md:h-[52vh] w-[70vw] h-[40vh] min-h-fit flex justify-end items-center'
              onClick={() => {window.location.href = `/projectView?id=${project._id}`}}    
         >
             <div className='flex flex-col justify-between md:w-[28vw] md:h-[48vh] h-[35vh] w-[65vw] min-h-fit

@@ -8,7 +8,7 @@ const CardRow = (props) => {
 
 
     return (
-        <div className='flex flex-col md:flex-row gap-0 justify-center items-center'>
+        <div className='flex flex-col md:flex-row gap-0 justify-end mr-[5vw] items-center'>
             <Card project={projects[0]} />
             {projects.length ==2 ? <Card project ={projects[1]} /> : ''}
         </div>

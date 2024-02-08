@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Topbar from "../components/Navbar/Topbar";
 import Project from "../components/Projects/MainProject";
@@ -17,6 +17,20 @@ function Projects() {
   const [selectedOption, setSelectedOption] = useState("");
   const [techStacks, setTechStacks] = useState([]);
   const [selectedTechStacks, setSelectedTechStacks] = useState([]);
+  const [selectedOptionForMUI, setSelectedOptionForMUI] = useState({ id: 'time', title: 'Time'});
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const handleFilter = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
+
+  const sortList = [
+    { id: 'likes', title: 'Likes' },
+    { id: 'views', title: 'Views' },
+    { id: 'comments', title: 'No. of Comments' },
+    { id: 'rating', title: 'Rating' },
+    { id: 'time', title: 'Time'}
+  ]
 
   useEffect(() => {
     getProjects()
@@ -53,7 +67,7 @@ function Projects() {
     else if(selectedOption === "rating"){
       temp.sort((a, b) => b.rating - a.rating);
     }
-    else{
+    else if(selectedOption === "time"){
       temp.sort((a, b) => new Date(b.timeOfPost) - new Date(a.timeOfPost));
     }
     setFilteredFilteredProjects(temp);
@@ -80,12 +94,28 @@ function Projects() {
     setSelectedTechStacks(value);
   };
 
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setIsFilterOpen(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);  
+
   return (
     <div className="relative flex flex-col md:flex-row bg-[#F8F8F8] w-screen min-h-[100vh]">
       <Navbar
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
         select={{ projects: true }}
+        className="z-[999]"
       />
       <div className={`flex justify-center rounded-xl items-center z-50 
       w-screen h-screen bg-[#00000022] fixed top-0 left-0
@@ -94,31 +124,47 @@ function Projects() {
       </div>
       <div className="w-screen">
         <Topbar title="Projects" projects={projects} setFilteredProjects={setFilteredProjects}/>
-        <select className="ml-[400px]" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-            <option value="">Sort By</option>
-            <option value="likes">Likes</option>
-            <option value="views">Views</option>
-            <option value="comments">No. of Comments</option>
-            <option value="rating">Rating</option>
-        </select>
-        <Autocomplete
-          className='mt-4 ml-[400px]'
-          multiple
-          options={techStacks}
-          getOptionLabel={(option) => option.title}
-          value={selectedTechStacks}
-          onChange={handleTechStacksChange}
-          renderTags={(value, getTagProps) =>
-            value.map((option, index) => (
-              <Chip label={option.title} {...getTagProps({ index })} />
-            ))
-          }
-          renderInput={(params) => (
-            <TextField {...params} variant="outlined" label="TechStacks Used" placeholder="Select TechStacks" size="small" />
-          )}
-        />
-        
+      <div className="mt-[10vh] min-h-[2rem] z-[100] relative" ref={filterRef}>
+        <div className={`bg-white p-4 absolute ml-auto mt-[2rem] right-[5vw] shadow-xl min-[200px] w-[20vw] ml-auto ${isFilterOpen ? 'block' : 'hidden'}`}> 
+            <Autocomplete
+              className="mt-4"
+              options={sortList}
+              defaultValue={sortList[4]}
+              clearIcon = {false}
+              getOptionLabel={(option) => option.title}
+              value={selectedOptionForMUI}
+              onChange={(e, value) => {setSelectedOption(value.id);setSelectedOptionForMUI(value)}}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip label={option.title} {...getTagProps({ index })} />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Sort By" placeholder="Select TechStacks" />
+              )}
+            />             
+            <Autocomplete
+              className='mt-4'
+              multiple
+              options={techStacks}
+              getOptionLabel={(option) => option.title}
+              value={selectedTechStacks}
+              onChange={handleTechStacksChange}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip label={option.title} {...getTagProps({ index })} />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="TechStacks Used" placeholder="Select TechStacks" />
+              )}
+            />
+          </div>
+          <img src="images/filter.svg" alt="arrow" className={`w-[1.7rem] h-[1.7rem] ml-auto mr-[5vw]`} onClick={handleFilter}/>
+      </div>        
+        <div className="w-full">
         <Project projects={filteredFilteredProjects} />
+        </div>
       </div>
       <div
         className="fixed flex justify-center shadow-lg items-center gap-2 md:bottom-2 md:right-2 bottom-[9vh] right-2

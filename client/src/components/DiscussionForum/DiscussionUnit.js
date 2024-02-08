@@ -107,7 +107,7 @@ const DiscussionUnit = (props) => {
 
 
   return (
-    <div className="w-full text-black p-5 rounded-lg bg-white mb-2 drop-shadow-lg max-w-[50rem] mx-auto">
+    <div className="w-full text-black p-5 rounded-lg bg-white mb-2 drop-shadow-lg  mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-12 md:gap-2 gap-1">
         <div className="md:col-span-1 md:mr-auto items-center flex">
           <div className="bg-[#CCC] mx-auto md:max-w-[50px] md:max-h-[50px] md:w-[3.5vw] md:h-[3.5vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px] shadow rounded-full relative"></div>
