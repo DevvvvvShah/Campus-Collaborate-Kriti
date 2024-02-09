@@ -138,7 +138,7 @@ const DiscussionUnit = (props) => {
                 }`}
                 className="flex items-center gap-2"
               >
-                <div className="md:text-[1rem] text-[0.8rem] font-semibold">
+                <div className="md:text-[1rem] text-[0.8rem] md:pl-[3rem] font-semibold">
                   {props.discussion.poster && props.discussion.poster.name}
                 </div>
               </Link>
@@ -156,7 +156,7 @@ const DiscussionUnit = (props) => {
               }`}
               className="flex items-center gap-2"
             >
-              <div className="text-[0.75rem] ml-[-6rem] md:pl-0 text-[#0016DA]">
+              <div className="text-[0.75rem] ml-[-6rem] md:pl-[3rem] text-[#0016DA]">
                 @{props.discussion.poster && props.discussion.poster.email}
               </div>
             </Link>
@@ -223,7 +223,7 @@ const DiscussionUnit = (props) => {
           window.location.href = `/discussionView?id=${props.discussion._id}`;
         }}
       ></div>
-      <div className="w-full md:w-1/4 flex h-fit gap-4 md:mt-[3rem] justify-end text-black align-center items-center py-0.5 px-2 rounded-full border-[1px] border-white">
+      <div className="md:ml-[47.5rem] md:mt-[-2rem] w-full md:w-1/4 flex h-fit gap-4 text-black  items-center py-0.5 px-2 rounded-full">
         <div
           className="flex gap-1 items-center"
           onClick={() => {
