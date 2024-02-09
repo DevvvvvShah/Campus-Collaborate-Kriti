@@ -117,7 +117,7 @@ function Projects() {
         select={{ projects: true }}
         className="z-[999]"
       />
-      <div className={`flex justify-center rounded-xl items-center z-50 
+      <div className={`flex justify-center rounded-xl items-center z-[999]
       w-screen h-screen bg-[#00000022] fixed top-0 left-0
       ${isAddProject ? ' block' : ' hidden'}`}>
         <AddProject setIsAddProject={setIsAddProject}/>

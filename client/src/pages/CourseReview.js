@@ -152,14 +152,14 @@ return (
         Add Review
       </div>
     </div>    
-    <div className={`flex justify-center rounded-xl items-center z-50 
+    <div className={`flex justify-center rounded-xl items-center z-[999] 
       w-screen h-screen bg-[#00000022] fixed top-0 left-0
       ${isAddCourse ? ' block' : ' hidden'}`}>
         <AddCourse setIsAddCourse={setIsAddCourse}/>
       </div>
     <div className='w-full'>
       <Topbar title = "Course Review" courseReviews={courseReviews} setFilteredCourseReviews={setFilteredCourseReviews} />
-      <div className="mt-[10vh] min-h-[2rem] z-[999] relative" ref={filterRef}>
+      <div className="mt-[10vh] min-h-[2rem] z-[200] relative" ref={filterRef}>
         <div className={`bg-white p-4 absolute ml-auto mt-[2rem] right-[4vw] shadow-xl min-[200px] w-[20vw] ml-auto ${isFilterOpen ? 'block' : 'hidden'}`}> 
             <Autocomplete
               className="mt-4"
