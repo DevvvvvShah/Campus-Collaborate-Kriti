@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fetchProfileFromServer from "../../fetch/profile";
+import {fetchProfileFromServer} from "../../fetch/profile";
 import axios from "axios";
 
 const Topbar = (props) => {

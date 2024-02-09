@@ -1,69 +1,85 @@
-import axios from 'axios';
+import axios from "axios";
 
 const getProjects = () => {
-    return axios.get('http://localhost:3001/projects/');
-    };
+  return axios.get("http://localhost:3001/projects/");
+};
 
 const getProject = (id) => {
-    return axios.get(`http://localhost:3001/projects/${id}`);
+  return axios.get(`http://localhost:3001/projects/${id}`);
 };
 
 const getMyProjects = () => {
-    return axios.get(`http://localhost:3001/projects/my`, {
-        withCredentials: true,
-    })
-}
+  return axios.get(`http://localhost:3001/projects/my`, {
+    withCredentials: true,
+  });
+};
 
-const addCollab = (id,user) => {
-    return axios.put(`http://localhost:3001/projects/${id}/addCollab`,{
-        user
+const addCollab = (id, user) => {
+  return axios.put(
+    `http://localhost:3001/projects/${id}/addCollab`,
+    {
+      user,
     },
     {
-        withCredentials: true,
-    });
+      withCredentials: true,
+    }
+  );
 };
 
 const putLike = (id) => {
-    return axios.put(`http://localhost:3001/projects/likes/`,{
-        projectId: id,
+  return axios.put(
+    `http://localhost:3001/projects/likes/`,
+    {
+      projectId: id,
     },
     {
-        withCredentials: true,
-    });
+      withCredentials: true,
+    }
+  );
 };
 
 const putDislike = (id) => {
-    return axios.put(`http://localhost:3001/projects/dislikes/`,{
-        projectId: id,
+  return axios.put(
+    `http://localhost:3001/projects/dislikes/`,
+    {
+      projectId: id,
     },
     {
-        withCredentials: true,
-    });
-}
-
-const postComment = (id,content) => {
-    if(localStorage.getItem('lastCommentTime') && Date.now() - localStorage.getItem('lastCommentTime') < 60000){
-        return new Promise((resolve,reject) => {
-            resolve({data: {message: 'Please wait a few seconds before commenting again.'}});
-        });
+      withCredentials: true,
     }
-    localStorage.setItem('lastCommentTime',Date.now());
-    return axios.post('http://localhost:3001/projects/comment/',{
-        projectId: id,
-        content: content,
+  );
+};
+
+const postComment = (id, content) => {
+  if (
+    localStorage.getItem("lastCommentTime") &&
+    Date.now() - localStorage.getItem("lastCommentTime") < 60000
+  ) {
+    return new Promise((resolve, reject) => {
+      resolve({
+        data: { message: "Please wait a few seconds before commenting again." },
+      });
+    });
+  }
+  localStorage.setItem("lastCommentTime", Date.now());
+  return axios.post(
+    "http://localhost:3001/projects/comment/",
+    {
+      projectId: id,
+      content: content,
     },
     {
-        withCredentials: true,
-    })
-}
-
+      withCredentials: true,
+    }
+  );
+};
 
 export {
-    getProjects,
-    getProject,
-    putLike,
-    putDislike,
-    getMyProjects
-    postComment,
-    addCollab
+  getProjects,
+  getProject,
+  putLike,
+  putDislike,
+  getMyProjects,
+  postComment,
+  addCollab,
 };

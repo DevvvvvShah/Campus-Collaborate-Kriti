@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import fetchProfileFromServer from '../../fetch/profile';
+import {fetchProfileFromServer} from '../../fetch/profile';
 import { putUpvote,putDownvote } from '../../fetch/discussions';
 
 const HeaderCard = (props) => {

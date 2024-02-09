@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import axios from "axios";
-import fetchProfileFromServer from "../../fetch/profile";
+import { fetchProfileFromServer } from "../../fetch/profile";
 const ProfileName = (props) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,9 @@ const ProfileName = (props) => {
 
   return (
     <div className="flex flex-col items-center pt-[1rem] ">
-      <span className="text-xl font-bold text-[#131313dd]">{data && data.name}</span>
+      <span className="text-xl font-bold text-[#131313dd]">
+        {data && data.name}
+      </span>
       <span className=" text-[#9d9a9a] mt-[0.8rem] text-sm font-medium text-center px-[1rem]">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi
         numquam delectus cumque vitae atque, necessitatibus facere dolorum
