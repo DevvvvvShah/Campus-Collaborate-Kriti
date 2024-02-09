@@ -4,6 +4,7 @@ import ChatInput from './ChatInput';
 import axios from 'axios';
 import { getAllMessageRoute, sendMessageRoute } from '../../utils/APIRoutes';
 import { v4 as uuidv4 } from 'uuid';
+import TopbarChat from './TopbarChat';
 
 export default function ChatContainer({ currentChat, currentUser, socket }) {
   const [messages, setMessages] = useState([]);
@@ -78,6 +79,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
     }, [messages]);
     return (
         <Container>
+            <TopbarChat currentUser={currentUser} />
             <div className="chat-header">
                 <div className="user-details">
                     <div className="avatar">
@@ -113,13 +115,10 @@ const Container = styled.div`
 margin-left: 25vw;
 width: 75vw;
 display: grid;
-grid-template-rows: 10% 80% 10%;
+grid-template-rows: 8% 10% 72% 10%;
 gap: 0.1rem;
 overflow: hidden;
 background-color: #F8F8F8;
-@media screen and (min-width: 720px) and (max-width: 1080px) {
-grid-template-rows: 15% 70% 15%;
-}
 .chat-header {
     display: flex;
     justify-content: space-between;
@@ -187,6 +186,7 @@ grid-template-rows: 15% 70% 15%;
       justify-content: flex-start;
       .content {
         background-color: white;
+        color:black;
       }
     }
   }

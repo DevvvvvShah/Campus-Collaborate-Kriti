@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const cloudinary = require("cloudinary").v2;
-const User = require("../models/User");
-const mongoose = require("mongoose");
-const Project = require("../models/Project");
+const cloudinary = require('cloudinary').v2;
+const User = require('../models/User');
+const Project = require('../models/Project');  
 
 cloudinary.config({
   cloud_name: "dpobpe2ga",
@@ -16,7 +15,9 @@ const getUserProfile = async (req, res) => {
   await User.findById(req.params.userid)
     .populate("connections")
     .then((user) => {
-      user.views += 1;
+      if (user._id.toString() !== req.user.toString()) {
+        user.views += 1;
+      }
       user.save();
       res.status(200).json(user);
     })
@@ -34,6 +35,17 @@ const getProfile = async (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
+};
+
+//search profiles
+const searchProfiles = async (req, res) => {
+  const { searchTerm } = req.body;
+  try {
+    const users = await User.find({ name: { $regex: searchTerm, $options: "i" } });  
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // update profile of logged in user
@@ -183,6 +195,28 @@ const addtoPortfolio = async (req, res) => {
   }
 };
 
+const addtoPortfolio = async (req,res) => {
+  const {project} = req.body;
+  try {
+    const user = await User.findById(req.user);
+    const projectfound = await Project.findById(project);
+      
+    if (!projectfound) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    if(user.portfolio.includes(projectfound._id)){
+      user.portfolio.pull(projectfound._id);
+    } else {
+      user.portfolio.push(projectfound._id);
+    }
+    
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getProfile,
   getUserProfile,
@@ -190,5 +224,7 @@ module.exports = {
   addtoConnection,
   getAllUserChats,
   removeFromConnection,
-  addtoPortfolio,
+  addtoPortfolio,,
+  searchProfiles,
+  addtoPortfolio
 };

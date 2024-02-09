@@ -8,10 +8,32 @@
   font-family: "Montserrat", sans-serif;
 }
 
-.classes {
-  background-image: url("/public/bg3.png");
-  background-size: contain;
+#section1 {
+  background-image: url("/public/images/bg1.jpg");
+  background-attachment: fixed;
   background-repeat: no-repeat;
+  background-position: top;  
+}
+
+#section2 {
+  background-image: url("/public/images/bg1.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: bottom;  
+}
+
+#section3 {
+  background-image: url("/public/images/bg1.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+#section4 {
+  background-image: url("/public/images/bg1.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position-y: 25%;
+  background-position-x: 25%;  
 }
 
 .button {
@@ -46,4 +68,9 @@
 .active {
   box-shadow: 0px 7px 20px rgba(0, 0, 0, 0.2);
   border-bottom: 2.5px solid #1d4ed8;
+}
+
+
+.section {
+  height: 100vh;
 }

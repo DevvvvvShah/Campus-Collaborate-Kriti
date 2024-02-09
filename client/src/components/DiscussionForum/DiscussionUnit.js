@@ -4,7 +4,6 @@ import { postComment, putUpvote } from "../../fetch/discussions";
 
 const DiscussionUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
-  const [profile, setProfile] = React.useState({});
   const [comment, setComment] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
   const [comments, setComments] = React.useState(
@@ -12,6 +11,13 @@ const DiscussionUnit = (props) => {
   );
   const [upvotes, setUpvotes] = React.useState(props.discussion.upvotes.length);
   const [upvoted, setUpvoted] = React.useState(false);
+
+  useEffect(() => {
+    setUpvotes(props.discussion.upvotes.length);
+    setComments(props.discussion.comments.length);
+    setUpvoted(props.discussion.upvotes.includes(localStorage.getItem("user")));
+  }, [props.discussion]);
+  
 
   useEffect(() => {
     const postingTime = props.discussion.postingTime;
@@ -80,6 +86,10 @@ const DiscussionUnit = (props) => {
   const handleSubmit = () => {
     postComment(props.discussion._id, comment)
       .then((res) => {
+        if (res.data.message) {
+          alert(res.data.message);
+          return;
+        }
         console.log(res);
         setComments((comments) => comments + 1);
       })
@@ -95,27 +105,20 @@ const DiscussionUnit = (props) => {
     }, 200);
   };
 
-  useEffect(() => {
-    fetchProfileFromServer(props.discussion.poster)
-      .then((res) => {
-        setProfile(res);
-        console.log(res);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   return (
-    <div className="w-full text-black p-5 rounded-lg bg-white mb-2 drop-shadow-lg max-w-[50rem] mx-auto">
+    <div className="w-full text-black p-5 rounded-lg bg-white mb-2 drop-shadow-lg  mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-12 md:gap-2 gap-1">
         <div className="md:col-span-1 md:mr-auto items-center flex">
-          <div className="bg-[#CCC] mx-auto md:max-w-[50px] md:max-h-[50px] md:w-[3.5vw] md:h-[3.5vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px] shadow rounded-full relative"></div>
-        </div>
+            <img
+                src={props.discussion.poster ? (props.discussion.poster.profilePic || '/images/defaultThumbnail.jpeg') : '/images/defaultThumbnail.jpeg'}
+                alt="Profile"
+                className="w-[3rem] h-[3rem] rounded-full"
+            />        </div>
         <div className="md:col-span-8 flex flex-col md:items-start md:justify-center items-center">
           <div className="flex gap-2">
             <div className="text-[1rem] font-semibold">
-              {profile && profile.name}
+              {props.discussion.poster && props.discussion.poster.name}
             </div>
             <div className="flex items-center">
               <img
@@ -126,17 +129,17 @@ const DiscussionUnit = (props) => {
             </div>
           </div>
           <div className="text-[0.75rem] text-[#0016DA] align-bottom">
-            @{profile && profile.name}
+            @{props.discussion.poster && props.discussion.poster.email}
           </div>
         </div>
-        <div className="md:col-span-3 flex flex-col items-end align-top">
+        <div className="md:col-span-3 flex flex-col items-end align-top" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}>
           <div className="text-[0.875rem] text-[#0016DA]">{hoursAgo}</div>
         </div>
         <div className="md:col-span-1"></div>
-        <div className="md:col-span-8">
+        <div className="md:col-span-8 hover:cusor-pointer" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}>
           <div className="text-[1rem]">{props.discussion.content}</div>
         </div>
-        <div className="flex justify-end md:col-span-3 items-center"></div>
+        <div className="flex justify-end md:col-span-3 items-center" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}></div>
         <div className="md:col-span-1"></div>
         <div className="md:col-span-8">
           <div className="flex flex-col gap-1 items-end text-black ml-[-0.5rem] mt-[1rem]">
@@ -163,12 +166,12 @@ const DiscussionUnit = (props) => {
             </div>
           </div>
         </div>
-        <div className="md:col-span-3"></div>
-        <div className="md:col-span-1"></div>
-        <div className="md:col-span-8"></div>
+        <div className="md:col-span-3" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}></div>
+        <div className="md:col-span-1" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}></div>
+        <div className="md:col-span-8" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}></div>
         <div className="md:col-span-3 flex justify-end">
           <div className="flex w-fit h-fit gap-4 justify-end text-black align-center items-center py-0.5 px-2 rounded-full border-[1px] border-white">
-            <div className="flex gap-1 align-center items-center">
+            <div className="flex gap-1 align-center items-center" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}>
               <img
                 src={"images/comment.svg"}
                 alt="Description"

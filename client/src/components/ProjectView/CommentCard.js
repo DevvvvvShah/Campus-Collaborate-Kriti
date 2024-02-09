@@ -80,35 +80,29 @@ const CommentCard = (props) => {
         }).catch((error) => {
             console.error('Error disliking:', error);
         });
-    }    
-
-    useEffect(() => {
-        fetchProfileFromServer(props.comments.userId).then((res) => {
-           setProfile(res);
-        }).catch(error => {
-            console.error(error);
-        });
-
-    }, []);    
+    }      
 
     return (
         <div className='w-full text-black p-5 bg-white shadow-lg rounded-lg mb-2'>
             <div className='grid grid-cols-1 md:grid-cols-12 md:gap-2 gap-1'>
             <div className='md:col-span-1 md:mr-auto items-center flex'>
-                    <div className='bg-[#CCC] mx-auto md:max-w-[50px] md:max-h-[50px] md:w-[3.5vw] md:h-[3.5vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px] shadow rounded-full relative'>
-                    </div>
+                    <img
+                        src={props.comments.userId ? (props.comments.userId.profilePic || '/images/defaultThumbnail.jpeg') : '/images/defaultThumbnail.jpeg'}
+                        alt="Profile"
+                        className="w-[3rem] h-[3rem] rounded-full"
+                    />
                 </div>
                 <div className='md:col-span-8 flex flex-col md:items-start md:justify-center items-center' >
                     <div className='flex gap-2'>
                         <div className='text-[1rem] font-semibold'>
-                            {profile && profile.name}
+                            {props.comments && props.comments.userId.name}
                         </div>
                         <div className='flex items-center'>
                             <img src="images/verify.png" alt="Description" className="object-cover object-center w-[1.125rem] h-[1.125rem]" />
                         </div>
                     </div>
                     <div className='text-[0.75rem] text-[#0016DA] align-bottom'>
-                        {profile && profile.email}
+                        {props.comments && props.comments.userId.email}
                     </div>
                 </div>
                 <div className='md:col-span-3 flex flex-col items-end align-top'>

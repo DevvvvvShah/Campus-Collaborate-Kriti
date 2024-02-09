@@ -8,14 +8,14 @@ function Tab(props) {
       activeClassName="active"
       className="grid grid-cols-12 md:w-full py-2 px-2 md:px-0 md:py-2 md:mb-2 rounded-full md:rounded-none"
     >
-      <div className="col-span-12 md:col-span-5 flex items-center">
+      <div className="col-span-12 md:col-span-4 flex items-center">
         <img
           src={"images/" + props.img + ".png"}
           alt="Description"
           className="mx-auto ml-auto mr-[10%] object-cover object-center w-[1.25rem] h-[1.25rem]"
         />
       </div>
-      <div className="md:col-span-7 hidden md:block">{props.name}</div>
+      <div className="md:col-span-8 hidden md:block">{props.name}</div>
     </NavLink>
   );
 }
@@ -47,7 +47,7 @@ function Navbar() {
 
   return (
     <div
-      className={`md:h-[full] md:max-w-[25rem] z-10 fixed min-w-[12.5rem] transition-all duration-700 md:top-0 md:left-0 bottom-0 left-0
+      className={`md:h-[full] md:max-w-[25rem] z-[500] fixed min-w-[12.5rem] transition-all duration-700 md:top-0 md:left-0 bottom-0 left-0
             transform bg-white border-r-[1px] drop-shadow-lg w-full ${
               isExpanded || isTop ? "md:w-[25vw]" : "md:w-[20vw]"
             }`}
@@ -63,6 +63,7 @@ function Navbar() {
           <Tab to="/courseReview" name="Course Reviews" img="courses" />
           <Tab to="/projects" name="Projects" img="projects" />
           <Tab to="/discussion" name="Discussions" img="questions" />
+          <Tab to="/search" name="Search" img="search" />
         </div>
       </div>
     </div>

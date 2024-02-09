@@ -3,7 +3,7 @@ import LandingPageComp from "../components/LandingPageComp";
 
 function LandingPage() {
   return (
-    <div className="h-[100vh] classes">
+    <div className="classes">
       <LandingPageComp />
     </div>
   );

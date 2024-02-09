@@ -7,8 +7,7 @@ import Contacts from "../components/Chat/Contacts";
 import Welcome from "../components/Chat/Welcome";
 import ChatContainer from "../components/Chat/ChatContainer";
 import { io } from "socket.io-client";
-import {fetchProfileFromServer} from "../fetch/profile";
-import TopbarChat from "../components/Chat/TopbarChat";
+import fetchProfileFromServer from "../fetch/profile";
 
 function Chat() {
   const socket = useRef();
@@ -62,7 +61,6 @@ function Chat() {
 
   return (
     <Container>
-      <TopbarChat currentUser={currentUser} />
       <div className="container">
         <Contacts
           contacts={users}
@@ -73,11 +71,11 @@ function Chat() {
         {isLoaded && !currentChat ? (
           <Welcome currentUser={currentUser} />
         ) : (
-          <ChatContainer
-            currentChat={currentChat}
-            currentUser={currentUser}
-            socket={socket}
-          />
+            <ChatContainer
+              currentChat={currentChat}
+              currentUser={currentUser}
+              socket={socket}
+            />
         )}
       </div>
     </Container>

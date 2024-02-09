@@ -1,5 +1,5 @@
-import React, { useEffect,useState } from 'react';
-import {fetchProfileFromServer} from '../../fetch/profile';
+import React, { useEffect,useState, useRef } from 'react';
+import fetchProfileFromServer from '../../fetch/profile';
 import { putLike,putDislike } from '../../fetch/projects';
 
 const HeaderCard = (props) => {
@@ -8,6 +8,7 @@ const HeaderCard = (props) => {
     const [downvoted, setDownvoted] = useState(false);
     const [upvotes,setUpvotes] = useState((props.project.likes && props.project.likes.length) || 0);
     const [downvotes,setDownvotes] = useState((props.project.dislikes && props.project.dislikes.length) || 0);
+    const [isAddCollab, setIsAddCollab] = useState(false);
 
     useEffect(() => {
         fetchProfileFromServer(localStorage.getItem('user')).then((res) => {
@@ -87,7 +88,7 @@ const HeaderCard = (props) => {
 
     return (
         <div className="mt-[16vh] flex flex-col w-[80vw] bg-white">
-            <div className='relative bg-[#FFFFFF] w-[80vw] z-10 flex flex-col mx-auto px-[5vw] overflow-hidden rounded-l-xl rounded-t-xl'
+            <div className='relative bg-[#FFFFFF] w-[80vw] z-10 flex flex-col mx-auto px-[5vw] rounded-l-xl rounded-t-xl'
             style={{boxShadow: '0px 0px 15px 0px #CCCCCC'}}>
                 <img src="images/dots1.svg" className='absolute top-0 left-0 w-[25vw]' alt="dots" />
                 <img src="images/dots2.svg" className='absolute bottom-0 right-0 w-[45.8vw] ' alt="dots" />
@@ -112,17 +113,23 @@ const HeaderCard = (props) => {
                         {props.project.title}
                     </div>
                     <div className='flex mt-[3vh] gap-3'>{
+
                         (props.project.creatorId && props.project.creatorId.length > 0) ? props.project.creatorId.map((user,index) => {
-                            user.thumbnail = user.thumbnail || 'images/defaultThumbnail.jpeg';
+                            user.profilePic = user.profilePic || 'images/defaultThumbnail.jpeg';
                             return (
                                 <a href={`http://localhost:3000/profile`} target="_blank" rel="noopener noreferrer" key={index}>
                                     <div className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] shadow md:min-h-[32px] h-[45px] w-[45px] rounded-full relative overflow-hidden'>
-                                        <img src={user.thumbnail} className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px]' />
+                                        <img src={user.profilePic} className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px]' />
                                     </div>
                                 </a>
                             );
                         }) : <div>..</div>
-                        }                       
+                        }      
+                        <div className='relative'
+                        >
+                            <img src='images/addCollab.svg' alt="add collab" className={` hover:cursor-pointer md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px]  rounded-full h-[45px] w-[45px]`} 
+                                onClick={() => props.setIsAddCollab(true)}/>
+                        </div>               
                     </div>
                 </div>
             </div>

@@ -31,8 +31,6 @@ const courseSchema = new mongoose.Schema({
     ],
     coursePic: {
         type: String,
-        required: true,
-        default:""
     },
 });
 

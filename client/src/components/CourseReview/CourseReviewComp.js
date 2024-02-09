@@ -1,42 +1,43 @@
 import image from "../../assets/ok.png";
-import Upvote from "../../assets/upvote.svg";
-import Downvote from "../../assets/downvote.svg";
+import React from 'react';
 
 
-const CourseReviewComp = () => {
+const CourseReviewComp = (props) => {
+    const courseReview = props.courseReview;
+    const coursePic = courseReview.coursePic;
+
     return ( 
-        <div className="flex items-center justify-center w-fit mt-5 mb-5 rounded-3xl  bg-white hover:scale-[1.03] transition-all duration-300">
-              <div className="w-1/4">
-                <img src={image} alt="Image" className="py-9 mx-7" />
-              </div>
-              <div className="w-3/4 my-2 mx-10" >
-                <div>
+        <div className="flex items-center w-[65vw] mt-5 mb-5 h-[28vh] rounded-xl shadow-lg bg-white hover:scale-[1.03] transition-all duration-300 overflow-hidden"
+            onClick = {() => window.location.href = `/courseView?id=${courseReview._id}`}
+        >
+          <div className='w-1/4 flex overflow-hidden'>
+            <img src={coursePic || image} alt="course pic" className="h-[28vh] w-auto object-cover object-center" />
+          </div>
+          <div className="w-3/4 py-[20px] px-[20px] flex flex-col h-full justify-between" >
+              <div>
                 <h1 style={{ fontWeight: "bold", fontSize: "24px", paddingBottom: "10px" }}>
-                  CourseName
+                  {courseReview.title}
                 </h1>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reiciendis facilis cupiditate perspiciatis soluta enim
-                  explicabo distinctio ut iure sed nisi maiores ab dignissimos,
-                  accusamus iste sapiente, illum quas! Et quis sint ipsam veniam
-                  rerum eum quia impedit. Tempora provident consequatur placeat
-                  nihil dolor, voluptas repellendus, sapiente pariatur ad,
-                  magnam assumenda?
+                  {courseReview.description}
                 </p>
-                <div className="flex justify-end">
-                    <div className="bg-[#e4e3e3] h-[2.5rem] w-[6rem] flex justify-evenly items-center rounded-[50px]">
-                    <button>
-                        <img src={Upvote} alt="img" className="h-[1.5rem]"/>
-                    </button>
-                    <div className="bg-white w-[0.2rem] h-[2.5rem]"> </div>
-                    <button>
-                        <img src={Downvote} alt="img" className="h-[1.5rem]"/>
-                    </button>
-                    </div>
+              </div>
+              <div className="ml-auto pt-4">
+                <div className='flex gap-1 align-center items-center'>
+                    <img src={`images/comment.svg`} 
+                        alt="Description" 
+                        className="object-cover object-center w-[1rem] h-[1rem]" 
+                    />
+                    <div className='text-[0.875rem]'>{courseReview.commentsId.length}</div>                  
+                    <img src={`images/profile.svg`} 
+                        alt="Description" 
+                        className="object-cover object-center w-[1rem] ml-[20px] h-[1rem]" 
+                    />
+                    <div className='text-[0.875rem]'>{courseReview.enrolledStudents.length}</div>
                 </div>
               </div>
-            </div>
-            </div>
+          </div>
+        </div>
      );
 }
  

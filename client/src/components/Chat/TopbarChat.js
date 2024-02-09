@@ -3,8 +3,8 @@ import React from "react";
 const TopbarChat = (props) => {
   console.log(props);
   return (
-    <div className="w-full bg-white drop-shadow-sm border-b">
-      <div className="md:ml-[25vw] ml-[5vw] flex items-center py-[1.5vh] align-center justify-between">
+    <div className="w-full bg-white flex items-center drop-shadow-sm ">
+      <div className="flex w-full items-center align-center justify-between">
         <div className="topic md:text-xl md:text-lg h-fit pl-[2vw]">
           Chats
         </div>

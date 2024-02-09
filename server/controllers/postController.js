@@ -4,6 +4,7 @@ const cloudinary = require("cloudinary").v2;
 const User = require("../models/User");
 const Comment = require("../models/Comments");
 const Post = require("../models/Posts");
+const Skill = require("../models/Skills");
 
 cloudinary.config({
   cloud_name: "dpobpe2ga",
@@ -22,8 +23,10 @@ const newPost = async (req, res) => {
           resource_type: "auto", // Automatically detect the resource type (image or video)
         });
       });
-      const results = await Promise.all(uploadPromises);
+      const results = await Promise.all(uploadPromises);    
       newPost.mediaArray = results.map((result) => result.secure_url); // Add secure URLs to newPost.media array
+      await newPost.save();
+      console.log("Successfully uploaded media to cloudinary")
     }
     const user = await User.findById(req.user);
     user.posts.push(newPost._id);
@@ -36,7 +39,14 @@ const newPost = async (req, res) => {
 // get All Post: GET
 const getAllPost = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find()
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'userId',
+        model: 'User'
+      }
+    }).populate('creator');
     res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -46,7 +56,7 @@ const getAllPost = async (req, res) => {
 const getPost = async (req, res) => {
   const { postId } = req.params;
   try {
-    const post = await Post.findById(postId).populate("comments");
+    const post = await Post.findById(postId).populate("comments").populate("techStacks");
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -71,7 +81,13 @@ const getMyConnectionPosts = async (req, res) => {
     const user = await User.findById(req.user);
     const connections = user.connections;
     console.log(connections);
-    const posts = await Post.find({ creator: { $in: connections } });
+    const posts = await Post.find({ creator: { $in: connections } }).populate({
+      path: 'comments',
+      populate: {
+        path: 'userId',
+        model: 'User'
+      }
+    }).populate('creator');;
     console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
@@ -109,7 +125,13 @@ const getMyFavPosts = async (req, res) => {
     console.log(user);
     const favPosts = user.favPosts;
     console.log(favPosts);
-    const posts = await Post.find({ _id: { $in: favPosts } });
+    const posts = await Post.find({ _id: { $in: favPosts } }).populate({
+      path: 'comments',
+      populate: {
+        path: 'userId',
+        model: 'User'
+      }
+    }).populate('creator');;
     res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -118,14 +140,24 @@ const getMyFavPosts = async (req, res) => {
 
 // delete post using id: DELETE
 const deletePost = async (req, res) => {
-  const { postId } = req.body;
+  const { postId } = req.params;
   try {
-    const post = await Post.findByIdAndDelete(postId);
+    const post = await Post.findById(postId);
+    await User.findById(req.user).then((user) => {
+      if (post.creator.toHexString() !== user._id.toHexString()) {
+        res.status(401).json({ message: "Unauthorized" });
+      }
+      user.posts.pull(postId);
+      user.save();
+    });
+    await Post.findByIdAndDelete(postId);
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-};
+}
+
+
 // like a post : PUT
 const likePost = async (req, res) => {
   const { postId } = req.body;
