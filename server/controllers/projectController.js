@@ -85,8 +85,19 @@ const deleteProject = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized" });
         }
 
-        // Pull the project from all users in creatorId
-        await User.updateMany({ _id: { $in: project.creatorId } }, { $pull: { projects: project._id } });
+        project.creatorId.forEach(userId => {
+            User.findById(userId).then(user => {
+            console.log(user);
+            user.projects.forEach(projectId => {
+                if (projectId._id.toHexString() === project._id.toHexString()) {
+                    user.projects.pull(projectId);
+                    user.save()
+                    .then((updatedUser) => console.log(updatedUser))
+                    .catch(error => console.log(error));
+                }
+            });
+        }).catch(error => console.log(error));
+        });
         
         // Delete the project
         await Project.findByIdAndDelete(req.params.projectId);
