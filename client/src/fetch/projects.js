@@ -84,6 +84,7 @@ const postComment = (id, content) => {
     });
   }
   localStorage.setItem("lastCommentTime", Date.now());
+  
   // Check comment for spam
   return axios.post("http://localhost:3001/evaluate-comment", { comment: content })
     .then(response => {
