@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { fetchProfileFromServer } from "../../fetch/profile";
 import { putLike, putDislike } from "../../fetch/projects";
+import { Link } from "react-router-dom";
 
 const HeaderCard = (props) => {
 
@@ -160,19 +161,15 @@ const HeaderCard = (props) => {
                 user.profilePic =
                   user.profilePic || "images/defaultThumbnail.jpeg";
                 return (
-                  <a
-                    href={`http://localhost:3000/profile`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={index}
-                  >
+                    <Link to={`/profile/${user._id}`} className="flex items-center gap-2">
                     <div className="md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] shadow md:min-h-[32px] h-[45px] w-[45px] rounded-full relative overflow-hidden">
                       <img
                         src={user.profilePic}
+                        alt="Profile"
                         className="md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px]"
                       />
                     </div>
-                  </a>
+                  </Link>
                 );
               })
             ) : (

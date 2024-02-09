@@ -12,7 +12,10 @@ function SearchPage() {
 
     useEffect(() => {
         fetchProfilesBySearch(search)
-        .then((res) => setProfiles(res))
+        .then((res) => {
+          res = res.filter((profile) => profile._id !== localStorage.getItem('user'));
+          setProfiles(res)
+        })
         .catch((err) => console.log(err));
     }, [search]);
     

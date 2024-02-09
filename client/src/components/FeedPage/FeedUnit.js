@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CommentCard from "./CommentCard";
 import { TextField, Button, Container, Typography, Box, Paper } from '@mui/material';
+import { Link } from "react-router-dom";
 
 
 const FeedUnit = (props) => {
@@ -171,12 +172,13 @@ const FeedUnit = (props) => {
   return (
     <div className="flex flex-col w-[40vw] min-h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] ml-[20vw]">
       <div className="flex items-center justify-between p-3">
+        <Link to={`/profile/${props.post.creator && props.post.creator._id}`} className="flex items-center gap-2">
         <div className="flex items-center gap-2">
-          <img
-            src={props.post.creator && (props.post.creator.profilePic || '/images/defaultThumbnail.jpeg')}
-            alt="Profile"
-            className="w-[2rem] h-[2rem] rounded-full"
-          />
+            <img
+              src={props.post.creator && (props.post.creator.profilePic || '/images/defaultThumbnail.jpeg')}
+              alt="Profile"
+              className="w-[2rem] h-[2rem] rounded-full"
+            />
           <div className="text-[1rem] font-semibold">
             {props.post.creator && props.post.creator.name}
           </div>
@@ -188,6 +190,7 @@ const FeedUnit = (props) => {
             />
           </div>
         </div>
+        </Link>
         <button>...</button>
       </div>
 

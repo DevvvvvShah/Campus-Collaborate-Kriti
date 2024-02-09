@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {fetchProfileFromServer} from "../../fetch/profile";
 import { postComment, putUpvote } from "../../fetch/discussions";
+import { Link } from "react-router-dom";
 
 const DiscussionUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
@@ -109,17 +110,22 @@ const DiscussionUnit = (props) => {
   return (
     <div className="w-full text-black p-5 rounded-lg bg-white mb-2 drop-shadow-lg  mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-12 md:gap-2 gap-1">
-        <div className="md:col-span-1 md:mr-auto items-center flex">
+        <Link to={`/profile/${props.discussion.poster && props.discussion.poster._id}`} className="flex items-center gap-2">
+          <div className="md:col-span-1 md:mr-auto items-center flex">
             <img
                 src={props.discussion.poster ? (props.discussion.poster.profilePic || '/images/defaultThumbnail.jpeg') : '/images/defaultThumbnail.jpeg'}
                 alt="Profile"
                 className="w-[3rem] h-[3rem] rounded-full"
-            />        </div>
+            />        
+          </div>
+        </Link>
         <div className="md:col-span-8 flex flex-col md:items-start md:justify-center items-center">
           <div className="flex gap-2">
+            <Link to={`/profile/${props.discussion.poster && props.discussion.poster._id}`} className="flex items-center gap-2">
             <div className="text-[1rem] font-semibold">
               {props.discussion.poster && props.discussion.poster.name}
             </div>
+            </Link>
             <div className="flex items-center">
               <img
                 src="images/verify.png"
@@ -128,18 +134,20 @@ const DiscussionUnit = (props) => {
               />
             </div>
           </div>
+          <Link to={`/profile/${props.discussion.poster && props.discussion.poster._id}`} className="flex items-center gap-2">
           <div className="text-[0.75rem] text-[#0016DA] align-bottom">
             @{props.discussion.poster && props.discussion.poster.email}
           </div>
+          </Link>
         </div>
         <div className="md:col-span-3 flex flex-col items-end align-top" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}>
           <div className="text-[0.875rem] text-[#0016DA]">{hoursAgo}</div>
         </div>
         <div className="md:col-span-1"></div>
-        <div className="md:col-span-8 hover:cusor-pointer" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}>
+        <div className="md:col-span-8 hover:cursor-pointer" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}>
           <div className="text-[1rem]">{props.discussion.content}</div>
         </div>
-        <div className="flex justify-end md:col-span-3 items-center" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}></div>
+        <div className="flex justify-end md:col-span-3 items-center hover:cursor-pointer" onClick={() => { window.location.href = `/discussionView?id=${props.discussion._id}`; }}></div>
         <div className="md:col-span-1"></div>
         <div className="md:col-span-8">
           <div className="flex flex-col gap-1 items-end text-black ml-[-0.5rem] mt-[1rem]">

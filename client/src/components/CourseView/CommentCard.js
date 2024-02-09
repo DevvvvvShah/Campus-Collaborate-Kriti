@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchProfileFromServer } from "../../fetch/profile";
 import { putUpvote, putDownvote } from "../../fetch/comments";
+import { Link } from "react-router-dom";
 
 const CommentCard = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
@@ -92,6 +93,7 @@ const CommentCard = (props) => {
   return (
     <div className="w-full text-black p-5 bg-white shadow-lg rounded-lg mb-2">
       <div className="grid grid-cols-1 md:grid-cols-12 md:gap-2 gap-1">
+        <Link to={`/profile/${props.comments.userId && props.comments.userId._id}`} className="flex items-center gap-2">
         <div className="md:col-span-1 md:mr-auto items-center flex">
           <img
             src={
@@ -104,11 +106,14 @@ const CommentCard = (props) => {
             className="w-[3rem] h-[3rem] rounded-full"
           />
         </div>
+        </Link>
         <div className="md:col-span-8 flex flex-col md:items-start md:justify-center items-center">
           <div className="flex gap-2">
+            <Link to={`/profile/${props.comments.userId && props.comments.userId._id}`} className="flex items-center gap-2">
             <div className="text-[1rem] font-semibold">
               {props.comments && props.comments.userId.name}
             </div>
+            </Link>
             <div className="flex items-center">
               <img
                 src="images/verify.png"
@@ -117,9 +122,11 @@ const CommentCard = (props) => {
               />
             </div>
           </div>
+          <Link to={`/profile/${props.comments.userId && props.comments.userId._id}`} className="flex items-center gap-2">
           <div className="text-[0.75rem] text-[#0016DA] align-bottom">
             {props.comments && props.comments.userId.email}
           </div>
+          </Link>
         </div>
         <div className="md:col-span-3 flex flex-col items-end align-top">
           <div className="text-[0.875rem] text-[#0016DA]">{hoursAgo}</div>
