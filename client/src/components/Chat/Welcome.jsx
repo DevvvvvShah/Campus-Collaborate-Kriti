@@ -7,7 +7,7 @@ export default function Welcome({currentUser}) {
     <Container>
       <TopbarChat currentUser={currentUser} />
       <div className='mx-auto flex flex-col justify-center items-center'>
-      <img src={Robot} alt="Robot" className='mx-auto'/>
+      <img src={Robot} alt="Robot" className='robo mx-auto'/>
       <h1 className='mx-auto text-center'>
         Welcome <span>{currentUser.name}!</span>
       </h1>
@@ -27,7 +27,7 @@ grid-template-rows: 8% 92%;
 gap: 0.1rem;
 overflow: hidden;
 background-color: #F8F8F8;
-img {
+.robo {
   height: 20rem;
 }
 span {

@@ -9,31 +9,46 @@
 }
 
 #section1 {
-  background-image: url("/public/images/bg1.jpg");
-  background-attachment: fixed;
+  background-image: url("/public/images/bg3.png");
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: top;  
+  background-position: bottom;
 }
 
 #section2 {
-  background-image: url("/public/images/bg1.jpg");
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-position: bottom;  
+  background-image: url("/public/images/bg3_2.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;  
 }
 
 #section3 {
-  background-image: url("/public/images/bg1.jpg");
-  background-attachment: fixed;
+  background-image: url("/public/images/bg3_3.png");
+  background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
 #section4 {
-  background-image: url("/public/images/bg1.jpg");
-  background-attachment: fixed;
+  background-image: url("/public/images/bg3_2.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;  
+}
+
+#section5 {
+  background-image: url("/public/images/bg3_3.png");
+  background-size: 100% 100%;
   background-repeat: no-repeat;
-  background-position-y: 25%;
-  background-position-x: 25%;  
+}
+
+#section6 {
+  background-image: url("/public/images/bg3_2.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;  
+}
+
+#section7 {
+  background-image: url("/public/images/bg3_3.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .button {
