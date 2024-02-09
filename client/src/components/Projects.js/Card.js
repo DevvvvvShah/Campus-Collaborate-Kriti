@@ -11,7 +11,7 @@ const Card = (props) => {
     )
     console.log((project.mediaArray.length > 0 && project.mediaArray[0]));
     return (
-        <div className='md:my-[3vh] my-[1vh] md:w-[31vw] md:h-[52vh] w-[70vw] h-[40vh] min-h-fit flex justify-end items-center'
+        <div className='md:my-[3vh] my-[1vh] md:w-[31vw] md:h-[52vh] w-[70vw] h-[40vh] min-h-fit flex justify-center items-center'
              onClick={() => {window.location.href = `/projectView?id=${project._id}`}}    
         >
             <div className='flex flex-col justify-between md:w-[28vw] md:h-[48vh] h-[35vh] w-[65vw] min-h-fit
@@ -53,11 +53,11 @@ const Card = (props) => {
                         </div> 
                         <div className='flex gap-2'>{
                         (project.creatorId && project.creatorId.length > 0) ? project.creatorId.map((user,index) => {
-                            user.thumbnail = user.thumbnail || 'images/defaultThumbnail.jpeg';
+                            user.profilePic = user.profilePic || 'images/defaultThumbnail.jpeg';
                             return (
                                 <a href={`http://localhost:3000/profile`} target="_blank" rel="noopener noreferrer" key={index}>
                                     <div className='md:max-w-[50px] md:max-h-[50px] md:w-[2vw] md:h-[2vw] md:min-w-[20px] md:min-h-[20px] h-[45px] w-[45px] shadow rounded-full overflow-hidden'>
-                                        <img src={user.thumbnail} className='md:max-w-[50px] md:max-h-[50px] md:w-[2vw] md:h-[2vw] md:min-w-[20px] md:min-h-[20px] h-[45px] w-[45px]' />
+                                        <img src={user.profilePic} className='md:max-w-[50px] md:max-h-[50px] md:w-[2vw] md:h-[2vw] md:min-w-[20px] md:min-h-[20px] h-[45px] w-[45px]' />
                                     </div>
                                 </a>
                             );

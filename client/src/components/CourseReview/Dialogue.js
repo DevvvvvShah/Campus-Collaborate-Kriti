@@ -1,11 +1,11 @@
 // DialogBox.js
 import React from "react";
 
-const DialogBox = ({ isOpen, onClose, message }) => {
+const  DialogBox = ({ isOpen, onClose, message }) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+        <div className="fixed inset-0 z-[9999] flex items-center bg-[#00000099] justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
           <div className="relative w-auto max-w-2xl mx-auto my-6">
             {/* Modal content */}
             <div className="relative flex flex-col w-full bg-white border-2 border-gray-300 rounded-md shadow-lg outline-none focus:outline-none">

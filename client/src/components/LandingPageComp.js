@@ -62,7 +62,7 @@ const LandingPageComp = () => {
       </FullpageSection>
       <FullpageSection>
       <div  id = "section2" >
-      <div className="h-[100vh] z-0 pr-16 text-black flex justify-between bg-gradient-to-tl from-gray-800/70 to-gray-400/70">
+      <div className="h-[100vh] z-0 pr-16 text-black flex justify-between bg-gradient-to-tl from-gray-900/80 to-gray-500/70">
       <div className=" h-[100vh] w-[30vw] flex items-center h-full">
             <img
               className="w-[75%] object-contain m-auto"

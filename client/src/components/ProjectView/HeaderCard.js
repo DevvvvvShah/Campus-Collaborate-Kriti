@@ -1,6 +1,7 @@
 import React, { useEffect,useState, useRef } from 'react';
 import fetchProfileFromServer from '../../fetch/profile';
 import { putLike,putDislike } from '../../fetch/projects';
+import { add } from 'mathjs';
 
 const HeaderCard = (props) => {
     const [poster, setPoster] = useState({});
@@ -115,11 +116,11 @@ const HeaderCard = (props) => {
                     <div className='flex mt-[3vh] gap-3'>{
 
                         (props.project.creatorId && props.project.creatorId.length > 0) ? props.project.creatorId.map((user,index) => {
-                            user.thumbnail = user.thumbnail || 'images/defaultThumbnail.jpeg';
+                            user.profilePic = user.profilePic || 'images/defaultThumbnail.jpeg';
                             return (
                                 <a href={`http://localhost:3000/profile`} target="_blank" rel="noopener noreferrer" key={index}>
                                     <div className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] shadow md:min-h-[32px] h-[45px] w-[45px] rounded-full relative overflow-hidden'>
-                                        <img src={user.thumbnail} className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px]' />
+                                        <img src={user.profilePic} className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px]' />
                                     </div>
                                 </a>
                             );

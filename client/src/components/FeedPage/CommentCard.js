@@ -89,7 +89,7 @@ const CommentCard = (props) => {
             <div className='grid grid-cols-1 md:grid-cols-12 md:gap-2 gap-1'>
             <div className='md:col-span-1 md:mr-auto items-center flex ml-[-10px]'>
                     <img
-                        src={props.comments.creator ? (props.comments.creator.profilePic || '/images/defaultThumbnail.jpeg') : '/images/defaultThumbnail.jpeg'}
+                        src={props.comments.userId ? (props.comments.userId.profilePic || '/images/defaultThumbnail.jpeg') : '/images/defaultThumbnail.jpeg'}
                         alt="Profile"
                         className="w-[2rem] h-[2rem] rounded-full"
                     />

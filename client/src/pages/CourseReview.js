@@ -68,6 +68,11 @@ const CourseReview = () => {
     setDialogOpen(false);
   };
 
+  const openAdd = () => {
+    setIsAddCourse(true);
+    setDialogOpen(false);
+  };
+
   useEffect(() => {
     setUnit([])
     for(let i=0;i<filteredFilteredCourseReviews.length;i++){
@@ -141,7 +146,7 @@ return (
     <div
       className="fixed z-20 flex justify-center shadow-lg items-center gap-2 md:bottom-2 md:right-2 bottom-[9vh] right-2
                     w-[180px] h-[45px] bg-[#FFFFFF] rounded-full "
-      onClick = {() => setIsAddCourse(true)}
+      onClick = {() => setDialogOpen(true)}
     >
       <img
         src="images/add.svg"
@@ -200,6 +205,7 @@ return (
       <div className='md:ml-[27vw] pl-[10%] pr-[10%] md:pl-[3%] md:pr-[10%] '>
          <DialogBox
             isOpen={isDialogOpen}
+            onAccept={openAdd}
             onClose={closeDialog}
             message={dialogMessage}
         />
