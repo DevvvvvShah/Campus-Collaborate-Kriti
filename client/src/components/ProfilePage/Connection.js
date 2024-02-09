@@ -23,7 +23,7 @@ function ProfileInfo({
 
   return (
     connection.visible && (
-      <div className="w-[50rem] mb-[1rem] flex items-center shadow-xl p-6 bg-white rounded-lg hover:bg-gray-50 transition duration-300 overflow-x-hidden">
+      <div className="w-[100%] mb-[1rem] flex items-center shadow-xl p-6 bg-white rounded-lg hover:bg-gray-50 transition duration-300 overflow-x-hidden">
         <img
           src={profilePic}
           alt="Profile"
@@ -37,7 +37,7 @@ function ProfileInfo({
         {/* Button for removing connection */}
         <button
           onClick={handleRemoveConnection}
-          className="ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          className="ml-auto bg-transparent hover:bg-[#0016DA] text-[#0016DA] font-semibold hover:text-white py-2 px-4 border border-[#0016DA] hover:border-transparent rounded"
         >
           Remove Connection
         </button>

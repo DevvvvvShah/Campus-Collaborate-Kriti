@@ -11,7 +11,6 @@ import { React, useEffect, useState } from "react";
 function ProfilePage() {
   const [user, setUser] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get("user"));
 
   useEffect(() => {
     if (localStorage.getItem("user") == null) {
