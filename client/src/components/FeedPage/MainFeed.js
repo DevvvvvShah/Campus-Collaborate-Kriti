@@ -10,6 +10,7 @@ const MainFeed = (props) => {
     console.log("Running useEffect");
     getPosts()
     .then((res) => {
+      res.data.sort((a, b) => new Date(b.timeOfPost) - new Date(a.timeOfPost));
       setPosts(res.data);
       setFilteredPosts(res.data);
       //console.log(res.data);

@@ -77,7 +77,6 @@ function Projects() {
     let temp = [...filteredProjects];
     if(selectedTechStacks.length > 0){
       temp = temp.filter((project) => {
-        console.log(project.techStacks);
         let flag = false;
         selectedTechStacks.forEach((techStack) => {
           if(project.techStacks.includes(techStack.id)){

@@ -27,7 +27,7 @@ function SearchPage() {
           select={{ search: true}}
         />
         <div className="w-screen">
-          <Topbar title="Search" />
+          <Topbar title="Search" isSearchDisabled={true}/>
           <div className='ml-[40vw] '>
             <div className={`flex ${hover ? ' border-[1px] border-[#0016DA] ' : ''} pl-4 items-center bg-white shadow-sm mt-10 mb-10 mr-10 w-[40vw] h-[2.5rem] rounded-xl overflow-hidden`}>
               <img

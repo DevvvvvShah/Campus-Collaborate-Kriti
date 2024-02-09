@@ -15,6 +15,7 @@ cloudinary.config({
 //   add a new project
 const newProject = async (req, res) => {
     const project = req.body;
+    console.log(project);
     try {
         const newProject = await new Project(project).save();
         if (req.files) {

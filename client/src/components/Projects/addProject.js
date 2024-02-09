@@ -5,7 +5,6 @@ import { getTechStacks } from '../../fetch/techStacks';
 import axios from 'axios';
 
 function AddProject(props) {
-  const [techStackIds, setTechStackIds] = useState([]);
   const [projectName, setProjectName] = useState('');
   const [linkToProject, setLinkToProject] = useState('');
   const [description, setDescription] = useState('');
@@ -32,15 +31,12 @@ function AddProject(props) {
 
   const handleAddProject = () => {
     const formData = new FormData();
-    setTechStackIds(selectedTechStacks.map((value, index) => value.id));
-
-
     formData.append('title', projectName);
     formData.append('githubLink', linkToProject);
     formData.append('description', description);
-    techStackIds.forEach((value, index) => {
-      formData.append('techStacks', value);
-    });
+    for(let i=0; i<selectedTechStacks.length; i++) {
+      formData.append('techStacks', selectedTechStacks[i].id);
+    }
     formData.append('creatorId', localStorage.getItem('user'));
     for (let i = 0; i < selectedFile.length; i++) {
       formData.append('media', selectedFile[i]);
@@ -55,11 +51,13 @@ function AddProject(props) {
     };
     props.setIsAddProject(false);
 
+    console.log(formData);
+
     axios.post('http://localhost:3001/projects/', formData, config)
       .then(response => {
         // Handle the response from the server
         console.log(response.data);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch(error => {
         // Handle any errors
@@ -72,7 +70,7 @@ function AddProject(props) {
       <Box p={4}>
         <Typography variant="h4" gutterBottom>Add a Project</Typography>
         <TextField
-          label="Project Name"
+          label="Project Name *"
           variant="outlined"
           fullWidth
           size="small"
@@ -81,7 +79,7 @@ function AddProject(props) {
           margin="normal"
         />
         <TextField
-          label="Link To Project"
+          label="Link To Project *"
           variant="outlined"
           fullWidth
           size="small"
@@ -90,7 +88,7 @@ function AddProject(props) {
           margin="normal"
         />
         <TextField
-          label="Description"
+          label="Description *"
           variant="outlined"
           fullWidth
           multiline
@@ -118,7 +116,8 @@ function AddProject(props) {
         />
         <input type="file" multiple className="pt-4" onChange={handleFileChange} />
         <div className="flex gap-2 justify-between mt-4">
-          <Button variant="contained" onClick={handleAddProject} style={{ backgroundColor: '#0016DA' }}>Add</Button>
+          <Button variant="contained" onClick={handleAddProject} className=' disabled:bg-blue-200 bg-[#0016DA]'
+          disabled={projectName===""||linkToProject===""||description===""||selectedFile.length===0}>Add</Button>
           <Button variant="contained"  onClick={() => props.setIsAddProject(false)} style={{ backgroundColor: '#0016DA' }}>Cancel</Button>
         </div>
       </Box>

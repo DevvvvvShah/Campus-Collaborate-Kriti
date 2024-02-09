@@ -29,12 +29,11 @@ function AddFeed(props) {
 
   const handleAddCourse = () => {
     const formData = new FormData();
-    let techStackIds = (selectedTechStacks.map((value, index) => value.id));
     formData.append('creator', localStorage.getItem('user'));
     formData.append('caption', caption);
-    techStackIds.forEach((value, index) => {
-      formData.append('techStacks', value);
-    });
+    for (let i = 0; i < selectedTechStacks.length; i++) {
+      formData.append('techStacks', selectedTechStacks[i].id);
+    }
     for (let i = 0; i < selectedFile.length; i++) {
       formData.append('media', selectedFile[i]);
     }
@@ -65,7 +64,7 @@ function AddFeed(props) {
       <Box p={4}>
         <Typography variant="h4" gutterBottom>Add a new Post</Typography>
         <TextField
-          label="Caption"
+            label={"Caption *"}
           variant="outlined"
           fullWidth
           multiline
@@ -91,9 +90,10 @@ function AddFeed(props) {
             <TextField {...params} variant="outlined" label="TechStacks Used" placeholder="Select TechStacks" size="small" />
           )}
         />
-        <input type="file" multiple className="pt-4" onChange={handleFileChange} />
+        <input type="file" multiple accept='.png,.jpg,.mp4' className="pt-4" onChange={handleFileChange} />
         <div className="flex gap-2 justify-between mt-4">
-          <Button variant="contained" onClick={handleAddCourse} style={{ backgroundColor: '#0016DA' }}>Add</Button>
+          <Button variant="contained" className=' disabled:bg-blue-200 bg-[#0016DA]' onClick={handleAddCourse} 
+          disabled={caption==="" ||selectedFile.length===0}>Add</Button>
           <Button variant="contained"  onClick={() => props.setIsAddFeed(false)} style={{ backgroundColor: '#0016DA' }}>Cancel</Button>
         </div>
       </Box>

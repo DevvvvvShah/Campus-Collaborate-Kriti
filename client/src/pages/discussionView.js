@@ -38,7 +38,7 @@ function DiscussionView() {
   return (
     <div className="w-screen flex flex-col justify-center items-center mb-[10vh]">
       <div className="fixed top-0 left-0 right-0 z-50">
-        <Topbar title="Discussion" />
+        <Topbar title="Discussion" isSearchDisabled={true} />
       </div>
       <HeaderCard project={discussion}/>
       <div className="flex flex-col gap-2 w-[80vw] mt-[20vh] pl-[2vw]">

@@ -48,7 +48,7 @@ function CourseView() {
   return (
     <div className="w-screen flex flex-col justify-center items-center mb-[10vh]">
       <div className="fixed top-0 left-0 right-0 z-50">
-        <Topbar title="Course Review" />
+        <Topbar title="Course Review" isSearchDisabled={true} />
       </div>
       <HeaderCard project={course} enrolled={enrolled}/>
       <div className="flex flex-col gap-2 w-[80vw] mt-[20vh] pl-[2vw]">

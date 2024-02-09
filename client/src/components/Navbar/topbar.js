@@ -112,6 +112,9 @@ const Topbar = (props) => {
           {props.title}
         </div>
         <div className="flex items-center">
+        {props.isSearchDisabled ? (
+          <div></div>
+        ):(
           <div className="relative min-w-[2rem] md:max-w-[20rem]">
             <img
               src="images/search.svg"
@@ -122,10 +125,12 @@ const Topbar = (props) => {
             <input
               type="text"
               className="bg-[#EEE] rounded-full md:block hidden px-8 py-1 focus:outline-none"
-              placeholder="Search"
+              placeholder={"Search in "+props.title}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+        )}
+          
           <div className="">
             {user && (
               <div>

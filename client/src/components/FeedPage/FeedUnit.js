@@ -98,36 +98,6 @@ const FeedUnit = (props) => {
     setCommentCount(commentCount + 5);
   };
 
-  const handleTextAreaChange = (e) => {
-    setComment(e.target.value);
-    var element = e.target;
-    element.style.overflow = "hidden";
-    element.style.height = 0;
-    element.style.height = element.scrollHeight + "px";
-  };
-
-  const handleSubmit = () => {
-    postComment(props.post._id, comment)
-      .then((res) => {
-        if (res.data.message) {
-          alert(res.data.message);
-          return;
-        }
-        setComments((comments) => comments + 1);
-        setComment("");
-        setIsCommenting(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    console.log(comment);
-  };
-
-  const handleBlur = () => {
-    setTimeout(() => {
-      setSubmit(false);
-    }, 200);
-  };
 
   const handleFavorite = async () => {
     postFavorite(props.post._id)
@@ -142,6 +112,10 @@ const FeedUnit = (props) => {
 
   const handleAddComment = () => {
     postComment(props.post._id, comment).then((res) => {
+      if (res.data.message) {
+        alert(res.data.message);
+        return;
+      }
       console.log("Comment Posted:  ", res);
       window.location.reload();
     });

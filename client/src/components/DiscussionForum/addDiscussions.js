@@ -42,7 +42,7 @@ function AddProject(props) {
       <Box p={4}>
         <Typography variant="h4" gutterBottom>Discuss</Typography>
         <TextField
-          label="Title"
+          label="Title *"
           variant="outlined"
           fullWidth
           size="small"
@@ -51,7 +51,7 @@ function AddProject(props) {
           margin="normal"
         />
         <TextField
-          label="Content"
+          label="Content *"
           variant="outlined"
           fullWidth
           multiline
@@ -62,7 +62,8 @@ function AddProject(props) {
           margin="normal"
         />
         <div className="flex gap-2 justify-between mt-4">
-          <Button variant="contained" onClick={handleAddProject} style={{ backgroundColor: '#0016DA' }}>Add</Button>
+          <Button variant="contained" onClick={handleAddProject} className=' disabled:bg-blue-200 bg-[#0016DA]'
+          disabled={title===""||content===""}>Add</Button>
           <Button variant="contained"  onClick={() => props.setIsAddDiscussion(false)} style={{ backgroundColor: '#0016DA' }}>Cancel</Button>
         </div>
       </Box>

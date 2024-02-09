@@ -32,13 +32,12 @@ function AddProject(props) {
 
   const handleAddCourse = () => {
     const formData = new FormData();
-    let techStackIds = (selectedTechStacks.map((value, index) => value.id));
     formData.append('title', courseName);
     formData.append('courseLink', linkToCourse);
     formData.append('description', description);
-    techStackIds.forEach((value, index) => {
-      formData.append('techStacks', value);
-    });
+    for(let i=0; i<selectedTechStacks.length; i++) {
+      formData.append('techStacks', selectedTechStacks[i].id);
+    }
     formData.append('thumbnail', selectedFile[0]);
 
     const config = {
@@ -67,7 +66,7 @@ function AddProject(props) {
       <Box p={4}>
         <Typography variant="h4" gutterBottom>Add a Review</Typography>
         <TextField
-          label="Course Name"
+          label="Course Name *"
           variant="outlined"
           fullWidth
           size="small"
@@ -76,7 +75,7 @@ function AddProject(props) {
           margin="normal"
         />
         <TextField
-          label="Link To Course"
+          label="Link To Course *"
           variant="outlined"
           fullWidth
           size="small"
@@ -85,7 +84,7 @@ function AddProject(props) {
           margin="normal"
         />
         <TextField
-          label="Description"
+          label="Description *"
           variant="outlined"
           fullWidth
           multiline
@@ -113,7 +112,8 @@ function AddProject(props) {
         />
         <input type="file" className="pt-4" onChange={handleFileChange} />
         <div className="flex gap-2 justify-between mt-4">
-          <Button variant="contained" onClick={handleAddCourse} style={{ backgroundColor: '#0016DA' }}>Add</Button>
+          <Button variant="contained" onClick={handleAddCourse} className=' disabled:bg-blue-200 bg-[#0016DA]'
+           disabled={courseName===""||linkToCourse===""||description===""||selectedFile.length===0}>Add</Button>
           <Button variant="contained"  onClick={() => props.setIsAddCourse(false)} style={{ backgroundColor: '#0016DA' }}>Cancel</Button>
         </div>
       </Box>

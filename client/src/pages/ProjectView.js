@@ -8,11 +8,16 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { TextField, Button, Container, Typography, Box, Paper } from '@mui/material';
+import { Input } from '@mui/base';
+import fetchProfilesBySearch from '../fetch/search';
 
 function ProjectView() {
     const [project, setProject] = useState({});
     const [comment,setComment] = useState('');
     const [isAddComment, setIsAddComment] = useState(false);
+    const [isAddCollab, setIsAddCollab] = useState(false);
+    const [collab,setCollab] = useState('');
+    const [profiles,setProfiles] = useState([]);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -87,12 +92,52 @@ function ProjectView() {
       });
     };
 
+    useEffect(() => {
+      console.log(profiles);
+        fetchProfilesBySearch(collab).then((res) => {
+          setProfiles(res.data);
+          console.log('Profiles:', profiles);
+        }).catch((error) => {
+          console.error('Error fetching collab:', error);
+        });
+      },[collab]);
+
   return (
     <div className="w-screen flex flex-col justify-center items-center mb-[10vh]">
       <div className="fixed top-0 left-0 right-0 z-50">
-        <Topbar title="Project" />
+        <Topbar title="Project" isSearchDisabled={true} />
       </div>
-      <HeaderCard project={project}/>
+      <HeaderCard project={project} isAddCollab={isAddCollab} setIsAddCollab={setIsAddCollab}/>
+      <div className={`${isAddCollab ? 'block' : 'hidden'} flex justify-center rounded-xl items-center z-[999] 
+      w-screen h-screen bg-[#00000022] fixed top-0 left-0`}>
+        <div className='bg-white rounded-xl shadow-lg'>
+          <div className='flex justify-end'>
+            <img src="images/close.svg" alt="close" className='w-[2vw] m-2 hover:cursor-pointer' onClick={() => setIsAddCollab(false)} />
+          </div>
+          <div className='flex flex-col gap-4 items-center p-8'>
+            <div className='text-[#0016DA] text-[1.5rem] font-bold'>
+              Add Collaborator
+            </div>
+            <input type="text" placeholder="Search for users" className='border rounded-lg p-2 w-[20vw]' onChange={(e) => setCollab(e.target.value)} />
+            <div className='flex flex-col gap-2 w-[20vw]'>
+              {
+                profiles && profiles.length!==0 ? 
+                <div className='flex flex-col gap-2'>
+                  <div className='flex justify-between items-center'>
+                    <div className='text-[#000000] text-[1rem] font-bold'>Username</div>
+                    <div className='text-[#000000] text-[1rem] font-bold'>Add</div>
+                  </div>
+                  <div className='flex justify-between items-center'>
+                    <div className='text-[#000000] text-[1rem] font-bold'>Username</div>
+                    <div className='text-[#000000] text-[1rem] font-bold'>Add</div>
+                  </div>
+                </div>:
+                <div className='text-[#000000] text-[1rem]'>No users found</div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>      
       <div className="flex flex-col gap-2 w-[80vw] mt-[20vh] pl-[2vw]">
         <div className="text-[1.5rem] text-[#0016DA] font-bold">
           Description
@@ -114,7 +159,7 @@ function ProjectView() {
               {(url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".svg")) ? (
                 <img
                   src={url}
-                  alt={`Image ${index + 1}`}
+                  alt={`${index + 1}`}
                   className="slider-image"
                 />
               ) : (
