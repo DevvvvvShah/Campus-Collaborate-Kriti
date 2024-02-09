@@ -2,12 +2,18 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { fetchProfileFromServer } from "../../fetch/profile";
 import { postComment, postFavorite, putLike } from "../../fetch/feed";
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CommentCard from "./CommentCard";
-import { TextField, Button, Container, Typography, Box, Paper } from '@mui/material';
-
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Paper,
+} from "@mui/material";
 
 const FeedUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
@@ -49,7 +55,7 @@ const FeedUnit = (props) => {
     setHoursAgo(timeAgo);
   }, [props.post.timeOfCreation]);
 
-  console.log(props.post)
+  console.log(props.post);
 
   useEffect(() => {
     fetchProfileFromServer(localStorage.getItem("user"))
@@ -98,7 +104,6 @@ const FeedUnit = (props) => {
     setCommentCount(commentCount + 5);
   };
 
-
   const handleFavorite = async () => {
     postFavorite(props.post._id)
       .then((res) => {
@@ -121,59 +126,62 @@ const FeedUnit = (props) => {
     });
   };
 
-    function NextArrow(props) {
-      const { className, style, onClick } = props;
-      return (
-        <div
-          className={className}
-          style={{
-              ...style,
-              display: "flex",
-              background: "darkgray",
-              justifyContent: "center",
-              alignItems: "center",
-              paddingTop: "1.5px",
-              borderRadius: "50%",
-          }}
-          onClick={onClick}
-        />
-      );
-    }
-    
+  function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "flex",
+          background: "darkgray",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: "1.5px",
+          borderRadius: "50%",
+        }}
+        onClick={onClick}
+      />
+    );
+  }
+
   function PrevArrow(props) {
-      const { className, style, onClick } = props;
-      return (
-          <div
-              className={className}
-              style={{
-                  ...style,
-                  display: "flex",
-                  background: "darkgray",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingTop: "1.5px",
-                  borderRadius: "50%",
-              }}
-              onClick={onClick}
-          />
-      );
-  };
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "flex",
+          background: "darkgray",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: "1.5px",
+          borderRadius: "50%",
+        }}
+        onClick={onClick}
+      />
+    );
+  }
 
   const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      adaptiveHeight: true,     
-  };  
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: true,
+  };
 
   return (
-    <div className="flex flex-col w-[40vw] min-h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] ml-[20vw]">
-      <div className="flex items-center justify-between p-3">
+    <div className="flex flex-col w-[100%] md:w-[90%] md:mx-auto min-h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] items-center">
+      <div className="flex w-[100%] items-center justify-between p-3 md:w-[100%]">
         <div className="flex items-center gap-2">
           <img
-            src={props.post.creator && (props.post.creator.profilePic || '/images/defaultThumbnail.jpeg')}
+            src={
+              props.post.creator &&
+              (props.post.creator.profilePic || "/images/defaultThumbnail.jpeg")
+            }
             alt="Profile"
             className="w-[2rem] h-[2rem] rounded-full"
           />
@@ -191,15 +199,18 @@ const FeedUnit = (props) => {
         <button>...</button>
       </div>
 
-      {props.post.mediaArray && props.post.mediaArray.length!==0 ? 
-          <Slider {...settings}>
+      {props.post.mediaArray && props.post.mediaArray.length !== 0 ? (
+        <Slider {...settings}>
           {props.post.mediaArray.map((url, index) => (
-            <div className="flex min-h-[15rem] justify-center w-fit">
-              {(url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".svg")) ? (
+            <div className="flex min-h-[15rem] justify-center md:w-[100%]">
+              {url.endsWith(".png") ||
+              url.endsWith(".jpg") ||
+              url.endsWith(".jpeg") ||
+              url.endsWith(".svg") ? (
                 <img
                   src={url}
                   alt={`Image ${index + 1}`}
-                  className="slider-image"
+                  className="w-[100%] slider-image"
                 />
               ) : (
                 <video controls>
@@ -208,10 +219,12 @@ const FeedUnit = (props) => {
               )}
             </div>
           ))}
-        </Slider> : <div className="h-[20rem]"></div>
-        }
+        </Slider>
+      ) : (
+        <div className=" md:w-[100%] h-[20rem]"></div>
+      )}
 
-      <div className="flex items-center justify-between p-3">
+      <div className="flex items-center justify-between w-[100%] md:w-[100%] p-3">
         <div className="flex gap-4">
           <button onClick={handleLike}>
             <img
@@ -236,56 +249,73 @@ const FeedUnit = (props) => {
           />
         </button>
       </div>
-      <div className="md:col-span-8">
-      </div>
-      <div className="p-3">
+      <div className="md:col-span-8 md:w-[100%]"></div>
+      <div className="w-[100%] md:w-[100%] p-3">
         <p className="font-semibold">{likes} likes</p>
         <p>
           {/* <span className="font-semibold">{profile && profile.name}</span> */}
           {props.post.caption}
         </p>
-        { !isCommenting ?
-        <button className="text-gray-500" onClick={handleCommentButtonClick}>View all {comments} comments</button>
-        :
-        <div>
-        <button className="text-gray-500" onClick={handleCommentButtonHide}>Hide all comments</button>
-        <div className="flex flex-col gap-2 w-full mt-[1vh] pl-[2vw]">
-          <div className="text-[1rem] font-bold mb-[3vh]"
-                onClick = {() => setIsAddComment(!isAddComment)}>
-            Add Comment {isAddComment ? '▲' : '▼'}
+        {!isCommenting ? (
+          <button className="text-gray-500" onClick={handleCommentButtonClick}>
+            View all {comments} comments
+          </button>
+        ) : (
+          <div>
+            <button className="text-gray-500" onClick={handleCommentButtonHide}>
+              Hide all comments
+            </button>
+            <div className="flex flex-col gap-2 w-[100%] mt-[1vh] pl-[2vw]">
+              <div
+                className="text-[1rem] font-bold mb-[3vh]"
+                onClick={() => setIsAddComment(!isAddComment)}
+              >
+                Add Comment {isAddComment ? "▲" : "▼"}
+              </div>
+              <div
+                className={`flex flex-col ml-[1vw] mr-[3vw] ${
+                  isAddComment ? "block" : "hidden"
+                }`}
+              >
+                <TextField
+                  label="Add comment here"
+                  variant="outlined"
+                  className="w-full"
+                  multiline
+                  rows={4}
+                  size="small"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  margin="normal"
+                />
+                <Button
+                  variant="contained"
+                  className="w-full"
+                  onClick={handleAddComment}
+                  style={{ backgroundColor: "#0016DA" }}
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+            {props.post.comments && props.post.comments.length !== 0 ? (
+              <div>
+                {props.post.comments.map((comment, index) => {
+                  if (index < commentCount) {
+                    return <CommentCard key={index} comments={comment} />;
+                  }
+                })}
+                <button className="text-gray-500" onClick={handleCommentAdd}>
+                  View More
+                </button>
+              </div>
+            ) : null}
           </div>
-          <div className={`flex flex-col ml-[1vw] mr-[3vw] ${isAddComment ? 'block' : 'hidden'}`}>
-            <TextField
-              label="Add comment here"
-              variant="outlined"
-              className='w-full'
-              multiline
-              rows={4}
-              size="small"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              margin="normal"
-            />
-            <Button variant="contained" className="w-full" onClick={handleAddComment} style={{ backgroundColor: '#0016DA'}}>Submit</Button>
-
-          </div>
-        </div>         
-        {(props.post.comments && props.post.comments.length!==0) ? 
-        <div>
-          {props.post.comments.map((comment, index) => {
-            if (index < commentCount) {
-              return (
-                <CommentCard key={index} comments={comment} />
-              )
-            }
-          })}
-        <button className="text-gray-500" onClick={handleCommentAdd}>View More</button>
-        </div>
-          :null}
-        </div>
-        }
+        )}
       </div>
-      <div className="text-[0.875rem] text-[#0016DA] px-[1rem]">{hoursAgo}</div>
+      <div className=" w-[100%] md:w-[100%] text-[0.875rem] text-[#0016DA] px-[1rem]">
+        {hoursAgo}
+      </div>
     </div>
   );
 };

@@ -21,19 +21,19 @@ const FollowingFeed = (props) => {
 
   useEffect(() => {
     console.log(postSearch);
-    if(postSearch){
-      const filteredPosts = posts.filter((post) => post.caption.toLowerCase().includes(postSearch.toLowerCase()));
+    if (postSearch) {
+      const filteredPosts = posts.filter((post) =>
+        post.caption.toLowerCase().includes(postSearch.toLowerCase())
+      );
       console.log(filteredPosts);
       setFilteredPosts(filteredPosts);
-    }
-    else{
+    } else {
       setFilteredPosts(posts);
     }
-  }
-  ,[postSearch, posts])
+  }, [postSearch, posts]);
 
   return (
-    <div className="ml-[20vw] pt-8  md:pr-[10%]">
+    <div className="md:ml-[15rem] ml-[1.5rem]">
       <FeedSection posts={filteredPosts} />
     </div>
   );

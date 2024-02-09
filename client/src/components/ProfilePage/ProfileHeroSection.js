@@ -36,7 +36,7 @@ const ProfileHeroSection = (props) => {
   };
 
   return (
-    <div className="flex flex-col gap-10 pl-[35rem]">
+    <div className="flex flex-col gap-10 pl-[35rem] bg-white">
       <div className=" pt-[1.5rem]">
         <div className="flex gap-10">
           {isAdmin && (

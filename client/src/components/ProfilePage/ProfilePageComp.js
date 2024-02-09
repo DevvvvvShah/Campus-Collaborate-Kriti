@@ -12,7 +12,7 @@ function ProfilePageComp(props) {
   return (
     <div>
       <ProfilePageTopBar />
-      <ProfileNavBar />
+      {/* <ProfileNavBar /> */}
       <HeaderImg />
       <ProfileCard user={user} />
       <ProfileHeroSection user={user} />

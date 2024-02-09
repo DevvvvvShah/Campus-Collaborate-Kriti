@@ -12,6 +12,7 @@ function OtherProfilePageComp(props) {
   return (
     <div>
       <ProfilePageTopBar />
+      
       <ProfileNavBar />
       <HeaderImg />
       <OtherUsersProfileCard user={user} />

@@ -15,7 +15,11 @@ const FeedSection = (props) => {
     });
   }, [props.posts]);
 
-  return <div className=" mb-[3rem] flex flex-col">{units}</div>;
+  return (
+    <div className="ml-0 flex flex-col w-[90vw] md:w-[40vw] md:ml-[25rem] md:mr-[2rem] mt-[0]">
+      {units}
+    </div>
+  );
 };
 
 export { FeedSection };

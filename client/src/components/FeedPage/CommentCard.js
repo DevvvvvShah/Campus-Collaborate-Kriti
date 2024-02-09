@@ -92,7 +92,7 @@ const CommentCard = (props) => {
   };
 
   return (
-    <div className="w-full text-black p-5 bg-white shadow-lg rounded-lg mb-2">
+    <div className="w-full h-[14rem] md:h-[9rem] text-black p-5 bg-white shadow-lg rounded-lg mb-2">
       <div className="grid grid-cols-1 md:grid-cols-12 md:gap-2 gap-1">
         <div className="md:col-span-1 md:mr-auto items-center flex ml-[-10px]">
           <img
@@ -106,7 +106,7 @@ const CommentCard = (props) => {
             className="w-[2rem] h-[2rem] rounded-full"
           />
         </div>
-        <div className="md:col-span-8 flex flex-col md:items-start md:justify-center items-center">
+        <div className="md:col-span-8 flex flex-col md:items-start md:justify-center items-center m-0">
           <div className="flex gap-2">
             <div className="text-[1rem] font-semibold">
               {props.comments &&

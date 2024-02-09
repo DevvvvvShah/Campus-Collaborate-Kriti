@@ -17,7 +17,10 @@ function Projects() {
   const [selectedOption, setSelectedOption] = useState("");
   const [techStacks, setTechStacks] = useState([]);
   const [selectedTechStacks, setSelectedTechStacks] = useState([]);
-  const [selectedOptionForMUI, setSelectedOptionForMUI] = useState({ id: 'time', title: 'Time'});
+  const [selectedOptionForMUI, setSelectedOptionForMUI] = useState({
+    id: "time",
+    title: "Time",
+  });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleFilter = () => {
@@ -25,17 +28,19 @@ function Projects() {
   };
 
   const sortList = [
-    { id: 'likes', title: 'Likes' },
-    { id: 'views', title: 'Views' },
-    { id: 'comments', title: 'No. of Comments' },
-    { id: 'rating', title: 'Rating' },
-    { id: 'time', title: 'Time'}
-  ]
+    { id: "likes", title: "Likes" },
+    { id: "views", title: "Views" },
+    { id: "comments", title: "No. of Comments" },
+    { id: "rating", title: "Rating" },
+    { id: "time", title: "Time" },
+  ];
 
   useEffect(() => {
     getProjects()
       .then((res) => {
-        res.data.sort((a, b) => new Date(b.timeOfPost) - new Date(a.timeOfPost));
+        res.data.sort(
+          (a, b) => new Date(b.timeOfPost) - new Date(a.timeOfPost)
+        );
         setProjects(res.data);
         setFilteredProjects(res.data);
         setFilteredFilteredProjects(res.data);
@@ -45,9 +50,10 @@ function Projects() {
       });
     getTechStacks()
       .then((res) => {
-        const formattedTechStacks = res.data.map((value, index) => (
-          { id: value._id , title: value.name }
-        ));
+        const formattedTechStacks = res.data.map((value, index) => ({
+          id: value._id,
+          title: value.name,
+        }));
         setTechStacks(formattedTechStacks);
       })
       .catch((error) => {
@@ -63,23 +69,21 @@ function Projects() {
       temp.sort((a, b) => b.views - a.views);
     } else if (selectedOption === "comments") {
       temp.sort((a, b) => b.commentsId.length - a.commentsId.length);
-    }
-    else if(selectedOption === "rating"){
+    } else if (selectedOption === "rating") {
       temp.sort((a, b) => b.rating - a.rating);
-    }
-    else if(selectedOption === "time"){
+    } else if (selectedOption === "time") {
       temp.sort((a, b) => new Date(b.timeOfPost) - new Date(a.timeOfPost));
     }
     setFilteredFilteredProjects(temp);
-  }, [selectedOption,filteredProjects]);
+  }, [selectedOption, filteredProjects]);
 
   useEffect(() => {
     let temp = [...filteredProjects];
-    if(selectedTechStacks.length > 0){
+    if (selectedTechStacks.length > 0) {
       temp = temp.filter((project) => {
         let flag = false;
         selectedTechStacks.forEach((techStack) => {
-          if(project.techStacks.includes(techStack.id)){
+          if (project.techStacks.includes(techStack.id)) {
             flag = true;
           }
         });
@@ -106,44 +110,65 @@ function Projects() {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []);  
+  }, []);
 
   return (
-    <div className="relative flex flex-col md:flex-row bg-[#F8F8F8] w-screen min-h-[100vh]">
+    <div className="flex flex-col md:flex-row bg-[#F8F8F8] -min-w-screen min-h-[100vh]">
       <Navbar
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
         select={{ projects: true }}
         className="z-[999]"
       />
-      <div className={`flex justify-center rounded-xl items-center z-[999]
+      <div
+        className={`flex justify-center rounded-xl items-center z-[999]
       w-screen h-screen bg-[#00000022] fixed top-0 left-0
-      ${isAddProject ? ' block' : ' hidden'}`}>
-        <AddProject setIsAddProject={setIsAddProject}/>
+      ${isAddProject ? " block" : " hidden"}`}
+      >
+        <AddProject setIsAddProject={setIsAddProject} />
       </div>
       <div className="w-screen">
-        <Topbar title="Projects" projects={projects} setFilteredProjects={setFilteredProjects}/>
-      <div className="mt-[10vh] min-h-[2rem] z-[100] relative" ref={filterRef}>
-        <div className={`bg-white p-4 absolute ml-auto mt-[2rem] right-[5vw] shadow-xl min-[200px] w-[20vw] ml-auto ${isFilterOpen ? 'block' : 'hidden'}`}> 
+        <Topbar
+          title="Projects"
+          projects={projects}
+          setFilteredProjects={setFilteredProjects}
+        />
+        <div
+          className="mt-[10vh] min-h-[2rem] z-[100] relative"
+          ref={filterRef}
+        >
+          <div
+            className={`bg-white p-4 absolute ml-auto mt-[2rem] right-[5vw] shadow-xl min-[200px] w-[20vw] ml-auto ${
+              isFilterOpen ? "block" : "hidden"
+            }`}
+          >
             <Autocomplete
               className="mt-4"
               options={sortList}
               defaultValue={sortList[4]}
-              clearIcon = {false}
+              clearIcon={false}
               getOptionLabel={(option) => option.title}
               value={selectedOptionForMUI}
-              onChange={(e, value) => {setSelectedOption(value.id);setSelectedOptionForMUI(value)}}
+              onChange={(e, value) => {
+                setSelectedOption(value.id);
+                setSelectedOptionForMUI(value);
+              }}
               renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
                   <Chip label={option.title} {...getTagProps({ index })} />
                 ))
               }
               renderInput={(params) => (
-                <TextField {...params} variant="outlined" label="Sort By" placeholder="Select TechStacks" />
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Sort By"
+                  placeholder="Select TechStacks"
+                />
               )}
-            />             
+            />
             <Autocomplete
-              className='mt-4'
+              className="mt-4"
               multiple
               options={techStacks}
               getOptionLabel={(option) => option.title}
@@ -155,14 +180,24 @@ function Projects() {
                 ))
               }
               renderInput={(params) => (
-                <TextField {...params} variant="outlined" label="TechStacks Used" placeholder="Select TechStacks" />
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="TechStacks Used"
+                  placeholder="Select TechStacks"
+                />
               )}
             />
           </div>
-          <img src="images/filter.svg" alt="arrow" className={`w-[1.7rem] h-[1.7rem] ml-auto mr-[5vw]`} onClick={handleFilter}/>
-      </div>        
+          <img
+            src="images/filter.svg"
+            alt="arrow"
+            className={`w-[1.7rem] h-[1.7rem] ml-auto mr-[5vw]`}
+            onClick={handleFilter}
+          />
+        </div>
         <div className="w-full">
-        <Project projects={filteredFilteredProjects} />
+          <Project projects={filteredFilteredProjects} />
         </div>
       </div>
       <div

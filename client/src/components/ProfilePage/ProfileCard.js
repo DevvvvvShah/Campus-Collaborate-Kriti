@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileName from "./ProfileName";
+import { Link } from "react-router-dom";
 
 const ProfileCard = (props) => {
   const user = props.user;
@@ -10,7 +11,9 @@ const ProfileCard = (props) => {
 
       <ProfileName user={user} />
       <div className="mt-[2rem] button flex items-center justify-center bg-[#1d4ed8] text-[white] font-medium w-[240px] p-[10px] border-none rounded-full cursor-pointer">
-        <span>Edit Profile</span>
+        <Link to={"/editProfile"}>
+          <span>Edit Profile</span>
+        </Link>
       </div>
     </div>
   );
