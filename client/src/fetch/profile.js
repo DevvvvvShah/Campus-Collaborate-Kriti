@@ -45,7 +45,7 @@ const addConnection = (userId) => {
 const addtoPortfolio = (projectId) => {
   return axios.put(
     "http://localhost:3001/profile/addtoPortfolio",
-    { project: projectId }, // Correctly passing the data here
+    { project: projectId },
     {
       withCredentials: true,
     }
@@ -64,10 +64,17 @@ const removeConnection = (userId) => {
   );
 };
 
+const getPortfolio = () => {
+  return axios.get(`http://localhost:3001/profile/getPortfolio`, {
+    withCredentials: true,
+  });
+};
+
 export {
   fetchProfileFromServer,
   removeConnection,
   fetchOtherUserProfile,
   addConnection,
   addtoPortfolio,
+  getPortfolio,
 };

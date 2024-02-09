@@ -6,21 +6,27 @@ import { getMyProjects } from "../../fetch/projects";
 const ProfileProjects = () => {
   const [hover, setHover] = useState(false);
   const [userProjects, setUserProjects] = useState("");
+  const [portfolio, setPortfolio] = useState([]);
   const [user, setUser] = useState();
 
   const handleHover = () => {
     setHover(!hover);
   };
 
-  const handleAddToPortfolio = () => {
-    addtoPortfolio()
-      .then(console.log("Added!!"))
-      .catch((err) => err.message);
+  const handleAddToPortfolio = (projectId) => {
+    addtoPortfolio(projectId)
+      .then((res) => {
+        setPortfolio(res.data.portfolio)
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     fetchProfileFromServer(localStorage.getItem("user"))
-      .then((res) => setUser(res))
+      .then((res) => {
+        setUser(res)
+        setPortfolio(res.portfolio)
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -63,7 +69,7 @@ const ProfileProjects = () => {
                 <div className="row-span-7">
                   <div className="relative">
                     <img
-                      src={project.mediaArray}
+                      src={(project.mediaArray.length > 0 && project.mediaArray[0]) || "./images/demoPic.png"}
                       alt="Card"
                       className="w-full md:max-h-[26.67vh] max-h-[20vh] object-cover"
                     />
@@ -74,7 +80,7 @@ const ProfileProjects = () => {
                           alt="Upvote"
                           className="w-[3.5] h-3 mx-2"
                         />
-                        <div className="text-[0.55rem]">{project.upvotes}</div>
+                        <div className="text-[0.55rem]">{project.likes.length}</div>
                       </div>
                       <div className="flex flex-col justify-center items-center">
                         <img
@@ -83,7 +89,7 @@ const ProfileProjects = () => {
                           className="w-[3.5] h-3 mx-2"
                         />
                         <div className="text-[0.55rem]">
-                          {project.downvotes}
+                          {project.dislikes.length}
                         </div>
                       </div>
                     </div>
@@ -94,9 +100,8 @@ const ProfileProjects = () => {
                     {project.title}
                   </h2>
                   <div
-                    className={`transition-all duration-500 text-wrap text-[0.875rem] text-gray-500 ${
-                      hover ? "line-clamp-3" : "line-clamp-2"
-                    }`}
+                    className={`transition-all duration-500 text-wrap text-[0.875rem] text-gray-500 ${hover ? "line-clamp-3" : "line-clamp-2"
+                      }`}
                   >
                     {project.description}
                   </div>
@@ -110,14 +115,24 @@ const ProfileProjects = () => {
                       alt="Description"
                       className="object-cover object-center w-[1.25rem] h-[1.25rem]"
                     />
-                    {project.rating}
+                    {project.rating.toFixed(1)}
                   </div>
-                  <div
-                    onClick={handleAddToPortfolio}
-                    className="bg-blue-700 text-white font-semibold px-4 py-2 rounded-full hover:cursor-pointer"
-                  >
-                    Add to Portfolio
-                  </div>
+                  {portfolio && portfolio.includes(project._id) ?
+                    <div
+                      onClick={() => handleAddToPortfolio(project._id)}
+                      className="bg-white text-[#0016DA] border-[#0016DA] border-2 font-semibold px-4 py-2 rounded-full hover:cursor-pointer"
+                    >
+                      Remove from Portfolio
+                    </div>
+                    :
+                    <div
+                      onClick={() => handleAddToPortfolio(project._id)}
+                      className="bg-[#0016DA] text-white font-semibold px-4 py-2 rounded-full hover:cursor-pointer"
+                    >
+                      Add to Portfolio
+                    </div>
+
+                  }
                 </div>
               </div>
             </div>

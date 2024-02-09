@@ -36,15 +36,15 @@ const ProfileHeroSection = (props) => {
   };
 
   return (
-    <div className="flex flex-col gap-10 pl-[35rem] bg-white">
+    <div className="flex flex-col gap-10  bg-[#f8f8f8] pl-[35rem]">
       <div className=" pt-[1.5rem]">
         <div className="flex gap-10">
           {isAdmin && (
             <button
               onClick={onCLickButton1}
               type="button"
-              className={`text-black hover:bg-blue-700 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
-                isActive1 ? "outline-none text-white bg-blue-700" : ""
+              className={`text-black hover:bg-[#0016DA] hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
+                isActive1 ? "outline-none text-white bg-[#0016DA]" : ""
               }`}
             >
               Projects
@@ -54,8 +54,8 @@ const ProfileHeroSection = (props) => {
           <button
             onClick={onCLickButton3}
             type="button"
-            className={`text-black hover:bg-blue-700 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
-              isActive3 ? "outline-none text-white bg-blue-700" : ""
+            className={`text-black hover:bg-[#0016DA] hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
+              isActive3 ? "outline-none text-white bg-[#0016DA]" : ""
             }`}
           >
             Portfolio
@@ -63,15 +63,15 @@ const ProfileHeroSection = (props) => {
           <button
             onClick={onCLickButton2}
             type="button"
-            className={`text-black hover:bg-blue-700 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
-              isActive2 ? "outline-none text-white bg-blue-700" : ""
+            className={`text-black hover:bg-[#0016DA] hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
+              isActive2 ? "outline-none text-white bg-[#0016DA]" : ""
             }`}
           >
             Connection
           </button>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex h-full">
         {card === "projects" && (
           <div className="flex flex-wrap">
             <ProfileProjects />
@@ -82,7 +82,7 @@ const ProfileHeroSection = (props) => {
             <Connection user={user} />
           </div>
         )}
-        {card === "portfolio" && <Portfolio />}
+        {card === "portfolio" && <Portfolio user={user}/>}
       </div>
     </div>
   );

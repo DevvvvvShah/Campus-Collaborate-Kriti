@@ -21,17 +21,17 @@ const ProfileName = (props) => {
       <span className="text-xl font-bold text-[#131313dd]">
         {data && data.name}
       </span>
-      <span className=" text-[#9d9a9a] mt-[0.8rem] text-sm font-medium text-center px-[1rem]">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi
-        numquam delectus cumque vitae atque, necessitatibus facere dolorum
-        pariatur veritatis.
+      <span className=" text-[#9d9a9a] text-center min-h-[10vh] mt-[0.8rem] text-sm font-medium text-center px-[1rem] line-clamp-4">
+        {data && data.description}
       </span>
-      <div className="flex gap-8 pt-[0.8rem]">
-        <div>
-          <span className="font-medium text-sm">{data && data.rollNo}</span>
-        </div>
-        <div>
-          <span className="font-medium text-sm">{data && data.program}</span>
+      <div className="flex flex-col gap-2 pt-[0.8rem] mt-[4vh] justify-center items-center">
+        <div className="flex gap-4">
+          <div>
+            <span className="font-medium text-sm">{data && data.rollNo}</span>
+          </div>
+          <div>
+            <span className="font-medium text-sm">{data && data.program}</span>
+          </div>
         </div>
         <div>
           <span className="font-medium text-sm">{data && data.branch}</span>
