@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import fetchProfileFromServer from "../../fetch/profile";
+import { fetchProfileFromServer } from "../../fetch/profile";
 import { postComment, postFavorite, putLike } from "../../fetch/feed";
 
 const FeedUnit = (props) => {

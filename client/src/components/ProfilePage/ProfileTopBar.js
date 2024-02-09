@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Topbar = (props) => {
+const ProfilePageTopBar = (props) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -33,11 +33,14 @@ const Topbar = (props) => {
   };
 
   return (
-    <div className="w-[95rem] bg-white drop-shadow-md">
-      <div className="md:ml-[25vw] ml-[5vw] flex items-center py-[1.5vh] align-center justify-between">
-        <div className="topic md:text-lg h-fit pl-[2vw]">{props.title}</div>
+    <div className="w-[94.9rem] bg-white drop-shadow-md">
+      <div className="ml-[6.5rem] flex items-center gap-[12rem] py-[0.5rem] justify-start">
+        <div className=" text-center hidden md:block text-2xl font-bold">
+          PeerPulse
+        </div>
+        <div className="topic md:text-xl h-fit pl-[2vw]">{props.title}</div>
         <div className="flex items-center">
-          <div className="relative min-w-[2rem] md:max-w-[20rem]">
+          <div className=" ml-[8rem] relative min-w-[2rem] md:max-w-[20rem]">
             <img
               src="images/search.svg"
               alt="Description"
@@ -63,4 +66,4 @@ const Topbar = (props) => {
   );
 };
 
-export default Topbar;
+export default ProfilePageTopBar;

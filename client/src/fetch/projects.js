@@ -8,6 +8,12 @@ const getProject = (id) => {
     return axios.get(`http://localhost:3001/projects/${id}`);
 };
 
+const getMyProjects = () => {
+    return axios.get(`http://localhost:3001/projects/my`, {
+        withCredentials: true,
+    })
+}
+
 const putLike = (id) => {
     return axios.put(`http://localhost:3001/projects/likes/`,{
         projectId: id,
@@ -32,4 +38,5 @@ export {
     getProject,
     putLike,
     putDislike,
+    getMyProjects
 };

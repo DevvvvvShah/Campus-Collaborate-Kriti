@@ -14,9 +14,7 @@ const FeedSection = (props) => {
     });
   }, [props.posts]);
 
-  return (
-    <div className="sm:h-fit sm:pb-[1rem] mb-[3rem] flex flex-col">{units}</div>
-  );
+  return <div className=" mb-[3rem] flex flex-col">{units}</div>;
 };
 
 export { FeedSection };

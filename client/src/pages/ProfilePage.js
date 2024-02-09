@@ -1,7 +1,8 @@
 import ProfilePageComp from "../components/ProfilePage/ProfilePageComp";
 import { useSearchParams } from "react-router-dom";
-import fetchProfileFromServer from "../fetch/profile";
+import { fetchProfileFromServer } from "../fetch/profile";
 import { React, useEffect, useState } from "react";
+
 // import ProfileHeaderImg from "../components/profileComponents/ProfileHeaderImg";
 // import ProfileCard from "../components/profileComponents/ProfileCard";
 // import ProfileProjectsSection from "../components/profileComponents/ProfileProjectsSection";
@@ -13,7 +14,6 @@ function ProfilePage() {
   console.log(searchParams.get("user"));
 
   useEffect(() => {
-  console.log(localStorage.getItem("user") === null);
     if (localStorage.getItem("user") == null) {
       localStorage.setItem("user", searchParams.get("user"));
       fetchProfileFromServer(localStorage.getItem("user"))
@@ -26,8 +26,7 @@ function ProfilePage() {
         .catch((error) => console.error(error));
     }
 
-    console.log("user,", localStorage.getItem("user"));
-    
+    // console.log("user,", localStorage.getItem("user"));
   }, [user, searchParams]);
 
   return (

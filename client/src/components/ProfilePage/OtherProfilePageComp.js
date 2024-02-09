@@ -1,12 +1,12 @@
 import React from "react";
 // import axios from "axios";
 import HeaderImg from "./HeaderImg";
-import ProfileCard from "./ProfileCard";
-import ProfileHeroSection from "./ProfileHeroSection";
+import OtherUsersProfileCard from "./OtherUsersProfileCard";
+import OtherProfileHeroSection from "./OtherProfileHeroSection";
 import ProfilePageTopBar from "./ProfileTopBar";
 import ProfileNavBar from "./ProfileNavBar";
 
-function ProfilePageComp(props) {
+function OtherProfilePageComp(props) {
   const user = props.user;
 
   return (
@@ -14,10 +14,10 @@ function ProfilePageComp(props) {
       <ProfilePageTopBar />
       <ProfileNavBar />
       <HeaderImg />
-      <ProfileCard user={user} />
-      <ProfileHeroSection user={user} />
+      <OtherUsersProfileCard user={user} />
+      <OtherProfileHeroSection user={user} />
     </div>
   );
 }
 
-export default ProfilePageComp;
+export default OtherProfilePageComp;

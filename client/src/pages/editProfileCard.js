@@ -65,7 +65,7 @@ const EditProfileCard = () => {
                 setValue={setSelectedSkills}
               />
               <div className="flex">
-                <button className="ml-auto mr-[20px] text-[#46D97E] text-[12px] font-bold rounded-lg px-4 py-1 border border-[1.5px] border-[#46D97E]">
+                <button className="ml-auto mr-[20px] text-[#46D97E] text-[12px] font-bold rounded-lg px-4 py-1 border-[1.5px] border-[#46D97E]">
                   Add Project
                 </button>
               </div>
@@ -78,7 +78,7 @@ const EditProfileCard = () => {
                   Submit
                 </button>
                 <button
-                  className="ml-[10px] mr-[20px] text-[#46D97E] text-[12px] font-bold rounded-lg px-4 py-1 border border-[1.5px] border-[#46D97E]"
+                  className="ml-[10px] mr-[20px] text-[#46D97E] text-[12px] font-bold rounded-lg px-4 py-1 border-[1.5px] border-[#46D97E]"
                   onSubmit={handleCancel}
                 >
                   Cancel

@@ -8,7 +8,7 @@ const Card = () => {
   };
 
   return (
-    <div className="md:my-[3vh] my-[1vh] md:w-[31vw] md:h-[48vh] w-full h-[40vh] w-[50vw] min-h-fit flex justify-center items-center">
+    <div className="md:my-[3vh] my-[1vh] md:w-[31vw] md:h-[48vh] h-[40vh] w-[50vw] min-h-fit flex justify-center items-center">
       <div
         className="flex flex-col justify-between md:w-[28vw] md:h-[48vh] w-[85vw] min-h-fit
             transition-all duration-500 hover:md:w-[31vw] hover:md:h-[52vh] hover:w-[90vw] hover:pb-4 border overflow-hidden rounded-xl shadow-lg"
@@ -20,7 +20,7 @@ const Card = () => {
             <div className="relative">
               <img
                 src="./images/demoPic.png"
-                alt="Card Image"
+                alt="Card"
                 className="w-full md:max-h-[26.67vh] max-h-[20vh] object-cover"
               />
               <div className="absolute flex bottom-2 right-2 bg-[#FFFFFFCC] rounded-lg py-[5px] px-[4px]">

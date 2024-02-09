@@ -7,7 +7,7 @@ import Contacts from "../components/Chat/Contacts";
 import Welcome from "../components/Chat/Welcome";
 import ChatContainer from "../components/Chat/ChatContainer";
 import { io } from "socket.io-client";
-import fetchProfileFromServer from "../fetch/profile";
+import {fetchProfileFromServer} from "../fetch/profile";
 import TopbarChat from "../components/Chat/TopbarChat";
 
 function Chat() {

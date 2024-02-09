@@ -9,6 +9,7 @@ import DiscussionForum from "./pages/DiscussionForum";
 import Projects from "./pages/Projects";
 import ProjectView from "./pages/ProjectView";
 import CourseReview from "./pages/CourseReview";
+import OtherProfilePage from "./pages/OtherProfilePage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/:id" element={<OtherProfilePage />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/discussion" element={<DiscussionForum />} />
         <Route path="/projects" element={<Projects />} />

@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar/Navbar";
 import Topbar from "../components/Navbar/Topbar";
 import Project from "../components/Projects/MainProject";
 import { getProjects } from "../fetch/projects";
-import { Link } from "react-router-dom";
 
 function Projects() {
   const [isExpanded, setIsExpanded] = React.useState(true);

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import fetchProfileFromServer from "../../fetch/profile";
+import {fetchProfileFromServer} from "../../fetch/profile";
 import { postComment, putUpvote } from "../../fetch/discussions";
 
 const DiscussionUnit = (props) => {

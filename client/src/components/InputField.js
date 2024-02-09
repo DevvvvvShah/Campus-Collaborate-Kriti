@@ -54,7 +54,7 @@ const InputField = (props) => {
       <input
         type="text"
         id="inputField"
-        className="w-full h-[35px] text-[12px] appearance-none border border-[#46D97E] border-[1.5px] rounded-lg py- pl-3 pr-[20px] text-gray-700 leading-tight focus:outline-none focus:border-[#00FF00]"
+        className="w-full h-[35px] text-[12px] appearance-none  border-[#46D97E] border-[1.5px] rounded-lg py- pl-3 pr-[20px] text-gray-700 leading-tight focus:outline-none focus:border-[#00FF00]"
         value={value}
         onChange={handleChange}
       />
@@ -73,7 +73,7 @@ const DivField = (props) => {
       >
         {label}
       </label>
-      <div className="w-full text-[12px] h-[35px] appearance-none border border-[#46D97E] border-[1.5px] rounded-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-[#00FF00]">
+      <div className="w-full text-[12px] h-[35px] appearance-none border-[#46D97E] border-[1.5px] rounded-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-[#00FF00]">
         {data}
       </div>
     </div>
