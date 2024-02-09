@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {fetchProfileFromServer} from "../../fetch/profile";
 import axios from "axios";
 
@@ -133,6 +133,7 @@ const Topbar = (props) => {
           
           <div className="">
             {user && (
+              <Link to={`/profile/${user._id}`}>
               <div>
                 <img
                   src={user && user.profilePic || "/images/defaultThumbnail.jpeg"}
@@ -142,6 +143,7 @@ const Topbar = (props) => {
                   className="profile mr-[1vw] ml-[1vw] w-[2rem] h-[2rem] rounded-full"
                 />
               </div>
+              </Link>
             )}
 
             {showDetails && user && (

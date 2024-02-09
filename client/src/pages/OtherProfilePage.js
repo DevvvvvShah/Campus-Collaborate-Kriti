@@ -11,6 +11,9 @@ function OtherProfilePage() {
   console.log(window.location.href);
   const userId = window.location.pathname.split("/")[2];
   console.log(userId);
+  if (userId === localStorage.getItem("user")) {
+    window.location.href = "/profile";
+  }
   const [user, setUser] = useState(null);
 
   useEffect(() => {
