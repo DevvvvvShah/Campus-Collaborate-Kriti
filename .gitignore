@@ -4,3 +4,4 @@ node_modules/
 client/src/components/Navbar/topbar.js
 client/src/components/Navbar/Topbar.js
 client/src/components/Navbar/Topbar.js
+client/src/components/Navbar/topbar.js
