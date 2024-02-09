@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { fetchProfileFromServer } from "../../fetch/profile";
 import { putLike, putDislike } from "../../fetch/projects";
+import { Link } from "react-router-dom";
 
 const HeaderCard = (props) => {
+
   const [poster, setPoster] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
   const [upvotes, setUpvotes] = useState(
@@ -12,12 +15,12 @@ const HeaderCard = (props) => {
   const [downvotes, setDownvotes] = useState(
     (props.project.dislikes && props.project.dislikes.length) || 0
   );
-  const [isAddCollab, setIsAddCollab] = useState(false);
 
   useEffect(() => {
     fetchProfileFromServer(localStorage.getItem("user"))
       .then((res) => {
         console.log("PROPS: ", props);
+        setCurrentUser(res);
         if (props.project.likes) {
           console.log(props.project.likes);
           setUpvotes(props.project.likes.length);
@@ -99,6 +102,7 @@ const HeaderCard = (props) => {
       });
   };
 
+
   return (
     <div className="mt-[16vh] flex flex-col w-[80vw] bg-white">
       <div
@@ -157,32 +161,28 @@ const HeaderCard = (props) => {
                 user.profilePic =
                   user.profilePic || "images/defaultThumbnail.jpeg";
                 return (
-                  <a
-                    href={`http://localhost:3000/profile`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={index}
-                  >
+                    <Link to={`/profile/${user._id}`} className="flex items-center gap-2">
                     <div className="md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] shadow md:min-h-[32px] h-[45px] w-[45px] rounded-full relative overflow-hidden">
                       <img
                         src={user.profilePic}
+                        alt="Profile"
                         className="md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px]"
                       />
                     </div>
-                  </a>
+                  </Link>
                 );
               })
             ) : (
               <div>..</div>
             )}
-            <div className="relative">
+            {props.project.creatorId && props.project.creatorId.filter((creator) => creator._id === currentUser._id ).length > 0 && <div className="relative">
               <img
                 src="images/addCollab.svg"
                 alt="add collab"
                 className={` hover:cursor-pointer md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px]  rounded-full h-[45px] w-[45px]`}
                 onClick={() => props.setIsAddCollab(true)}
               />
-            </div>
+            </div>}
           </div>
         </div>
       </div>

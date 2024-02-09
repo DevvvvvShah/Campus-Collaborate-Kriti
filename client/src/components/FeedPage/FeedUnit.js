@@ -6,14 +6,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CommentCard from "./CommentCard";
-import {
-  TextField,
-  Button,
-  Container,
-  Typography,
-  Box,
-  Paper,
-} from "@mui/material";
+import { TextField, Button, Container, Typography, Box, Paper } from '@mui/material';
+import { Link } from "react-router-dom";
+
 
 const FeedUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
@@ -176,6 +171,7 @@ const FeedUnit = (props) => {
   return (
     <div className="flex flex-col w-[100%] md:w-[90%] md:mx-auto min-h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] items-center">
       <div className="flex w-[100%] items-center justify-between p-3 md:w-[100%]">
+        <Link to={`/profile/${props.post.creator && props.post.creator._id}`} className="flex items-center gap-2">
         <div className="flex items-center gap-2">
           <img
             src={
@@ -196,6 +192,7 @@ const FeedUnit = (props) => {
             />
           </div>
         </div>
+        </Link>
         <button>...</button>
       </div>
 

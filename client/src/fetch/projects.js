@@ -50,29 +50,62 @@ const putDislike = (id) => {
   );
 };
 
+// const postComment = (id, content) => {
+//   if (
+//     localStorage.getItem("lastCommentTime") &&
+//     Date.now() - localStorage.getItem("lastCommentTime") < 60000
+//   ) {
+//     return new Promise((resolve, reject) => {
+//       resolve({
+//         data: { message: "Please wait a few seconds before commenting again." },
+//       });
+//     });
+//   }
+//   localStorage.setItem("lastCommentTime", Date.now());
+//   return axios.post(
+//     "http://localhost:3001/projects/comment/",
+//     {
+//       projectId: id,
+//       content: content,
+//     },
+//     {
+//       withCredentials: true,
+//     }
+//   );
+// };
+
 const postComment = (id, content) => {
   if (
     localStorage.getItem("lastCommentTime") &&
     Date.now() - localStorage.getItem("lastCommentTime") < 60000
   ) {
-    return new Promise((resolve, reject) => {
-      resolve({
-        data: { message: "Please wait a few seconds before commenting again." },
-      });
+    return Promise.resolve({
+      data: { message: "Please wait a few seconds before commenting again." },
     });
   }
   localStorage.setItem("lastCommentTime", Date.now());
-  return axios.post(
-    "http://localhost:3001/projects/comment/",
-    {
-      projectId: id,
-      content: content,
-    },
-    {
-      withCredentials: true,
-    }
-  );
+  
+  // Check comment for spam
+  return axios.post("http://localhost:3001/evaluate-comment", { comment: content })
+    .then(response => {
+      if (response.data.HateRating > 50 || response.data.SpamRating > 50) {
+        return Promise.resolve({
+          data: { message: "Your comment was flagged as inappropriate/spam and hence not logged." },
+        });
+      } else {
+        return axios.post(
+          "http://localhost:3001/projects/comment/",
+          { projectId: id, content: content },
+          { withCredentials: true }
+        );
+      }
+    })
+    .catch(error => {
+      console.error('Error checking comment:', error);
+      return Promise.reject(error);
+    });
 };
+
 
 export {
   getProjects,

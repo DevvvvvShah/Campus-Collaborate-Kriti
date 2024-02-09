@@ -10,44 +10,40 @@ function SearchPage() {
   const [profiles, setProfiles] = useState([]);
   const [hover, setHover] = useState(false);
 
-  useEffect(() => {
-    fetchProfilesBySearch(search)
-      .then((res) => setProfiles(res))
-      .catch((err) => console.log(err));
-  }, [search]);
+    useEffect(() => {
+        fetchProfilesBySearch(search)
+        .then((res) => {
+          res = res.filter((profile) => profile._id !== localStorage.getItem('user'));
+          setProfiles(res)
+        })
+        .catch((err) => console.log(err));
+    }, [search]);
+    
+    console.log(hover);
 
-  console.log(hover);
-
-  return (
-    <div className="relative flex flex-col md:flex-row bg-[#F8F8F8] w-screen min-h-[100vh]">
-      <Navbar
-        isExpanded={isExpanded}
-        setIsExpanded={setIsExpanded}
-        select={{ search: true }}
-      />
-      <div className="w-screen">
-        <Topbar title="Search" isSearchDisabled={true} />
-        <div className="md:ml-[20vw]">
-          <div
-            className={`flex ${
-              hover ? " border-[1px] border-[#0016DA] " : ""
-            } md:pl-4 items-center bg-white shadow-sm mt-10 mb-10 w-[90vw] m-auto md:w-[39vw] h-[2.5rem] rounded-xl overflow-hidden`}
-          >
-            <img
-              src="images/search.svg"
-              alt="search icon"
-              className="w-[1rem] h-[1rem] m-2 hover:cursor-pointer"
-            />
-            <input
-              type="text"
-              placeholder="Search for users"
-              className="w-full h-full focus:outline-none"
-              onChange={(e) => setSearch(e.target.value)}
-              onFocus={() => setHover(true)}
-              onBlur={() => setHover(false)}
-            />
+  
+    return (
+      <div className="relative flex flex-col md:flex-row bg-[#F8F8F8] w-screen min-h-[100vh]">
+        <Navbar
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
+          select={{ search: true}}
+        />
+        <div className="w-screen">
+          <Topbar title="Search" isSearchDisabled={true}/>
+          <div className='ml-[40vw] '>
+            <div className={`flex ${hover ? ' border-[1px] border-[#0016DA] ' : ''} pl-4 items-center bg-white shadow-sm mt-10 mb-10 mr-10 w-[40vw] h-[2.5rem] rounded-xl overflow-hidden`}>
+              <img
+                  src="images/search.svg"
+                  alt="search icon"
+                  className="w-[1rem] h-[1rem] m-2 hover:cursor-pointer"
+                  />
+              <input type="text" placeholder="Search for users" className='w-full h-full focus:outline-none' 
+                      onChange={(e) => setSearch(e.target.value)}
+                      onFocus={() => setHover(true)}
+                      onBlur={() => setHover(false)} />
+            </div>
           </div>
-        </div>
 
         <div className="md:ml-[40vw] w-[90vw] m-auto md:w-[40vw]">
           {profiles.map((profile) => (

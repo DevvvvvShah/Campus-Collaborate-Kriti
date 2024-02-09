@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import {fetchProfileFromServer} from '../../fetch/profile';
 import { putUpvote,putDownvote } from '../../fetch/discussions';
+import { Link } from 'react-router-dom';
 
 const HeaderCard = (props) => {
     const [poster, setPoster] = useState({});
@@ -104,11 +105,11 @@ const HeaderCard = (props) => {
                         {props.project.title}
                     </div>
                     <div className='flex mt-[3vh] gap-3'>
-                        <a href={`http://localhost:3000/profile`} target="_blank" rel="noopener noreferrer">
+                        <Link to={`/profile/${poster && poster._id}`} className="flex items-center gap-2">
                             <div className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] shadow md:min-h-[32px] h-[45px] w-[45px] rounded-full relative overflow-hidden'>
-                                <img src={(props.project.poster && props.project.poster.thumbnail) ? props.project.poster.thumbnail : 'images/defaultThumbnail.jpeg'} className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px]' />
+                                <img src={(poster && poster.thumbnail) ? poster.thumbnail : 'images/defaultThumbnail.jpeg'} className='md:max-w-[60px] md:max-h-[60px] md:w-[4vw] md:h-[4vw] md:min-w-[32px] md:min-h-[32px] h-[45px] w-[45px]' />
                             </div>
-                        </a>              
+                        </Link>              
                     </div>
                 </div>
             </div>

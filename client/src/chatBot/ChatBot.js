@@ -13,7 +13,7 @@ function ChatBot() {
   const [typing, setTyping] = useState(false);
   const [messages, setMessages] = useState([
     {
-      message: 'Hello, I am an AI Assistant!',
+      message: 'Hello, I am PeerBot, an AI Assistant!',
       sender: 'ChatGPT'
     }
   ])
@@ -88,7 +88,7 @@ function ChatBot() {
           <ChatContainer>
             <MessageList
               scrollBehavior='smooth'
-              typingIndicator={typing ? <TypingIndicator content = 'ChatGPT is typing' /> : null}
+              typingIndicator={typing ? <TypingIndicator content = 'PeerBot is typing' /> : null}
             >
               {messages.map((message, i) => {
                 return <Message key={i} model={message} />
