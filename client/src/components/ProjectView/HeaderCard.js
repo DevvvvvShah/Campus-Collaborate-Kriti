@@ -1,7 +1,6 @@
 import React, { useEffect,useState, useRef } from 'react';
 import fetchProfileFromServer from '../../fetch/profile';
 import { putLike,putDislike } from '../../fetch/projects';
-import { add } from 'mathjs';
 
 const HeaderCard = (props) => {
     const [poster, setPoster] = useState({});

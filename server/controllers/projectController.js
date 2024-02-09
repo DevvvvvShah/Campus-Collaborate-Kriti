@@ -211,13 +211,11 @@ const getMyConnectionProjects = async (req, res) => {
 }
 
 const addCollab = async (req, res) => {
-    const { users } = req.body;
+    const { user } = req.body;
     const projectId = req.params.projectId;
     try {
         const project = await Project.findById(projectId);
-        users.forEach(user => {
-            project.creatorId.push(user);
-        });
+        project.creatorId.push(user);
         await project.save();
         res.status(200).json(project);
     }

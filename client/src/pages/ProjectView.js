@@ -3,13 +3,14 @@ import Topbar from '../components/Navbar/Topbar';
 import HeaderCard from '../components/ProjectView/HeaderCard';
 import CommentCard from '../components/ProjectView/CommentCard';
 import { useEffect, useRef, useState } from 'react';
-import { getProject,postComment } from '../fetch/projects';
+import { addCollab, getProject,postComment } from '../fetch/projects';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { TextField, Button, Container, Typography, Box, Paper } from '@mui/material';
 import { Input } from '@mui/base';
 import fetchProfilesBySearch from '../fetch/search';
+import ProfileUnit from '../components/Search/ProfileUnit';
 
 function ProjectView() {
     const [project, setProject] = useState({});
@@ -17,7 +18,7 @@ function ProjectView() {
     const [isAddComment, setIsAddComment] = useState(false);
     const [isAddCollab, setIsAddCollab] = useState(false);
     const [collab,setCollab] = useState('');
-    const [profiles,setProfiles] = useState([]);
+    const [profiles, setProfiles] = useState([]);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -93,15 +94,30 @@ function ProjectView() {
     };
 
     useEffect(() => {
-      console.log(profiles);
         fetchProfilesBySearch(collab).then((res) => {
-          setProfiles(res.data);
-          console.log('Profiles:', profiles);
+          res = res.filter((profile) => {
+            let flag = true;
+            project.creatorId.forEach((creator) => {
+              if(profile._id === creator._id){
+                flag = false;
+              }
+            });
+            return flag;
+          });
+          console.log(res);
+          setProfiles(res);
         }).catch((error) => {
           console.error('Error fetching collab:', error);
         });
-      },[collab]);
+      },[collab, project]);
 
+    const handleAddCollab = (profile) => {
+      addCollab(project._id, profile._id).then((res) => {
+        window.location.reload();
+      }).catch((error) => {
+        console.log(error)
+      });
+    }
   return (
     <div className="w-screen flex flex-col justify-center items-center mb-[10vh]">
       <div className="fixed top-0 left-0 right-0 z-50">
@@ -121,18 +137,15 @@ function ProjectView() {
             <input type="text" placeholder="Search for users" className='border rounded-lg p-2 w-[20vw]' onChange={(e) => setCollab(e.target.value)} />
             <div className='flex flex-col gap-2 w-[20vw]'>
               {
-                profiles && profiles.length!==0 ? 
+                profiles && profiles.length!==0 && 
                 <div className='flex flex-col gap-2'>
-                  <div className='flex justify-between items-center'>
-                    <div className='text-[#000000] text-[1rem] font-bold'>Username</div>
-                    <div className='text-[#000000] text-[1rem] font-bold'>Add</div>
-                  </div>
-                  <div className='flex justify-between items-center'>
-                    <div className='text-[#000000] text-[1rem] font-bold'>Username</div>
-                    <div className='text-[#000000] text-[1rem] font-bold'>Add</div>
-                  </div>
-                </div>:
-                <div className='text-[#000000] text-[1rem]'>No users found</div>
+                  {profiles.map((profile, index) => (
+                    <div className='flex justify-between items-center' >
+                      <ProfileUnit key={index} user={profile} />
+                      <Button variant="contained" className='bg-[#0016DACC] h-10' onClick={() => handleAddCollab(profile)}>Add</Button> 
+                    </div>
+                  ))}
+                </div>
               }
             </div>
           </div>
