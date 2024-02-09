@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchProfileFromServer } from "../../fetch/profile";
+import fetchProfileFromServer from "../../fetch/profile";
 import axios from "axios";
 
 const Topbar = (props) => {
@@ -16,7 +16,7 @@ const Topbar = (props) => {
   const [showExit, setShowExit] = useState(false);
 
   useEffect(() => {
-    const userFromLocalStorage = localStorage.getItem("user");
+    const userFromLocalStorage = localStorage.getItem('user');
     if (userFromLocalStorage) {
       fetchProfileFromServer(userFromLocalStorage)
         .then((res) => setUser(res))
@@ -32,22 +32,22 @@ const Topbar = (props) => {
     setShowDetails(false);
   };
 
-  const handleLogout = () => {
-    console.log("Logout button clicked");
-    try {
-      axios.defaults.headers.common["authorization"] = "";
-      axios
-        .get("http://localhost:3001/auth/signout", { withCredentials: true })
-        .then((res) => {
+    const handleLogout = () => {
+      console.log("Logout button clicked");
+      try{
+        axios.defaults.headers.common["authorization"] = "";
+        axios.get("http://localhost:3001/auth/signout", { withCredentials: true }).then((res) => {
           localStorage.removeItem("user");
           console.log(res);
           navigate("/");
         });
-    } catch (err) {
-      console.log(err);
-    }
-    // Redirect to home page
-  };
+        
+      }
+      catch(err){
+        console.log(err);
+      }
+      // Redirect to home page
+    };
   const handleSearch = () => {
     if (window.innerWidth < 768) {
       const search = document.querySelector("input");
@@ -70,86 +70,72 @@ const Topbar = (props) => {
   };
 
   useEffect(() => {
-    if (search) {
-      if (discussions && props.setFilteredDiscussions) {
-        const filteredDiscussions = discussions.filter(
-          (discussion) =>
-            discussion.content.toLowerCase().includes(search.toLowerCase()) ||
-            discussion.title.toLowerCase().includes(search.toLowerCase())
-        );
+    if(search){
+      if(discussions && props.setFilteredDiscussions){
+        const filteredDiscussions = discussions.filter((discussion) => discussion.content.toLowerCase().includes(search.toLowerCase())||discussion.title.toLowerCase().includes(search.toLowerCase()));
         props.setFilteredDiscussions(filteredDiscussions);
       }
-      if (courseReviews && props.setFilteredCourseReviews) {
-        const filteredCourseReviews = courseReviews.filter(
-          (courseReview) =>
-            courseReview.title.toLowerCase().includes(search.toLowerCase()) ||
-            courseReview.description
-              .toLowerCase()
-              .includes(search.toLowerCase())
-        );
+      if(courseReviews && props.setFilteredCourseReviews){
+        const filteredCourseReviews = courseReviews.filter((courseReview) => courseReview.title.toLowerCase().includes(search.toLowerCase())||courseReview.description.toLowerCase().includes(search.toLowerCase()));
         props.setFilteredCourseReviews(filteredCourseReviews);
       }
-      if (projects && props.setFilteredProjects) {
-        const filteredProjects = projects.filter(
-          (project) =>
-            project.title.toLowerCase().includes(search.toLowerCase()) ||
-            project.description.toLowerCase().includes(search.toLowerCase())
-        );
+      if(projects && props.setFilteredProjects){
+        const filteredProjects = projects.filter((project) => project.title.toLowerCase().includes(search.toLowerCase())||project.description.toLowerCase().includes(search.toLowerCase()));
         props.setFilteredProjects(filteredProjects);
-      }
-      if (props.setPostSearch) {
+      } 
+      if(props.setPostSearch){
         props.setPostSearch(search);
         console.log(search);
       }
-    } else {
-      if (discussions) {
+    }
+    else{
+      if (discussions){
         props.setFilteredDiscussions(discussions);
       }
-      if (courseReviews) {
+      if(courseReviews){
         props.setFilteredCourseReviews(courseReviews);
       }
-      if (projects) {
+      if(projects){
         props.setFilteredProjects(projects);
       }
-      if (postSearch) {
+      if(postSearch){
         props.setPostSearch("");
       }
+
     }
   }, [search]);
 
   return (
-    <div className="md:w-[100%] bg-white drop-shadow-md">
+    <div className="w-screen bg-white drop-shadow-md">
       <div className="md:ml-[25vw] ml-[5vw] flex items-center py-[1.5vh] align-center justify-between">
         <div className="topic md:text-xl md:text-lg h-fit pl-[2vw]">
           {props.title}
         </div>
         <div className="flex items-center">
-          {props.isSearchDisabled ? (
-            <div></div>
-          ) : (
-            <div className="relative min-w-[2rem] md:max-w-[20rem]">
-              <img
-                src="images/search.svg"
-                alt="Description"
-                className="icon md:absolute left-3 top-2 object-cover object-center w-[1rem] h-[1.05rem] hover:cursor-pointer"
-                onClick={handleSearch}
-              />
-              <input
-                type="text"
-                className="bg-[#EEE] rounded-full md:block hidden px-8 py-1 focus:outline-none"
-                placeholder={"Search in " + props.title}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-          )}
-
+        {props.isSearchDisabled ? (
+          <div></div>
+        ):(
+          <div className="relative min-w-[2rem] md:max-w-[20rem]">
+            <img
+              src="images/search.svg"
+              alt="Description"
+              className="icon md:absolute left-3 top-2 object-cover object-center w-[1rem] h-[1.05rem] hover:cursor-pointer"
+              onClick={handleSearch}
+            />
+            <input
+              type="text"
+              className="bg-[#EEE] rounded-full md:block hidden px-8 py-1 focus:outline-none"
+              placeholder={"Search in "+props.title}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+        )}
+          
           <div className="">
             {user && (
               <div>
                 <img
-                  src={
-                    (user && user.profilePic) || "/images/defaultThumbnail.jpeg"
-                  }
+                  src={user && user.profilePic || "/images/defaultThumbnail.jpeg"}
                   alt="Profile"
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -170,32 +156,26 @@ const Topbar = (props) => {
             )}
           </div>
           <div>
-            <div onClick={() => (window.location.href = "/chat")}>
-              <img
-                src={"/images/chat_ppl.svg"}
-                alt="Profile"
-                className="mr-[0.5vw] ml-[0.5vw] w-[1.7rem] h-[1.7rem] rounded-full"
-              />
-            </div>
+          <div onClick={() => window.location.href = "/chat"}>
+                <img
+                  src={"/images/chat_ppl.svg"}
+                  alt="Profile"
+                  className="mr-[0.5vw] ml-[0.5vw] w-[1.7rem] h-[1.7rem] rounded-full"
+                />
+              </div>            
           </div>
-          <div
-            className="flex items-center overflow-hidden h-[2rem]"
-            onMouseEnter={() => setShowExit(true)}
-            onMouseLeave={() => setShowExit(false)}
-          >
-            <img
-              src="/images/exit.svg"
-              onClick={handleLogout}
-              className=" py-1 w-[2.8rem] h-[2.8rem] px-2 mr-2 text-black"
-            />
-          </div>
-          {showExit && (
+          <div className="flex items-center overflow-hidden h-[2rem]"
+          onMouseEnter={() => setShowExit(true)}
+          onMouseLeave={() => setShowExit(false)}>
+            <img src = "/images/exit.svg" onClick={handleLogout} className=" py-1 w-[2.8rem] h-[2.8rem] px-2 mr-2 text-black" />
+          </div>   
+          {showExit &&
             <div className="dialog-box absolute right-[1vw] top-[7vh] z-50 border-1 bg-white rounded-md border">
               <div className="p-2">
                 <p>Logout</p>
               </div>
-            </div>
-          )}
+            </div>            
+          }     
         </div>
       </div>
     </div>
