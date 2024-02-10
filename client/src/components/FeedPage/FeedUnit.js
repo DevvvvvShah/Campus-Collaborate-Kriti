@@ -175,7 +175,7 @@ const FeedUnit = (props) => {
   };
 
   return (
-    <div className="flex flex-col w-[100%] md:w-[90%] md:mx-auto min-h-[28rem] rounded-xl p-[15px] bg-white text-gray-700 shadow-md mb-[1rem] items-center">
+    <div className="flex flex-col  md:mx-auto min-h-[28rem] w-[90vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] 2xl:w-[40vw] 3xl:w-[60vw] rounded-xl p-[15px] bg-white text-gray-700 shadow-md mb-[1rem] items-center">
       <div className="flex w-[100%] items-start justify-between md:w-[100%] ">
         <Link
           to={`/profile/${props.post.creator && props.post.creator._id}`}

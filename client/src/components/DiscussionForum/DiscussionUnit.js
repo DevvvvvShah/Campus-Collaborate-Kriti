@@ -125,7 +125,7 @@ const DiscussionUnit = (props) => {
                       : "/images/defaultThumbnail.jpeg"
                   }
                   alt="Profile"
-                  className="w-[2.5rem] md:w-[3rem] h-[2.5rem] md:h-[3rem] rounded-full"
+                  className="w-[2rem] md:w-[2.5rem] h-[2rem] md:h-[2.5rem] rounded-full"
                 />
               </div>
             </Link>
