@@ -179,7 +179,7 @@ const FeedUnit = (props) => {
   };
 
   return (
-    <div className="flex flex-col w-[100%] md:w-[90%] md:mx-auto min-h-[28rem] rounded-xl p-[15px] bg-white text-gray-700 shadow-md mb-[1rem] items-center">
+    <div className="flex flex-col w-[90%] md:w-[90%] md:mx-auto min-h-[28rem] rounded-xl p-[15px] bg-white text-gray-700 shadow-md mb-[1rem] items-center">
       {isLoading && <Loader />}
       <div className="flex w-[100%] items-start justify-between md:w-[100%] ">
         <Link
@@ -304,8 +304,8 @@ const FeedUnit = (props) => {
                 />
                 <Button
                   variant="contained"
-                  className='enabled:bg-[#0016DA] bg-[#0016DA] w-full'
-                  disabled={comment===""}              
+                  className="enabled:bg-[#0016DA] bg-[#0016DA] w-full"
+                  disabled={comment === ""}
                   onClick={handleAddComment}
                 >
                   Submit
