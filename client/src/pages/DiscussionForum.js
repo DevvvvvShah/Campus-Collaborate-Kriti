@@ -183,7 +183,7 @@ const DiscussionForum = (props) => {
               <img
                 src="images/add.svg"
                 alt="add"
-                className={`w-[50%] h-[50%] md:w-fit md:h-[65%] object-contain`}
+                className={`h-[50%] md:h-[65%] object-contain`}
               />
               <div className="text-[#0016DA] text-[0.875rem] font-semibold">
                 Question
