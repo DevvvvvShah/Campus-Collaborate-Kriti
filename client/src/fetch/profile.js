@@ -64,8 +64,8 @@ const removeConnection = (userId) => {
   );
 };
 
-const getPortfolio = () => {
-  return axios.get(`http://localhost:3001/profile/getPortfolio`, {
+const getPortfolio = (userId) => {
+  return axios.get(`http://localhost:3001/profile/getPortfolio/${userId}`, {
     withCredentials: true,
   });
 };

@@ -10,10 +10,9 @@ function OtherProfilePageComp(props) {
   const user = props.user;
 
   return (
-    <div>
-      <ProfilePageTopBar />
-      
-      <ProfileNavBar />
+    <div className="bg-[#F8F8F8] h-full">
+      <ProfilePageTopBar title={"PeerPulse"}/>
+      <ProfileNavBar other={true} />
       <HeaderImg />
       <OtherUsersProfileCard user={user} />
       <OtherProfileHeroSection user={user} />

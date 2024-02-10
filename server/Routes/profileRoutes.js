@@ -12,7 +12,7 @@ const {getProfile,getUserProfile,updateUserProfile,addtoConnection,getAllUserCha
 router.get("/",getToken,verifyToken,authenticateUser,getProfile);
 router.post("/search/",getToken,verifyToken,authenticateUser,searchProfiles);
 router.get("/allChats",getToken,verifyToken,authenticateUser,getAllUserChats);
-router.get("/getPortfolio",getToken,verifyToken,authenticateUser,getPortfolio);
+router.get("/getPortfolio/:userid",getToken,verifyToken,authenticateUser,getPortfolio);
 router.get("/:userid",getToken, verifyToken, authenticateUser, getUserProfile);
 router.put("/",getToken,verifyToken,authenticateUser,upload.single("avatar"),updateUserProfile);
 router.put("/addtoPortfolio",getToken,verifyToken,authenticateUser,addtoPortfolio);

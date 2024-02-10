@@ -74,7 +74,7 @@ const ProfileHeroSection = (props) => {
       <div className="flex h-full">
         {card === "projects" && (
           <div className="flex flex-wrap">
-            <ProfileProjects />
+            <ProfileProjects/>
           </div>
         )}
         {card === "connections" && (
@@ -82,7 +82,7 @@ const ProfileHeroSection = (props) => {
             <Connection user={user} />
           </div>
         )}
-        {card === "portfolio" && <Portfolio user={user} />}
+        {card === "portfolio" && <Portfolio user={user} other={false}/>}
       </div>
     </div>
   );

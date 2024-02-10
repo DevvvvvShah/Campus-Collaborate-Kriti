@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 function Tab(props) {
+  console.log(props.img)
   return (
     <NavLink
       to={props.to}
@@ -10,7 +11,7 @@ function Tab(props) {
     >
       <div className="col-span-12 md:col-span-4 flex items-center">
         <img
-          src={"images/" + props.img + ".png"}
+          src={(props.other ? '..' : "") + "/images/" + props.img + ".png"}
           alt="Description"
           className="mx-auto ml-auto  md:mr-[10%] object-cover object-center w-[1.25rem] h-[1.25rem]"
         />
