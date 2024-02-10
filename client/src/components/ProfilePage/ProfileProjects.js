@@ -65,7 +65,8 @@ const ProfileProjects = () => {
               onMouseEnter={handleHover}
               onMouseLeave={handleHover}
             >
-              <div className="object-cover object-center w-full flex flex-col gap-2 ">
+              <div className="object-cover object-center w-full flex flex-col gap-2 "
+                    onClick={()=> window.location.href=`/projectView?id=${project._id}`}>
                 <div className="row-span-7">
                   <div className="relative">
                     <img

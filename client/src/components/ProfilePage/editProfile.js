@@ -33,7 +33,7 @@ function EditProfile(props) {
     for (let i = 0; i < selectedTechStacks.length; i++) {
       formData.append('techStacks', selectedTechStacks[i].id);
     }
-      formData.append('avatar', selectedFile);
+      formData.append('avatar', selectedFile[0]);
 
     const config = {
       headers: {

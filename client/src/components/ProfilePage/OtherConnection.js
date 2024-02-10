@@ -13,9 +13,9 @@ function OtherConnection(props) {
   return (
     <div className="p-4 overflow-y-auto" style={{ maxHeight: "100vh" }}>
       {data.map((data) => (
-        <div className="w-[50rem] mb-[1rem] flex items-center shadow-xl p-6 bg-white rounded-lg hover:bg-gray-50 transition duration-300 overflow-x-hidden">
+        <div className="w-[50vw] mb-[1rem] flex items-center shadow-xl p-6 bg-white rounded-lg hover:bg-gray-50 transition duration-300 overflow-x-hidden">
           <img
-            src={data.profilePic}
+            src={data.profilePic || "../images/defaultThumbnail.jpeg"}
             alt="Profile"
             className="w-12 h-12 rounded-full mr-4"
           />

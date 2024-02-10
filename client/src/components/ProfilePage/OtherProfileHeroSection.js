@@ -22,14 +22,14 @@ const OtherProfileHeroSection = (props) => {
   };
 
   return (
-    <div className="flex flex-col gap-10 pl-[35rem]">
+    <div className="flex flex-col gap-10  bg-[#f8f8f8] pl-[40vw]">
       <div className=" pt-[1.5rem]">
         <div className="flex gap-10">
           <button
             onClick={onCLickButton3}
             type="button"
-            className={`text-black hover:bg-blue-700 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
-              isActive3 ? "outline-none text-white bg-blue-700" : ""
+            className={`text-black hover:bg-[#0016DA] hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
+              isActive3 ? "outline-none text-white bg-[#0016DA]" : ""
             }`}
           >
             Portfolio
@@ -37,8 +37,8 @@ const OtherProfileHeroSection = (props) => {
           <button
             onClick={onCLickButton2}
             type="button"
-            className={`text-black hover:bg-blue-700 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
-              isActive2 ? "outline-none text-white bg-blue-700" : ""
+            className={`text-black hover:bg-[#0016DA] hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl ${
+              isActive2 ? "outline-none text-white bg-[#0016DA]" : ""
             }`}
           >
             Connection
@@ -51,7 +51,7 @@ const OtherProfileHeroSection = (props) => {
             <OtherConnection user={user} />
           </div>
         )}
-        {card === "portfolio" && <Portfolio />}
+        {card === "portfolio" && <Portfolio user={user} other={true}/>}
       </div>
     </div>
   );

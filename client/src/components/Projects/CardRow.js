@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Projects.js/Card';
+import Card from '../Projects/Card';
 import UseMediaQuery from '../../hooks/useMediaQuery';
 
 const CardRow = (props) => {

@@ -8,8 +8,12 @@ import { React, useEffect, useState } from "react";
 // import Navbar from "../components/Navbar/Navbar";
 
 function OtherProfilePage() {
-  console.log(window.location.href);
-  const userId = window.location.pathname.split("/")[2];
+  let userId = window.location.pathname.split("/")[2];
+
+  useEffect(() => {
+    userId = window.location.pathname.split("/")[2];
+  }, [window.location.pathname]);
+
   console.log(userId);
   if (userId === localStorage.getItem("user")) {
     window.location.href = "/profile";
