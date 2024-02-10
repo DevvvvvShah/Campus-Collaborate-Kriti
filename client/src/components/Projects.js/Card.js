@@ -88,8 +88,9 @@ const Card = (props) => {
                     rel="noopener noreferrer"
                     key={index}
                   >
-                    <div className="md:max-w-[50px] md:max-h-[50px] md:w-[2vw] md:h-[2vw] md:min-w-[20px] md:min-h-[20px] h-[45px] w-[45px] shadow rounded-full overflow-hidden">
+                    <div className="md:max-w-[50px] md:max-h-[50px] md:w-[2vw] md:h-[2vw] md:min-w-[20px] md:min-h-[20px] h-[35px] w-[35px] shadow rounded-full overflow-hidden">
                       <img
+                        alt="logo"
                         src={user.profilePic}
                         className="md:max-w-[50px] md:max-h-[50px] md:w-[2vw] md:h-[2vw] md:min-w-[20px] md:min-h-[20px] h-[45px] w-[45px]"
                       />

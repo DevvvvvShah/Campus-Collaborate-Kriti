@@ -124,7 +124,7 @@ const DiscussionForum = (props) => {
               setFilteredDiscussions={setFilteredDiscussions}
             />
             <div
-              className="mt-[10vh] min-h-[2rem] z-[200] relative"
+              className="mt-[2rem] min-h-[2rem] z-[200] relative"
               ref={filterRef}
             >
               <div
@@ -183,7 +183,7 @@ const DiscussionForum = (props) => {
               <img
                 src="images/add.svg"
                 alt="add"
-                className={`w-[50%] h-[50%] md:w-fit md:h-[65%] object-contain`}
+                className={`w-[20%] h-[50%] md:w-fit md:h-[65%] object-contain`}
               />
               <div className="text-[#0016DA] text-[0.875rem] font-semibold">
                 Question

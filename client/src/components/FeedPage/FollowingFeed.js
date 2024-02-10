@@ -33,7 +33,7 @@ const FollowingFeed = (props) => {
   }, [postSearch, posts]);
 
   return (
-    <div className="md:ml-[15rem] ml-[1.5rem]">
+    <div className="flex justify-center items-center">
       <FeedSection posts={filteredPosts} />
     </div>
   );

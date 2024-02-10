@@ -6,9 +6,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CommentCard from "./CommentCard";
-import { TextField, Button, Container, Typography, Box, Paper } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Paper,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-
 
 const FeedUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
@@ -169,37 +175,43 @@ const FeedUnit = (props) => {
   };
 
   return (
-    <div className="flex flex-col w-[100%] md:w-[90%] md:mx-auto min-h-[32rem] rounded-xl bg-white text-gray-700 shadow-md mb-[1rem] items-center">
-      <div className="flex w-[100%] items-center justify-between p-3 md:w-[100%]">
-        <Link to={`/profile/${props.post.creator && props.post.creator._id}`} className="flex items-center gap-2">
-        <div className="flex items-center gap-2">
-          <img
-            src={
-              props.post.creator &&
-              (props.post.creator.profilePic || "/images/defaultThumbnail.jpeg")
-            }
-            alt="Profile"
-            className="w-[2rem] h-[2rem] rounded-full"
-          />
-          <div className="text-[1rem] font-semibold">
-            {props.post.creator && props.post.creator.name}
-          </div>
-          <div className="flex items-center">
+    <div className="flex flex-col w-[100%] md:w-[90%] md:mx-auto min-h-[28rem] rounded-xl p-[15px] bg-white text-gray-700 shadow-md mb-[1rem] items-center">
+      <div className="flex w-[100%] items-start justify-between md:w-[100%] ">
+        <Link
+          to={`/profile/${props.post.creator && props.post.creator._id}`}
+          className="flex items-center gap-2"
+        >
+          <div className="flex items-center gap-2">
             <img
-              src="images/verify.png"
-              alt="Description"
-              className="object-cover object-center w-[1.125rem] h-[1.125rem]"
+              src={
+                props.post.creator &&
+                (props.post.creator.profilePic ||
+                  "/images/defaultThumbnail.jpeg")
+              }
+              alt="Profile"
+              className="w-[2rem] h-[2rem] rounded-full"
             />
+            <div className="text-[1rem] font-semibold">
+              {props.post.creator && props.post.creator.name}
+            </div>
+            <div className="flex items-center">
+              <img
+                src="images/verify.png"
+                alt="Description"
+                className="object-cover object-center w-[1.125rem] h-[1.125rem]"
+              />
+            </div>
           </div>
-        </div>
         </Link>
-        <button>...</button>
+        <div className="flex justify-start">
+          <button>...</button>
+        </div>
       </div>
 
       {props.post.mediaArray && props.post.mediaArray.length !== 0 ? (
         <Slider {...settings}>
           {props.post.mediaArray.map((url, index) => (
-            <div className="flex min-h-[15rem] justify-center md:w-[100%]">
+            <div className="flex min-h-[15rem] justify-center md:w-[100%] py-3">
               {url.endsWith(".png") ||
               url.endsWith(".jpg") ||
               url.endsWith(".jpeg") ||
@@ -218,10 +230,10 @@ const FeedUnit = (props) => {
           ))}
         </Slider>
       ) : (
-        <div className=" md:w-[100%] h-[20rem]"></div>
+        <div className=" md:w-[100%] h-[15rem]"></div>
       )}
 
-      <div className="flex items-center justify-between w-[100%] md:w-[100%] p-3">
+      <div className="flex items-center justify-between w-[100%] md:w-[100%]">
         <div className="flex gap-4">
           <button onClick={handleLike}>
             <img
@@ -247,7 +259,7 @@ const FeedUnit = (props) => {
         </button>
       </div>
       <div className="md:col-span-8 md:w-[100%]"></div>
-      <div className="w-[100%] md:w-[100%] p-3">
+      <div className="w-[100%] md:w-[100%] py-[1rem]">
         <p className="font-semibold">{likes} likes</p>
         <p>
           {/* <span className="font-semibold">{profile && profile.name}</span> */}
@@ -262,7 +274,7 @@ const FeedUnit = (props) => {
             <button className="text-gray-500" onClick={handleCommentButtonHide}>
               Hide all comments
             </button>
-            <div className="flex flex-col gap-2 w-[100%] mt-[1vh] pl-[2vw]">
+            <div className="flex flex-col gap-2 w-[100%] mt-[1vh] ">
               <div
                 className="text-[1rem] font-bold mb-[3vh]"
                 onClick={() => setIsAddComment(!isAddComment)}
@@ -310,7 +322,7 @@ const FeedUnit = (props) => {
           </div>
         )}
       </div>
-      <div className=" w-[100%] md:w-[100%] text-[0.875rem] text-[#0016DA] px-[1rem]">
+      <div className=" w-[100%] md:w-[100%] text-[0.875rem] text-[#0016DA] ">
         {hoursAgo}
       </div>
     </div>

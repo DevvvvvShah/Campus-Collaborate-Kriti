@@ -36,9 +36,9 @@ const ProfileHeroSection = (props) => {
   };
 
   return (
-    <div className="flex flex-col gap-10  bg-[#f8f8f8] pl-[35rem]">
+    <div className="flex flex-col gap-10  bg-[#f8f8f8] pl-16 md:pl-24 lg:pl-[35rem]">
       <div className=" pt-[1.5rem]">
-        <div className="flex gap-10">
+        <div className="flex md:gap-16 gap-24 lg:gap-10">
           {isAdmin && (
             <button
               onClick={onCLickButton1}
@@ -82,7 +82,7 @@ const ProfileHeroSection = (props) => {
             <Connection user={user} />
           </div>
         )}
-        {card === "portfolio" && <Portfolio user={user}/>}
+        {card === "portfolio" && <Portfolio user={user} />}
       </div>
     </div>
   );

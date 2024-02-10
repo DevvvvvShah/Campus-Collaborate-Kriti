@@ -111,16 +111,16 @@ const Feed = (props) => {
           </div>
         </div>
         <div
-          className="fixed flex md:justify-around shadow-lg items-center md:bottom-2 md:right-2 bottom-[11vh] right-2
+          className="fixed flex justify-center shadow-lg items-center md:bottom-2 md:right-3 bottom-[11vh] right-3
                       w-[150px] h-[45px] bg-[#FFFFFF] rounded-full "
           onClick={() => setIsAddPost(true)}
         >
           <img
             src="images/add.svg"
             alt="add"
-            className={`w-[50%] h-[50%] md:w-fit md:h-[65%] object-contain`}
+            className={`w-[20%] h-[40%] md:w-fit md:h-[65%]  object-contain`}
           />
-          <div className=" text-[#0016DA] text-[0.875rem] font-semibold">
+          <div className=" text-[#0016DA] text-[0.875rem] ml-2 font-semibold">
             Add Post
           </div>
         </div>
