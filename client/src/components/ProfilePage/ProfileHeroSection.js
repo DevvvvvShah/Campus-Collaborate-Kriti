@@ -36,7 +36,7 @@ const ProfileHeroSection = (props) => {
   };
 
   return (
-    <div className="flex flex-col gap-10  bg-[#f8f8f8] pl-[35rem]">
+    <div className="flex flex-col gap-10  bg-[#f8f8f8] pl-[40vw]">
       <div className=" pt-[1.5rem]">
         <div className="flex gap-10">
           {isAdmin && (
@@ -74,7 +74,7 @@ const ProfileHeroSection = (props) => {
       <div className="flex h-full">
         {card === "projects" && (
           <div className="flex flex-wrap">
-            <ProfileProjects />
+            <ProfileProjects/>
           </div>
         )}
         {card === "connections" && (
@@ -82,7 +82,7 @@ const ProfileHeroSection = (props) => {
             <Connection user={user} />
           </div>
         )}
-        {card === "portfolio" && <Portfolio user={user}/>}
+        {card === "portfolio" && <Portfolio user={user} other={false}/>}
       </div>
     </div>
   );

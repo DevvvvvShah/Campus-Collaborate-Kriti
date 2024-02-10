@@ -3,22 +3,25 @@ import { getPortfolio } from "../../fetch/profile";
 
 const Portfolio = (props) => {
   const [portfolio, setPortfolio] = useState([]);
-  const [hover, setHover] = useState(false);  
+  const [hover, setHover] = useState(false);
 
 
   const handleHover = () => {
     setHover(!hover);
-  };  
+  };
 
   useEffect(() => {
-    getPortfolio()
-      .then((res) => {
-        setPortfolio(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (props.user) {
+      getPortfolio(props.user._id)
+        .then((res) => {
+          setPortfolio(res.data);
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [props.user]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -32,18 +35,19 @@ const Portfolio = (props) => {
               onMouseEnter={handleHover}
               onMouseLeave={handleHover}
             >
-              <div className="object-cover object-center w-full flex flex-col gap-2 ">
+              <div className="object-cover object-center w-full flex flex-col gap-2 "
+                onClick={() => window.location.href = `/projectView?id=${project._id}`}>
                 <div className="row-span-7">
                   <div className="relative">
                     <img
-                      src={(project.mediaArray.length > 0 && project.mediaArray[0]) || "./images/demoPic.png"}
+                      src={(project.mediaArray.length > 0 && project.mediaArray[0]) || (props.other ? '../' : "") + "images/demoPic.png"}
                       alt="Card"
                       className="w-full md:max-h-[26.67vh] max-h-[20vh] object-cover"
                     />
                     <div className="absolute flex bottom-2 right-2 bg-[#FFFFFFCC] rounded-lg py-[5px] px-[4px]">
                       <div className="flex flex-col justify-center items-center border-r-[1px] border-black">
                         <img
-                          src="./images/upvote.svg"
+                          src={(props.other ? '../' : "") + "./images/upvote.svg"}
                           alt="Upvote"
                           className="w-[3.5] h-3 mx-2"
                         />
@@ -51,7 +55,7 @@ const Portfolio = (props) => {
                       </div>
                       <div className="flex flex-col justify-center items-center">
                         <img
-                          src="./images/downvote.svg"
+                          src={(props.other ? '../' : "") + "./images/downvote.svg"}
                           alt="Upvote"
                           className="w-[3.5] h-3 mx-2"
                         />
@@ -78,7 +82,7 @@ const Portfolio = (props) => {
                 <div className="w-[100%] flex justify-between text-[0.875rem] gap-1">
                   <div className="flex gap-1 items-center">
                     <img
-                      src="./images/star.svg"
+                      src={(props.other ? '../' : "") + "./images/star.svg"}
                       alt="Description"
                       className="object-cover object-center w-[1.25rem] h-[1.25rem]"
                     />

@@ -2,6 +2,21 @@ import re, io, json, numpy as np
 import os
 import sys
 import nltk
+def download_nltk_data():
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
+    try:
+        nltk.data.find('corpora/wordnet')
+    except LookupError:
+        nltk.download('wordnet') #may need to add quiet=true
+    try:
+        nltk.data.find('corpora/stopwords')
+    except LookupError:
+        nltk.download('stopwords')
+
+download_nltk_data()
 import logging
 from nltk import word_tokenize
 from nltk.corpus import stopwords

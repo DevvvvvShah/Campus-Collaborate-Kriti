@@ -6,8 +6,7 @@ const ProfileCard = (props) => {
   const user = props.user;
 
   return (
-    <div className="fixed top-[6rem] left-[6rem] flex flex-col items-center bg-[#FFFFFFEE] w-[25vw] py-[1.5rem] rounded-xl shadow-xl duration-[0.4s] hover:scale-105 hover:shadow-md hover:cursor-pointer"
-          onClick={() => window.href}>
+    <div className="fixed top-[6rem] left-[6rem] flex flex-col items-center bg-[#FFFFFFEE] w-[25vw] py-[1.5rem] rounded-xl shadow-xl duration-[0.4s] hover:scale-105 hover:shadow-md hover:cursor-pointer">
       <div className={`border-8 border-[#0016DA99] shadow-2xl bg-cover w-[9rem] h-[9rem] rounded-full`}>
         <img
           src={user && (user.profilePic || "/images/defaultThumbnail.jpeg")}

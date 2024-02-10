@@ -44,7 +44,7 @@ const LandingPageComp = () => {
             </div>
             <div className="h-[90vh] z-0 pl-16 flex justify-between ">
               <div className="flex flex-1 flex-col px-[6vw] w-[60vw] justify-center items-center gap-[20px]">
-                <h1 className="text-[48px] font-[500]">
+                <h1 className="text-[48px] font-[500] text-center">
                   Unlock a world of <span className='text-[#4942E4]'>possibilities</span>
                 </h1>
                 <p className="text-[18px] text-center text-[#000000]">

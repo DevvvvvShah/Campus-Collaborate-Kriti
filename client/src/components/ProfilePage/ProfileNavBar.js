@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 function Tab(props) {
+  console.log(props.img)
   return (
     <NavLink
       to={props.to}
@@ -10,7 +11,7 @@ function Tab(props) {
     >
       <div className="col-span-12 flex items-center justify-center">
         <img
-          src={"images/" + props.img + ".png"}
+          src={(props.other ? '..' : "") + "/images/" + props.img + ".png"}
           alt="Description"
           className="object-cover object-center w-[1rem] h-[1rem] ml-[2rem] mb-[3rem]"
         />
@@ -19,7 +20,7 @@ function Tab(props) {
   );
 }
 
-function ProfileNavBar() {
+function ProfileNavBar(props) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isTop, setIsTop] = useState(true);
 
@@ -46,7 +47,7 @@ function ProfileNavBar() {
 
   return (
     <div
-      className={`md:h-full md:max-w-[12rem] z-10 fixed min-w-[2rem] transition-all duration-700 md:top-0 md:left-0 bottom-0 left-0
+      className={`md:h-full md:max-w-[12rem] z-[9999] fixed md:min-w-[3rem] transition-all duration-700 md:top-0 md:left-0 bottom-0 left-0
     transform bg-white border-r-[1px] drop-shadow-lg w-full ${
       isExpanded || isTop ? "md:w-[4vw]" : "md:w-[2vw]"
     }`}
@@ -55,11 +56,11 @@ function ProfileNavBar() {
     >
       <div className="w-[35%]">
         <div className="md:pt-[10vh] md:px-0 py-[2vh] items-center align-center flex-col text-xl text-[#424242] flex md:justify-normal justify-between">
-          <Tab to="/feed" img="home" />
-          <Tab to="/courseReview" img="courses" />
-          <Tab to="/projects" img="projects" />
-          <Tab to="/discussion" img="questions" />
-          <Tab to = "/search" img="search" />
+          <Tab to="/feed" img="home" other={props.other}/>
+          <Tab to="/courseReview" img="courses" other={props.other}/>
+          <Tab to="/projects" img="projects" other={props.other}/>
+          <Tab to="/discussion" img="questions" other={props.other}/>
+          <Tab to = "/search" img="search" other={props.other}/>
         </div>
       </div>
     </div>

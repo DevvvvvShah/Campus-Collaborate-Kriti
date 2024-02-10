@@ -3,6 +3,7 @@ const router = express.Router();
 const cloudinary = require("cloudinary").v2;
 const User = require("../models/User");
 const Project = require("../models/Project");
+const mongoose = require("mongoose");
 
 cloudinary.config({
   cloud_name: "dpobpe2ga",
@@ -57,10 +58,10 @@ const updateUserProfile = async (req, res) => {
   await User.findByIdAndUpdate(req.user, req.body)
     .then((user) => {
       if (req.file) {
-        cloudinary.uploader.upload(req.file, async (result) => {
+        cloudinary.uploader.upload(req.file.path,{resource_type: 'auto'}).then(async (result) => {
           user.profilePic = result.secure_url;
           await user.save();
-        });
+      });
       }
       res.status(200).json(user);
     })
@@ -199,8 +200,9 @@ const addtoPortfolio = async (req, res) => {
 };
 
 const getPortfolio = async (req, res) => {
+  const userId = req.params.userid;
   try {
-    const user = await User.findById(req.user).populate("portfolio");
+    const user = await User.findById(userId).populate("portfolio");
     res.status(200).json(user.portfolio);
   } catch (error) {
     res.status(500).json({ message: error.message });
