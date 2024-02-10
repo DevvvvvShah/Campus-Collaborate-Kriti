@@ -12,6 +12,7 @@ const DiscussionUnit = (props) => {
   );
   const [upvotes, setUpvotes] = React.useState(props.discussion.upvotes.length);
   const [upvoted, setUpvoted] = React.useState(false);
+  const { setIsLoading, isLoading } = props;
 
   useEffect(() => {
     setUpvotes(props.discussion.upvotes.length);
@@ -84,10 +85,12 @@ const DiscussionUnit = (props) => {
   };
 
   const handleSubmit = () => {
+    setIsLoading(true);
     postComment(props.discussion._id, comment)
       .then((res) => {
         if (res.data.message) {
           alert(res.data.message);
+          setIsLoading(false);
           return;
         }
         console.log(res);

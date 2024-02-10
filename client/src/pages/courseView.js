@@ -155,8 +155,10 @@ function CourseView() {
             />
             <Button
               variant="contained"
+              className='enabled:bg-[#0016DA] bg-[#0016DA]'
+              disabled={comment===""}              
               onClick={handleAddComment}
-              style={{ backgroundColor: "#0016DA", width: "70vw  " }}
+              style={{width: "70vw  " }}
             >
               Submit
             </Button>
