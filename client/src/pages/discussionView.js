@@ -12,11 +12,14 @@ import {
   Box,
   Paper,
 } from "@mui/material";
+import Loader from "../components/Loader";
 
 function DiscussionView() {
   const [discussion, setdiscussion] = useState({});
   const [comment, setComment] = useState("");
   const [isAddComment, setIsAddComment] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -34,9 +37,11 @@ function DiscussionView() {
   }, []);
 
   const handleAddComment = () => {
+    setIsLoading(true);
     postComment(discussion._id, comment).then((res) => {
       if (res.data.message) {
         alert(res.data.message);
+        setIsLoading(false);
         return;
       }
       console.log("Comment Posted:  ", res);
@@ -46,6 +51,7 @@ function DiscussionView() {
 
   return (
     <div className="w-screen flex  md:w-full flex-col justify-center items-center mb-[10vh]">
+      {isLoading && <Loader /> }
       <div className="fixed top-0 left-0 right-0 z-50">
         <Topbar title="Discussion" isSearchDisabled={true} />
       </div>
@@ -89,8 +95,10 @@ function DiscussionView() {
             />
             <Button
               variant="contained"
+              className='enabled:bg-[#0016DA] bg-[#0016DA]'
+              disabled={comment===""}              
               onClick={handleAddComment}
-              style={{ backgroundColor: "#0016DA", width: "70vw" }}
+              style={{width: "70vw  " }}
             >
               Submit
             </Button>

@@ -205,7 +205,11 @@ function Projects() {
                      w-[180px] h-[45px] bg-[#FFFFFF] rounded-full "
         onClick={() => setIsAddProject(true)}
       >
-        <img src="images/add.svg" alt="add" className={`w-[20%] h-[50%]`} />
+        <img
+          src="images/add.svg"
+          alt="add"
+          className={`h-[50%] md:h-[65%]`}
+        />
         <div className="text-[#0016DA] text-[0.875rem] font-semibold">
           Add a Project
         </div>

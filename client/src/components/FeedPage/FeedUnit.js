@@ -15,6 +15,7 @@ import {
   Paper,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import Loader from "../Loader";
 
 const FeedUnit = (props) => {
   const [hoursAgo, setHoursAgo] = React.useState("");
@@ -28,6 +29,7 @@ const FeedUnit = (props) => {
   const [isFavorited, setFavorited] = React.useState(false);
   const [commentCount, setCommentCount] = React.useState(0);
   const [isAddComment, setIsAddComment] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   useEffect(() => {
     const postingTime = props.post.timeOfCreation;
@@ -117,9 +119,11 @@ const FeedUnit = (props) => {
   };
 
   const handleAddComment = () => {
+    setIsLoading(true);
     postComment(props.post._id, comment).then((res) => {
       if (res.data.message) {
         alert(res.data.message);
+        setIsLoading(false);
         return;
       }
       console.log("Comment Posted:  ", res);
@@ -175,7 +179,8 @@ const FeedUnit = (props) => {
   };
 
   return (
-    <div className="flex flex-col  md:mx-auto min-h-[28rem] w-[90vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] 2xl:w-[40vw] 3xl:w-[60vw] rounded-xl p-[15px] bg-white text-gray-700 shadow-md mb-[1rem] items-center">
+    <div className="flex flex-col w-[100%] md:w-[90%] md:mx-auto min-h-[28rem] rounded-xl p-[15px] bg-white text-gray-700 shadow-md mb-[1rem] items-center">
+      {isLoading && <Loader />}
       <div className="flex w-[100%] items-start justify-between md:w-[100%] ">
         <Link
           to={`/profile/${props.post.creator && props.post.creator._id}`}
@@ -299,9 +304,9 @@ const FeedUnit = (props) => {
                 />
                 <Button
                   variant="contained"
-                  className="w-full"
+                  className='enabled:bg-[#0016DA] bg-[#0016DA] w-full'
+                  disabled={comment===""}              
                   onClick={handleAddComment}
-                  style={{ backgroundColor: "#0016DA" }}
                 >
                   Submit
                 </Button>
