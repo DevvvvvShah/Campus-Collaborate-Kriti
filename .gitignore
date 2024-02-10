@@ -2,5 +2,6 @@
 node_modules/
 .env
 myenv/
+.ds_store
 # client/src/components/Navbar/topbar.js
 # client/src/components/Navbar/Topbar.js
