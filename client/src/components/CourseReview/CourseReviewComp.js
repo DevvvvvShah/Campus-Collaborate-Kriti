@@ -14,8 +14,8 @@ const CourseReviewComp = (props) => {
     >
       <div className="w-2/5 md:w-1/3 lg:w-1/4 flex overflow-hidden">
         <img
-          src={coursePic || image}
           alt="course pic"
+          src={coursePic || image}
           className="h-[28vh] w-[100%]"
         />
       </div>
@@ -36,8 +36,8 @@ const CourseReviewComp = (props) => {
           <div className="relative right-6 flex gap-1 align-center items-center">
             <img
               src={`images/comment.svg`}
-              alt="Description"
               className="object-cover object-center w-[1rem] h-[1rem]"
+              alt="Description"
             />
             <div className="text-[0.875rem]">
               {courseReview.commentsId.length}
