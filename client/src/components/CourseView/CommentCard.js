@@ -138,8 +138,8 @@ const CommentCard = (props) => {
             <div className="flex gap-1 align-center items-center">
               <img
                 src={`images/${upvoted ? "upvote" : "emptyUpvote"}.svg`}
-                alt="Description"
                 className="object-cover object-center w-[1rem] h-[1rem]"
+                alt="Description"
                 onClick={handleUpvote}
               />
               <div className="text-[0.875rem]">{upvotes}</div>

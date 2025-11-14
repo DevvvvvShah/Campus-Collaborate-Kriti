@@ -5,12 +5,12 @@ import { getTechStacks } from '../../fetch/techStacks';
 import axios from 'axios';
 
 function AddProject(props) {
-  const [courseName, setcourseName] = useState('');
-  const [linkToCourse, setLinkToCourse] = useState('');
-  const [description, setDescription] = useState('');
-  const [techStacks, setTechStacks] = useState([]);
-  const [selectedTechStacks, setSelectedTechStacks] = useState([]);
   const [selectedFile, setSelectedFile] = useState([]);
+  const [selectedTechStacks, setSelectedTechStacks] = useState([]);
+  const [techStacks, setTechStacks] = useState([]);
+  const [description, setDescription] = useState('');
+  const [linkToCourse, setLinkToCourse] = useState('');
+  const [courseName, setcourseName] = useState('');
 
   console.log(selectedFile[0])
   useEffect(() => {
@@ -67,11 +67,11 @@ function AddProject(props) {
         <Typography variant="h4" gutterBottom>Add a Review</Typography>
         <TextField
           label="Course Name *"
-          fullWidth
-          margin="normal"
           variant="outlined"
+          margin="normal"
           value={courseName}
           onChange={(e) => setcourseName(e.target.value)}
+          fullWidth
           size="small"
         />
         <TextField
@@ -85,10 +85,10 @@ function AddProject(props) {
         />
         <TextField
           label="Description *"
-          variant="outlined"
-          fullWidth
           multiline
+          fullWidth
           rows={4}
+          variant="outlined"
           size="small"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -96,8 +96,8 @@ function AddProject(props) {
         />
         <Autocomplete
           className='mt-4'
-          multiple
           options={techStacks}
+          multiple
           getOptionLabel={(option) => option.title}
           value={selectedTechStacks}
           onChange={handleTechStacksChange}

@@ -17,8 +17,8 @@ const HeaderCard = (props) => {
       >
         <img
           src="images/dots1.svg"
-          alt="dots"
           className="absolute top-0 left-0 w-[25vw]"
+          alt="dots"
         />
         <img
           src="images/dots2.svg"
