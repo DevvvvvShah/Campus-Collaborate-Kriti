@@ -48,6 +48,8 @@ function CourseView() {
     };
 
   const handleEnroll = () => {
+
+    
     toggleEnroll(course._id).then((res) => {
       console.log("Enrolled:", res);
       setEnrolled(!enrolled);
@@ -79,16 +81,16 @@ function CourseView() {
           {enrolled ? (
             <Button
               variant="contained"
-              style={{ backgroundColor: "#0016DA" }}
               onClick={handleEnroll}
+              style={{ backgroundColor: "#0016DA" }}
             >
               No
             </Button>
           ) : (
             <Button
               variant="contained"
-              style={{ backgroundColor: "#0016DA" }}
               onClick={handleEnroll}
+              style={{ backgroundColor: "#0016DA" }}
             >
               Yes
             </Button>
@@ -145,11 +147,11 @@ function CourseView() {
             <TextField
               label="Add comment here"
               variant="outlined"
-              className="w-[70vw]"
               multiline
               rows={4}
               size="small"
               value={comment}
+              className="w-[70vw]"
               onChange={(e) => setComment(e.target.value)}
               margin="normal"
             />
