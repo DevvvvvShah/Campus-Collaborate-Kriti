@@ -17,18 +17,18 @@ const HeaderCard = (props) => {
       >
         <img
           src="images/dots1.svg"
-          className="absolute top-0 left-0 w-[25vw]"
           alt="dots"
+          className="absolute top-0 left-0 w-[25vw]"
         />
         <img
           src="images/dots2.svg"
-          className="absolute bottom-0 right-0 w-[45.8vw] "
           alt="dots"
+          className="absolute bottom-0 right-0 w-[45.8vw] "
         />
         <img
           src="images/stars.svg"
-          className="absolute ml-[5vw] bottom-0 left-0 w-[10vw] h-[10vh]"
           alt="stars"
+          className="absolute ml-[5vw] bottom-0 left-0 w-[10vw] h-[10vh]"
         />
         <div className="pt-[11vh] pb-[17vh]">
           <div className="flex gap-2">

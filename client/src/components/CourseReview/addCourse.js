@@ -67,21 +67,21 @@ function AddProject(props) {
         <Typography variant="h4" gutterBottom>Add a Review</Typography>
         <TextField
           label="Course Name *"
-          variant="outlined"
           fullWidth
-          size="small"
+          margin="normal"
+          variant="outlined"
           value={courseName}
           onChange={(e) => setcourseName(e.target.value)}
-          margin="normal"
+          size="small"
         />
         <TextField
           label="Link To Course *"
-          variant="outlined"
-          fullWidth
-          size="small"
-          value={linkToCourse}
-          onChange={(e) => setLinkToCourse(e.target.value)}
           margin="normal"
+          onChange={(e) => setLinkToCourse(e.target.value)}
+          value={linkToCourse}
+          size="small"
+          fullWidth
+          variant="outlined"
         />
         <TextField
           label="Description *"
